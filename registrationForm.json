@@ -76,7 +76,7 @@
             "Mother",
             "Father"
           ],
-          "mandatory": true
+          "mandatory": false
         },
         {
           "name": "Staying with whom",
