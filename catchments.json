@@ -1,0 +1,137 @@
+[
+  {
+    "name": "Cluster 1",
+    "uuid": "da0bf541-d29f-417e-849b-f0fbbdd7e09b",
+    "addressLevels": [
+      {
+        "uuid": "4b7ea02a-7cfc-4dde-97e2-bb396857607f",
+        "level": 1,
+        "name": "School 1"
+      },
+      {
+        "uuid": "7d92688c-3ddf-44b4-97af-3948b6eda471",
+        "level": 1,
+        "name": "Boarding School 1",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Boarding"
+          }
+        ]
+      },
+      {
+        "uuid": "157ca9ce-4098-440c-9981-d9b5ac6f0851",
+        "level": 1,
+        "name": "Village 1"
+      }
+    ]
+  },
+  {
+    "name": "Cluster 2",
+    "uuid": "14351a87-8145-4f44-9ca4-94b373f5262a",
+    "addressLevels": [
+      {
+        "uuid": "abca7930-c7d8-4d98-ae1f-036a88e8cb32",
+        "level": 1,
+        "name": "School 2"
+      },
+      {
+        "uuid": "08bb770c-e279-44e4-83d3-b419d68e9942",
+        "level": 1,
+        "name": "Boarding School 2",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Boarding"
+          }
+        ]
+      },
+      {
+        "uuid": "4b53656a-1083-4eb4-8ded-3854e1d09358",
+        "level": 1,
+        "name": "Village 2"
+      }
+    ]
+  },
+  {
+    "name": "Cluster 3",
+    "uuid": "3546de64-289e-4b90-ad80-4711c8d41ed9",
+    "addressLevels": [
+      {
+        "uuid": "b5155043-6bb6-4197-af56-ec766a5ca624",
+        "level": 1,
+        "name": "School 3"
+      },
+      {
+        "uuid": "d4ce0a02-3ae7-444d-bd0e-fbcfab4aa5ae",
+        "level": 1,
+        "name": "Boarding School 3",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Boarding"
+          }
+        ]
+      },
+      {
+        "uuid": "114877b8-0d9d-40bf-9716-3024aa422fb6",
+        "level": 1,
+        "name": "Village 3"
+      }
+    ]
+  },
+  {
+    "name": "Cluster 4",
+    "uuid": "de5289e9-18c1-4e89-aba5-d4fbf31c59a4",
+    "addressLevels": [
+      {
+        "uuid": "3caba9bf-ff59-468a-8c94-3dfd0a0b1e96",
+        "level": 1,
+        "name": "School 4"
+      },
+      {
+        "uuid": "1be75e9a-9174-4b64-930e-401c640a6efd",
+        "level": 1,
+        "name": "Boarding School 4",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Boarding"
+          }
+        ]
+      },
+      {
+        "uuid": "03d173be-0986-46a9-8668-720cbeb83651",
+        "level": 1,
+        "name": "Village 4"
+      }
+    ]
+  },
+  {
+    "name": "Cluster 5",
+    "uuid": "051a0298-a84a-499f-bac8-75013318bbfe",
+    "addressLevels": [
+      {
+        "uuid": "c11df19d-af6d-4693-95ed-af516187e442",
+        "level": 1,
+        "name": "School 5"
+      },
+      {
+        "uuid": "e3b910a9-76e6-4128-9899-94f12e350e48",
+        "level": 1,
+        "name": "Boarding School 5",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Boarding"
+          }
+        ]
+      },
+      {
+        "uuid": "1014d671-175d-4de9-877f-02139928601c",
+        "level": 1,
+        "name": "Village 5"
+      }
+    ]
+  }
+]

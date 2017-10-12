@@ -1,0 +1,309 @@
+{
+  "name": "Sewa Rural Registration Form",
+  "uuid": "6fd2d292-c5bc-4e2d-b4d5-9de1e7026916",
+  "formType": "IndividualProfile",
+  "userUUID": "5fed2907-df3a-4867-aef5-c87f4c78a31a",
+  "formElementGroups": [
+    {
+      "uuid": "c1d4d3eb-12ae-47fd-9df3-ba0033d237d1",
+      "name": "Individual Registration Details",
+      "display": "Details",
+      "displayOrder": 1,
+      "formElements": [
+        {
+          "name": "Standard",
+          "uuid": "cde0d3e5-6828-4002-be1e-66cc7c6641b6",
+          "keyValues": [],
+          "dataType": "Numeric",
+          "displayOrder": 1,
+          "mandatory": true
+        },
+        {
+          "name": "Address",
+          "uuid": "a152e64b-5f29-44e4-9a57-2f77d69b201a",
+          "keyValues": [],
+          "dataType": "Text",
+          "displayOrder": 2,
+          "mandatory": false
+        },
+        {
+          "name": "Aadhar ID",
+          "uuid": "411ecaac-5b01-443f-a419-0d5b33360fbb",
+          "keyValues": [],
+          "dataType": "Numeric",
+          "displayOrder": 3,
+          "mandatory": false
+        },
+        {
+          "name": "Caste",
+          "uuid": "b695e240-85c8-47b2-aa8d-e7560c4a3174",
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "displayOrder": 4,
+          "answers": [
+            "SC",
+            "ST",
+            "OBC",
+            "General"
+          ],
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "b5c17c9a-3667-4b90-8b98-b54942534132",
+      "name": "Individual Registration Family Information",
+      "display": "Family Information",
+      "displayOrder": 2,
+      "formElements": [
+        {
+          "name": "Parents Expired",
+          "uuid": "ddf89d87-ec97-4cef-9826-a2523fe91fa3",
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Multi"
+            }
+          ],
+          "dataType": "Coded",
+          "displayOrder": 1,
+          "answers": [
+            "Mother",
+            "Father"
+          ],
+          "mandatory": true
+        },
+        {
+          "name": "Staying with whom",
+          "uuid": "787b6381-9f50-4dc8-b269-bb6ddef9326a",
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "displayOrder": 2,
+          "answers": [
+            "Parents",
+            "Relatives",
+            "Hostel"
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "uuid": "039e8278-f130-4187-b206-14ecc6abdaff",
+      "name": "Individual Registration Family Details",
+      "display": "Family Details",
+      "displayOrder": 3,
+      "formElements": [
+        {
+          "name": "Father's Occupation",
+          "uuid": "0f3b49e4-529b-4d79-9e9c-c8ae7b882dfa",
+          "displayOrder": 1,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "Labour",
+            "Farming",
+            "Job",
+            "Business",
+            "Other"
+          ],
+          "mandatory": false
+        },
+        {
+          "name": "Father's Addiction",
+          "uuid": "4cbe60ae-d526-4381-8349-2bd37abb0cad",
+          "displayOrder": 2,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Multi"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "Alcohol",
+            "Tobacco"
+          ],
+          "mandatory": false
+        },
+        {
+          "name": "Mother's Occupation",
+          "uuid": "27572da0-3156-4cf5-9ae3-4e8193ce26e6",
+          "displayOrder": 3,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "Labour",
+            "Farming",
+            "Job",
+            "Business",
+            "Housework",
+            "Other"
+          ],
+          "mandatory": false
+        },
+        {
+          "name": "Mother's Addiction",
+          "uuid": "326a1892-a98c-41a7-a1b0-1c407f846f4f",
+          "displayOrder": 4,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Multi"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "Alcohol",
+            "Tobacco"
+          ],
+          "mandatory": false
+        },
+        {
+          "name": "Chronic Illness in Family",
+          "uuid": "368a6755-7677-403f-a886-29bc65c00868",
+          "displayOrder": 5,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Multi"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "No Illness",
+            "Diabetes",
+            "Hypertension",
+            "TB",
+            "Cancer",
+            "Other"
+          ],
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "7ec12b4b-7c23-4ef6-a256-1c6546da7d64",
+      "name": "Individual Registration Education Details",
+      "display": "Education Details",
+      "displayOrder": 4,
+      "formElements": [
+        {
+          "name": "School Going",
+          "uuid": "13bed3ec-6bdd-45aa-91ce-a9413e9d3412",
+          "displayOrder": 1,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "Yes, School Going",
+            "Dropped out of school"
+          ],
+          "mandatory": true
+        },
+        {
+          "name": "If not in School (dropped out) After which standard left the school",
+          "uuid": "38bde704-c965-42ea-8126-d9da8dcc9313",
+          "displayOrder": 2,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "<7",
+            "7",
+            "8",
+            "9",
+            "10",
+            "Joined other course"
+          ],
+          "mandatory": false
+        },
+        {
+          "name": "If not in school (dropped out) Reasons for dropping out",
+          "uuid": "d373db91-1e0a-4442-8cbd-4104509f9656",
+          "displayOrder": 3,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "Not interested in studies",
+            "Poor economic conditions",
+            "domestic-other work",
+            "Marriage",
+            "Migration",
+            "No school in village"
+          ],
+          "mandatory": false
+        },
+        {
+          "name": "What he/she is doing now?",
+          "uuid": "9a93998d-d192-466c-8f7e-e60e07ad788a",
+          "displayOrder": 4,
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "dataType": "Coded",
+          "answers": [
+            "Nothing, at home",
+            "Labour",
+            "Domestic Work",
+            "Joined some other course",
+            "Other"
+          ],
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "7da5ac1e-4fbf-4882-b215-fb78c78b337d",
+      "name": "Individual Registration Contact Details",
+      "display": "Contact Details",
+      "displayOrder": 5,
+      "formElements": [
+        {
+          "name": "Contact Number",
+          "uuid": "ff762247-dc72-4e8b-8a69-6296c6b770f8",
+          "keyValues": [],
+          "dataType": "Numeric",
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
+    }
+  ]
+}
