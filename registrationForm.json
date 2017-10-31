@@ -7,8 +7,8 @@
     {
       "uuid": "c1d4d3eb-12ae-47fd-9df3-ba0033d237d1",
       "name": "Individual Registration Details",
-      "display": "Details",
       "displayOrder": 1,
+      "display": "Details",
       "formElements": [
         {
           "name": "Standard",
@@ -46,10 +46,22 @@
           "dataType": "Coded",
           "displayOrder": 4,
           "answers": [
-            "SC",
-            "ST",
-            "OBC",
-            "General"
+            {
+              "uuid": "aa52f066-7c1d-4b9f-b0e0-10dea881223c",
+              "name": "SC"
+            },
+            {
+              "uuid": "aaeff413-057f-4010-98f4-daea09dc7e6d",
+              "name": "ST"
+            },
+            {
+              "uuid": "36704485-2600-4099-959f-eade9ead5e48",
+              "name": "OBC"
+            },
+            {
+              "uuid": "f4a94629-9af3-480e-8563-fd04724ee027",
+              "name": "General"
+            }
           ],
           "mandatory": false
         }
@@ -58,8 +70,8 @@
     {
       "uuid": "b5c17c9a-3667-4b90-8b98-b54942534132",
       "name": "Individual Registration Family Information",
-      "display": "Family Information",
       "displayOrder": 2,
+      "display": "Family Information",
       "formElements": [
         {
           "name": "Parents Expired",
@@ -73,8 +85,14 @@
           "dataType": "Coded",
           "displayOrder": 1,
           "answers": [
-            "Mother",
-            "Father"
+            {
+              "uuid": "a38145be-5924-44e2-beed-d595b7e9733d",
+              "name": "Mother"
+            },
+            {
+              "uuid": "c6ded6f0-a41b-4423-b996-83cd013b9845",
+              "name": "Father"
+            }
           ],
           "mandatory": false
         },
@@ -90,9 +108,18 @@
           "dataType": "Coded",
           "displayOrder": 2,
           "answers": [
-            "Parents",
-            "Relatives",
-            "Hostel"
+            {
+              "uuid": "1528efb0-f747-426c-a4a3-e30100682a66",
+              "name": "Parents"
+            },
+            {
+              "uuid": "29419728-a761-4730-bba0-fae0829ce608",
+              "name": "Relatives"
+            },
+            {
+              "uuid": "bd830988-37f7-4b76-8a70-aea7bddfa69a",
+              "name": "Hostel"
+            }
           ],
           "mandatory": true
         }
@@ -101,13 +128,12 @@
     {
       "uuid": "039e8278-f130-4187-b206-14ecc6abdaff",
       "name": "Individual Registration Family Details",
-      "display": "Family Details",
       "displayOrder": 3,
+      "display": "Family Details",
       "formElements": [
         {
           "name": "Father's Occupation",
           "uuid": "0f3b49e4-529b-4d79-9e9c-c8ae7b882dfa",
-          "displayOrder": 1,
           "keyValues": [
             {
               "key": "Select",
@@ -115,19 +141,34 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 1,
           "answers": [
-            "Labour",
-            "Farming",
-            "Job",
-            "Business",
-            "Other"
+            {
+              "uuid": "54eb4ba3-e940-4d36-ba56-d303f066c088",
+              "name": "Labour"
+            },
+            {
+              "uuid": "3767fd62-be7e-4d39-b3ae-05e88d4f5c21",
+              "name": "Farming"
+            },
+            {
+              "uuid": "4416a93c-38e8-4bc9-b440-00fa79d04914",
+              "name": "Job"
+            },
+            {
+              "uuid": "945dc6ea-f049-484a-b333-14acfe1de7e6",
+              "name": "Business"
+            },
+            {
+              "uuid": "af690e41-bc62-4610-8396-131845a5f102",
+              "name": "Other"
+            }
           ],
           "mandatory": false
         },
         {
           "name": "Father's Addiction",
           "uuid": "4cbe60ae-d526-4381-8349-2bd37abb0cad",
-          "displayOrder": 2,
           "keyValues": [
             {
               "key": "Select",
@@ -135,16 +176,22 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 2,
           "answers": [
-            "Alcohol",
-            "Tobacco"
+            {
+              "uuid": "c3ebf1e3-ce9f-45c7-85fd-2d96ee781208",
+              "name": "Alcohol"
+            },
+            {
+              "uuid": "e9b79be3-5810-4860-8258-e474ad40d4f4",
+              "name": "Tobacco"
+            }
           ],
           "mandatory": false
         },
         {
           "name": "Mother's Occupation",
           "uuid": "27572da0-3156-4cf5-9ae3-4e8193ce26e6",
-          "displayOrder": 3,
           "keyValues": [
             {
               "key": "Select",
@@ -152,20 +199,38 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 3,
           "answers": [
-            "Labour",
-            "Farming",
-            "Job",
-            "Business",
-            "Housework",
-            "Other"
+            {
+              "uuid": "54eb4ba3-e940-4d36-ba56-d303f066c088",
+              "name": "Labour"
+            },
+            {
+              "uuid": "3767fd62-be7e-4d39-b3ae-05e88d4f5c21",
+              "name": "Farming"
+            },
+            {
+              "uuid": "4416a93c-38e8-4bc9-b440-00fa79d04914",
+              "name": "Job"
+            },
+            {
+              "uuid": "945dc6ea-f049-484a-b333-14acfe1de7e6",
+              "name": "Business"
+            },
+            {
+              "uuid": "a80a9db9-c2d3-4899-b0c1-a05ecb2d3036",
+              "name": "Housework"
+            },
+            {
+              "uuid": "af690e41-bc62-4610-8396-131845a5f102",
+              "name": "Other"
+            }
           ],
           "mandatory": false
         },
         {
           "name": "Mother's Addiction",
           "uuid": "326a1892-a98c-41a7-a1b0-1c407f846f4f",
-          "displayOrder": 4,
           "keyValues": [
             {
               "key": "Select",
@@ -173,16 +238,22 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 4,
           "answers": [
-            "Alcohol",
-            "Tobacco"
+            {
+              "uuid": "c3ebf1e3-ce9f-45c7-85fd-2d96ee781208",
+              "name": "Alcohol"
+            },
+            {
+              "uuid": "e9b79be3-5810-4860-8258-e474ad40d4f4",
+              "name": "Tobacco"
+            }
           ],
           "mandatory": false
         },
         {
           "name": "Chronic Illness in Family",
           "uuid": "368a6755-7677-403f-a886-29bc65c00868",
-          "displayOrder": 5,
           "keyValues": [
             {
               "key": "Select",
@@ -190,13 +261,32 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 5,
           "answers": [
-            "No Illness",
-            "Diabetes",
-            "Hypertension",
-            "TB",
-            "Cancer",
-            "Other"
+            {
+              "uuid": "e0f47774-b8a3-418a-969a-e95f227d27fb",
+              "name": "No Illness"
+            },
+            {
+              "uuid": "137803ce-5864-46d5-b0fe-4c2a316d4018",
+              "name": "Diabetes"
+            },
+            {
+              "uuid": "b8aa313a-ae11-4da0-b8c1-efc00965ff55",
+              "name": "Hypertension"
+            },
+            {
+              "uuid": "052a15f1-a454-469d-b46d-bc4e7698e580",
+              "name": "TB"
+            },
+            {
+              "uuid": "0ae7880b-6ceb-4769-8c8a-42f182656e5d",
+              "name": "Cancer"
+            },
+            {
+              "uuid": "af690e41-bc62-4610-8396-131845a5f102",
+              "name": "Other"
+            }
           ],
           "mandatory": false
         }
@@ -205,13 +295,12 @@
     {
       "uuid": "7ec12b4b-7c23-4ef6-a256-1c6546da7d64",
       "name": "Individual Registration Education Details",
-      "display": "Education Details",
       "displayOrder": 4,
+      "display": "Education Details",
       "formElements": [
         {
           "name": "School Going",
           "uuid": "13bed3ec-6bdd-45aa-91ce-a9413e9d3412",
-          "displayOrder": 1,
           "keyValues": [
             {
               "key": "Select",
@@ -219,16 +308,22 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 1,
           "answers": [
-            "Yes, School Going",
-            "Dropped out of school"
+            {
+              "uuid": "55d473bf-0895-4bff-80f7-5871f260db72",
+              "name": "Yes, School Going"
+            },
+            {
+              "uuid": "90cc5b2e-79be-4b05-8a0f-9f5f75ff9719",
+              "name": "Dropped out of school"
+            }
           ],
           "mandatory": true
         },
         {
           "name": "If not in School (dropped out) After which standard left the school",
           "uuid": "38bde704-c965-42ea-8126-d9da8dcc9313",
-          "displayOrder": 2,
           "keyValues": [
             {
               "key": "Select",
@@ -236,20 +331,38 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 2,
           "answers": [
-            "<7",
-            "7",
-            "8",
-            "9",
-            "10",
-            "Joined other course"
+            {
+              "uuid": "8971fda8-59a5-4282-a0c8-77e832faf0cc",
+              "name": "<7"
+            },
+            {
+              "uuid": "82e85ae9-73ed-4610-a68d-f2fa9febada5",
+              "name": "7"
+            },
+            {
+              "uuid": "1095cd85-0cab-4570-a3ba-9eb2252f209e",
+              "name": "8"
+            },
+            {
+              "uuid": "963d23c5-941e-4f4c-a937-a6a19d2d9c56",
+              "name": "9"
+            },
+            {
+              "uuid": "da0fd583-865f-4648-af3f-5084d7c9a761",
+              "name": "10"
+            },
+            {
+              "uuid": "608ecfce-043f-4075-a9e7-9f1ab520e737",
+              "name": "Joined other course"
+            }
           ],
           "mandatory": false
         },
         {
           "name": "If not in school (dropped out) Reasons for dropping out",
           "uuid": "d373db91-1e0a-4442-8cbd-4104509f9656",
-          "displayOrder": 3,
           "keyValues": [
             {
               "key": "Select",
@@ -257,20 +370,38 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 3,
           "answers": [
-            "Not interested in studies",
-            "Poor economic conditions",
-            "domestic-other work",
-            "Marriage",
-            "Migration",
-            "No school in village"
+            {
+              "uuid": "83359fb9-dc8a-49ab-92c3-dea5dedd1750",
+              "name": "Not interested in studies"
+            },
+            {
+              "uuid": "169a58e6-30c5-4181-8f69-fc8bbd92747b",
+              "name": "Poor economic conditions"
+            },
+            {
+              "uuid": "88389e6b-3862-4141-ab64-c779bdbf92b4",
+              "name": "domestic-other work"
+            },
+            {
+              "uuid": "56ea061c-907c-4136-a4ce-137c18ae8ad4",
+              "name": "Marriage"
+            },
+            {
+              "uuid": "2a9c967d-0dd8-415f-b764-72adae548786",
+              "name": "Migration"
+            },
+            {
+              "uuid": "5a4c90ec-dc1d-4023-81ff-df6c55430b46",
+              "name": "No school in village"
+            }
           ],
           "mandatory": false
         },
         {
           "name": "What he/she is doing now?",
           "uuid": "9a93998d-d192-466c-8f7e-e60e07ad788a",
-          "displayOrder": 4,
           "keyValues": [
             {
               "key": "Select",
@@ -278,12 +409,28 @@
             }
           ],
           "dataType": "Coded",
+          "displayOrder": 4,
           "answers": [
-            "Nothing, at home",
-            "Labour",
-            "Domestic Work",
-            "Joined some other course",
-            "Other"
+            {
+              "uuid": "500d5a81-0e54-4a33-a397-b1a678b77fbe",
+              "name": "Nothing, at home"
+            },
+            {
+              "uuid": "54eb4ba3-e940-4d36-ba56-d303f066c088",
+              "name": "Labour"
+            },
+            {
+              "uuid": "12bcf15b-5050-4b51-8e48-0cbcf9bd8b4d",
+              "name": "Domestic Work"
+            },
+            {
+              "uuid": "8077f57d-ef01-4d3b-800e-a923409b363d",
+              "name": "Joined some other course"
+            },
+            {
+              "uuid": "af690e41-bc62-4610-8396-131845a5f102",
+              "name": "Other"
+            }
           ],
           "mandatory": false
         }
@@ -292,8 +439,8 @@
     {
       "uuid": "7da5ac1e-4fbf-4882-b215-fb78c78b337d",
       "name": "Individual Registration Contact Details",
-      "display": "Contact Details",
       "displayOrder": 5,
+      "display": "Contact Details",
       "formElements": [
         {
           "name": "Contact Number",
