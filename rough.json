@@ -1,0 +1,309 @@
+[
+  {
+    "name": "Father's Addiction",
+    "uuid": "4cbe60ae-d526-4381-8349-2bd37abb0cad",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Multi"
+      }
+    ],
+    "concept": {
+      "name": "Father's Addiction",
+      "uuid": "a3732b6d-c462-4e45-9881-a23254d8b9a9",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Alcohol",
+          "uuid": "c3ebf1e3-ce9f-45c7-85fd-2d96ee781208"
+        },
+        {
+          "name": "Tobacco",
+          "uuid": "e9b79be3-5810-4860-8258-e474ad40d4f4"
+        }
+      ]
+    },
+    "displayOrder": 2,
+    "mandatory": false
+  },
+  {
+    "name": "Mother's Addiction",
+    "uuid": "326a1892-a98c-41a7-a1b0-1c407f846f4f",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Multi"
+      }
+    ],
+    "concept": {
+      "name": "Mother's Addiction",
+      "uuid": "3021af2c-5bbc-4284-acdb-ffb8496181c7",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Tobacco",
+          "uuid": "e9b79be3-5810-4860-8258-e474ad40d4f4"
+        },
+        {
+          "name": "Alcohol",
+          "uuid": "c3ebf1e3-ce9f-45c7-85fd-2d96ee781208"
+        }
+      ]
+    },
+    "displayOrder": 4,
+    "mandatory": false
+  },
+  {
+    "name": "School Going",
+    "uuid": "13bed3ec-6bdd-45aa-91ce-a9413e9d3412",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Single"
+      }
+    ],
+    "concept": {
+      "name": "School Going",
+      "uuid": "bbc3f6fb-f568-4dc0-9f40-d592adb980cb",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Dropped out of school",
+          "uuid": "90cc5b2e-79be-4b05-8a0f-9f5f75ff9719"
+        },
+        {
+          "name": "Yes, School Going",
+          "uuid": "55d473bf-0895-4bff-80f7-5871f260db72"
+        }
+      ]
+    },
+    "displayOrder": 1,
+    "mandatory": true
+  },
+  {
+    "name": "If not in School (dropped out) After which standard left the school",
+    "uuid": "38bde704-c965-42ea-8126-d9da8dcc9313",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Single"
+      }
+    ],
+    "concept": {
+      "name": "If not in School (dropped out) After which standard left the school",
+      "uuid": "ee1800d8-d403-4ad7-a0a0-3d093f8acee1",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "7",
+          "uuid": "82e85ae9-73ed-4610-a68d-f2fa9febada5"
+        },
+        {
+          "name": "Joined other course",
+          "uuid": "608ecfce-043f-4075-a9e7-9f1ab520e737"
+        },
+        {
+          "name": "8",
+          "uuid": "1095cd85-0cab-4570-a3ba-9eb2252f209e"
+        },
+        {
+          "name": "10",
+          "uuid": "da0fd583-865f-4648-af3f-5084d7c9a761"
+        },
+        {
+          "name": "<7",
+          "uuid": "8971fda8-59a5-4282-a0c8-77e832faf0cc"
+        },
+        {
+          "name": "9",
+          "uuid": "963d23c5-941e-4f4c-a937-a6a19d2d9c56"
+        }
+      ]
+    },
+    "displayOrder": 2,
+    "mandatory": false
+  },
+  {
+    "name": "If not in school (dropped out) Reasons for dropping out",
+    "uuid": "d373db91-1e0a-4442-8cbd-4104509f9656",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Single"
+      }
+    ],
+    "concept": {
+      "name": "If not in school (dropped out) Reasons for dropping out",
+      "uuid": "b643f72b-dd4f-4d87-b38b-c4c7d6e73d2b",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Poor economic conditions",
+          "uuid": "169a58e6-30c5-4181-8f69-fc8bbd92747b"
+        },
+        {
+          "name": "Migration",
+          "uuid": "2a9c967d-0dd8-415f-b764-72adae548786"
+        },
+        {
+          "name": "No school in village",
+          "uuid": "5a4c90ec-dc1d-4023-81ff-df6c55430b46"
+        },
+        {
+          "name": "domestic-other work",
+          "uuid": "88389e6b-3862-4141-ab64-c779bdbf92b4"
+        },
+        {
+          "name": "Marriage",
+          "uuid": "56ea061c-907c-4136-a4ce-137c18ae8ad4"
+        },
+        {
+          "name": "Not interested in studies",
+          "uuid": "83359fb9-dc8a-49ab-92c3-dea5dedd1750"
+        }
+      ]
+    },
+    "displayOrder": 3,
+    "mandatory": false
+  },
+  {
+    "name": "What he/she is doing now?",
+    "uuid": "9a93998d-d192-466c-8f7e-e60e07ad788a",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Single"
+      }
+    ],
+    "concept": {
+      "name": "What he/she is doing now?",
+      "uuid": "35d4684e-ea05-4d25-8422-78fc4016e639",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Joined some other course",
+          "uuid": "8077f57d-ef01-4d3b-800e-a923409b363d"
+        },
+        {
+          "name": "Domestic Work",
+          "uuid": "12bcf15b-5050-4b51-8e48-0cbcf9bd8b4d"
+        },
+        {
+          "name": "Nothing, at home",
+          "uuid": "500d5a81-0e54-4a33-a397-b1a678b77fbe"
+        },
+        {
+          "name": "Labour",
+          "uuid": "54eb4ba3-e940-4d36-ba56-d303f066c088"
+        },
+        {
+          "name": "Other",
+          "uuid": "672dd923-4c7e-432f-9efd-a70293febf0e"
+        }
+      ]
+    },
+    "displayOrder": 4,
+    "mandatory": false
+  },
+  {
+    "name": "Chronic Illness in Family",
+    "uuid": "368a6755-7677-403f-a886-29bc65c00868",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Multi"
+      }
+    ],
+    "concept": {
+      "name": "Chronic Illness in Family",
+      "uuid": "ff22078d-83a0-4a39-86f4-9b67f9a1522a",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Cancer",
+          "uuid": "0ae7880b-6ceb-4769-8c8a-42f182656e5d"
+        },
+        {
+          "name": "Diabetes",
+          "uuid": "72b87b1d-da22-4856-ae41-9c34bb8526c3"
+        },
+        {
+          "name": "Other",
+          "uuid": "672dd923-4c7e-432f-9efd-a70293febf0e"
+        },
+        {
+          "name": "No Illness",
+          "uuid": "e0f47774-b8a3-418a-969a-e95f227d27fb"
+        },
+        {
+          "name": "TB",
+          "uuid": "2dd56787-9c7c-4c2f-866e-d70a5d30be15"
+        },
+        {
+          "name": "Hypertension",
+          "uuid": "96911954-f239-493e-9443-e23cf75e1f28"
+        }
+      ]
+    },
+    "displayOrder": 5,
+    "mandatory": false
+  },
+  {
+    "name": "Parents Expired",
+    "uuid": "ddf89d87-ec97-4cef-9826-a2523fe91fa3",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Multi"
+      }
+    ],
+    "concept": {
+      "name": "Parents Expired",
+      "uuid": "30dda702-4af0-4b65-9d0f-ef73e7d72204",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Father",
+          "uuid": "c6ded6f0-a41b-4423-b996-83cd013b9845"
+        },
+        {
+          "name": "Mother",
+          "uuid": "a38145be-5924-44e2-beed-d595b7e9733d"
+        }
+      ]
+    },
+    "displayOrder": 1,
+    "mandatory": false
+  },
+  {
+    "name": "Staying with whom",
+    "uuid": "787b6381-9f50-4dc8-b269-bb6ddef9326a",
+    "keyValues": [
+      {
+        "key": "Select",
+        "value": "Single"
+      }
+    ],
+    "concept": {
+      "name": "Staying with whom",
+      "uuid": "806f0148-2387-496c-8c4a-29ad8e89d22e",
+      "dataType": "Coded",
+      "answers": [
+        {
+          "name": "Relatives",
+          "uuid": "29419728-a761-4730-bba0-fae0829ce608"
+        },
+        {
+          "name": "Parents",
+          "uuid": "1528efb0-f747-426c-a4a3-e30100682a66"
+        },
+        {
+          "name": "Hostel",
+          "uuid": "bd830988-37f7-4b76-8a70-aea7bddfa69a"
+        }
+      ]
+    },
+    "displayOrder": 2,
+    "mandatory": true
+  }
+]
