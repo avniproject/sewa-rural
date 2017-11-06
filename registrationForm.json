@@ -182,6 +182,37 @@
           },
           "displayOrder": 2,
           "mandatory": false
+        },
+        {
+          "name": "Ration Card",
+          "uuid": "2c14cf5b-fe29-48a3-8f3a-ee0a758c3f14",
+          "keyValues": [
+            {
+              "key": "Select",
+              "value": "Single"
+            }
+          ],
+          "concept": {
+            "name": "Ration Card",
+            "uuid": "8049923b-15fe-4c42-b208-2b63209fd9a3",
+            "dataType": "Coded",
+            "answers": [
+              {
+                "name": "APL",
+                "uuid": "bf47a3dc-8106-4819-a3ca-a273c0e839c3"
+              },
+              {
+                "name": "BPL",
+                "uuid": "d94d47fb-fd85-4024-8af7-2a79fcdbe997"
+              },
+              {
+                "name": "Antyodaya",
+                "uuid": "380e594e-06aa-46a2-8391-2ad153de8efe"
+              }
+            ]
+          },
+          "displayOrder": 3,
+          "mandatory": false
         }
       ]
     }
