@@ -82,108 +82,6 @@
           "mandatory": false
         },
         {
-          "name": "Contact Number",
-          "uuid": "ff762247-dc72-4e8b-8a69-6296c6b770f8",
-          "keyValues": [],
-          "concept": {
-            "name": "Contact Number",
-            "uuid": "de2e455f-1f0c-44cb-82d0-fe19802188e4",
-            "dataType": "Numeric"
-          },
-          "displayOrder": 5,
-          "mandatory": false
-        }
-      ]
-    },
-    {
-      "uuid": "039e8278-f130-4187-b206-14ecc6abdaff",
-      "name": "Individual Registration Family Details",
-      "displayOrder": 2,
-      "display": "Family Details",
-      "formElements": [
-        {
-          "name": "Father's Occupation",
-          "uuid": "0f3b49e4-529b-4d79-9e9c-c8ae7b882dfa",
-          "keyValues": [
-            {
-              "key": "Select",
-              "value": "Single"
-            }
-          ],
-          "concept": {
-            "name": "Father's Occupation",
-            "uuid": "03f05606-6e82-414d-9bdb-c8c3ed6da78d",
-            "dataType": "Coded",
-            "answers": [
-              {
-                "name": "Business",
-                "uuid": "945dc6ea-f049-484a-b333-14acfe1de7e6"
-              },
-              {
-                "name": "Farming",
-                "uuid": "3767fd62-be7e-4d39-b3ae-05e88d4f5c21"
-              },
-              {
-                "name": "Labour",
-                "uuid": "54eb4ba3-e940-4d36-ba56-d303f066c088"
-              },
-              {
-                "name": "Other",
-                "uuid": "672dd923-4c7e-432f-9efd-a70293febf0e"
-              },
-              {
-                "name": "Job",
-                "uuid": "4416a93c-38e8-4bc9-b440-00fa79d04914"
-              }
-            ]
-          },
-          "displayOrder": 1,
-          "mandatory": false
-        },
-        {
-          "name": "Mother's Occupation",
-          "uuid": "27572da0-3156-4cf5-9ae3-4e8193ce26e6",
-          "keyValues": [
-            {
-              "key": "Select",
-              "value": "Single"
-            }
-          ],
-          "concept": {
-            "name": "Mother's Occupation",
-            "uuid": "fe01d85e-a331-4426-be38-e9573ba5cff4",
-            "dataType": "Coded",
-            "answers": [
-              {
-                "name": "Job",
-                "uuid": "4416a93c-38e8-4bc9-b440-00fa79d04914"
-              },
-              {
-                "name": "Labour",
-                "uuid": "54eb4ba3-e940-4d36-ba56-d303f066c088"
-              },
-              {
-                "name": "Housework",
-                "uuid": "a80a9db9-c2d3-4899-b0c1-a05ecb2d3036"
-              },
-              {
-                "name": "Farming",
-                "uuid": "3767fd62-be7e-4d39-b3ae-05e88d4f5c21"
-              },
-              {
-                "name": "Business",
-                "uuid": "945dc6ea-f049-484a-b333-14acfe1de7e6"
-              },
-              {
-                "name": "Other",
-                "uuid": "672dd923-4c7e-432f-9efd-a70293febf0e"
-              }
-            ]
-          },
-          "displayOrder": 2,
-          "mandatory": false
-        },
-        {
           "name": "Ration Card",
           "uuid": "2c14cf5b-fe29-48a3-8f3a-ee0a758c3f14",
           "keyValues": [
@@ -211,7 +109,19 @@
               }
             ]
           },
-          "displayOrder": 3,
+          "displayOrder": 5,
+          "mandatory": false
+        },
+        {
+          "name": "Contact Number",
+          "uuid": "ff762247-dc72-4e8b-8a69-6296c6b770f8",
+          "keyValues": [],
+          "concept": {
+            "name": "Contact Number",
+            "uuid": "de2e455f-1f0c-44cb-82d0-fe19802188e4",
+            "dataType": "Numeric"
+          },
+          "displayOrder": 6,
           "mandatory": false
         }
       ]
