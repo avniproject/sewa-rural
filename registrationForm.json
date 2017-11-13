@@ -17,7 +17,11 @@
           "concept": {
             "name": "Standard",
             "uuid": "58a8223d-08b1-44c7-adb1-692a8fb5801f",
-            "dataType": "Numeric"
+            "dataType": "Numeric",
+            "lowAbsolute": 6,
+            "highAbsolute": 12,
+            "lowNormal": 6,
+            "highNormal": 12
           },
           "displayOrder": 1,
           "mandatory": true
