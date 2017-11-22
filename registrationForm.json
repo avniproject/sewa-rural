@@ -27,6 +27,30 @@
           "mandatory": true
         },
         {
+          "name": "Block",
+          "uuid": "363ab91e-03f5-4bc1-a848-fc9o283537f1",
+          "keyValues": [],
+          "concept": {
+            "name": "Block",
+            "uuid": "363ab19e-03f5-4bc1-a848-fc7e283537f1",
+            "dataType": "Text"
+          },
+          "displayOrder": 2,
+          "mandatory": false
+        },
+        {
+          "name": "Village",
+          "uuid": "b252e64b-3f29-44e4-9a57-2f77d69b201a",
+          "keyValues": [],
+          "concept": {
+            "name": "Village",
+            "uuid": "363ab91f-13f5-4bc1-b848-fc7e283537f1",
+            "dataType": "Text"
+          },
+          "displayOrder": 3,
+          "mandatory": false
+        },
+        {
           "name": "Address",
           "uuid": "a152e64b-5f29-44e4-9a57-2f77d69b201a",
           "keyValues": [],
@@ -35,7 +59,7 @@
             "uuid": "363ab91e-03f5-4bc1-a848-fc7e283537f1",
             "dataType": "Text"
           },
-          "displayOrder": 2,
+          "displayOrder": 4,
           "mandatory": false
         },
         {

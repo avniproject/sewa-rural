@@ -6,7 +6,13 @@
       {
         "uuid": "4b7ea02a-7cfc-4dde-97e2-bb396857607f",
         "level": 1,
-        "name": "Govali"
+        "name": "Govali",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Village"
+          }
+        ]
       },
       {
         "uuid": "7d92688c-3ddf-44b4-97af-3948b6eda471",
@@ -22,7 +28,13 @@
       {
         "uuid": "157ca9ce-4098-440c-9981-d9b5ac6f0851",
         "level": 1,
-        "name": "Aambos"
+        "name": "Aambos",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "School"
+          }
+        ]
       }
     ]
   },
@@ -33,7 +45,13 @@
       {
         "uuid": "abca7930-c7d8-4d98-ae1f-036a88e8cb32",
         "level": 1,
-        "name": "Dharoli"
+        "name": "Dharoli",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Village"
+          }
+        ]
       },
       {
         "uuid": "08bb770c-e279-44e4-83d3-b419d68e9942",
@@ -49,7 +67,13 @@
       {
         "uuid": "4b53656a-1083-4eb4-8ded-3854e1d09358",
         "level": 1,
-        "name": "Zokla"
+        "name": "Zokla",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "School"
+          }
+        ]
       }
     ]
   },
@@ -60,7 +84,13 @@
       {
         "uuid": "b5155043-6bb6-4197-af56-ec766a5ca624",
         "level": 1,
-        "name": "Daria"
+        "name": "Daria",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Village"
+          }
+        ]
       },
       {
         "uuid": "d4ce0a02-3ae7-444d-bd0e-fbcfab4aa5ae",
@@ -76,7 +106,13 @@
       {
         "uuid": "114877b8-0d9d-40bf-9716-3024aa422fb6",
         "level": 1,
-        "name": "Katidara"
+        "name": "Katidara",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "School"
+          }
+        ]
       }
     ]
   },
@@ -87,7 +123,13 @@
       {
         "uuid": "3caba9bf-ff59-468a-8c94-3dfd0a0b1e96",
         "level": 1,
-        "name": "Kapalsadi"
+        "name": "Kapalsadi",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Village"
+          }
+        ]
       },
       {
         "uuid": "1be75e9a-9174-4b64-930e-401c640a6efd",
@@ -103,7 +145,13 @@
       {
         "uuid": "03d173be-0986-46a9-8668-720cbeb83651",
         "level": 1,
-        "name": "Nana Anadhara"
+        "name": "Nana Anadhara",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "School"
+          }
+        ]
       }
     ]
   },
@@ -114,7 +162,13 @@
       {
         "uuid": "c11df19d-af6d-4693-95ed-af516187e442",
         "level": 1,
-        "name": "Amalzar"
+        "name": "Amalzar",
+        "attributes": [
+          {
+            "key": "Type",
+            "value": "Village"
+          }
+        ]
       },
       {
         "uuid": "e3b910a9-76e6-4128-9899-94f12e350e48",
