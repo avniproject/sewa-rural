@@ -71,7 +71,7 @@
             "uuid": "43c4860f-fccf-48c9-818a-191bc0f8d0cf",
             "dataType": "Numeric"
           },
-          "displayOrder": 3,
+          "displayOrder": 5,
           "mandatory": false
         },
         {
@@ -106,7 +106,7 @@
               }
             ]
           },
-          "displayOrder": 4,
+          "displayOrder": 6,
           "mandatory": false
         },
         {
@@ -137,7 +137,7 @@
               }
             ]
           },
-          "displayOrder": 5,
+          "displayOrder": 7,
           "mandatory": false
         },
         {
@@ -149,7 +149,7 @@
             "uuid": "de2e455f-1f0c-44cb-82d0-fe19802188e4",
             "dataType": "Numeric"
           },
-          "displayOrder": 6,
+          "displayOrder": 8,
           "mandatory": false
         }
       ]
