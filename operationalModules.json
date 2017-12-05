@@ -1,0 +1,5 @@
+{
+  "organisationName": "dummy",
+  "encounterTypes": ["Monthly Visit", "Quarterly Visit", "Annual Visit", "Half Yearly Visit"],
+  "programs": ["Adolescent"]
+}
