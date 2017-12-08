@@ -77,12 +77,8 @@
         {
           "name": "Caste",
           "uuid": "b695e240-85c8-47b2-aa8d-e7560c4a3174",
-          "keyValues": [
-            {
-              "key": "Select",
-              "value": "Single"
-            }
-          ],
+          "keyValues": [],
+          "type": "SingleSelect",
           "concept": {
             "name": "Caste",
             "uuid": "14db87d5-31f9-4e2f-a76d-eea27e2ee04d",
@@ -112,12 +108,8 @@
         {
           "name": "Ration Card",
           "uuid": "2c14cf5b-fe29-48a3-8f3a-ee0a758c3f14",
-          "keyValues": [
-            {
-              "key": "Select",
-              "value": "Single"
-            }
-          ],
+          "keyValues": [],
+          "type": "SingleSelect",
           "concept": {
             "name": "Ration Card",
             "uuid": "8049923b-15fe-4c42-b208-2b63209fd9a3",
