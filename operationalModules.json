@@ -1,5 +1,14 @@
 {
   "organisationName": "demo",
-  "encounterTypes": ["Annual Visit", "Quarterly Visit", "Half-Yearly Visit", "Monthly Visit"],
-  "programs": ["Adolescent"]
+  "encounterTypes": [
+    "Annual Visit",
+    "Quarterly Visit",
+    "Half-Yearly Visit",
+    "Monthly Visit",
+    "Dropout Home Visit",
+    "Dropout Followup Visit"
+  ],
+  "programs": [
+    "Adolescent"
+  ]
 }
