@@ -35,12 +35,28 @@
           "mandatory": true
         },
         {
+          "name": "Village",
+          "uuid": "4de2b129-2cb6-4f4e-8963-e437068989a9",
+          "keyValues": [],
+          "concept": {
+            "name": "Village",
+            "uuid": "e98f4859-841e-45c2-bf35-8f3a2ba454f9",
+            "dataType": "Text"
+          },
+          "validFormat": {
+            "regex": "^[a-zA-Z ]+$",
+            "descriptionKey": "OnlyLettersAndSpaces"
+          },
+          "displayOrder": 3,
+          "mandatory": false
+        },
+        {
           "name": "Religion",
           "uuid": "ea53330d-7693-4ba9-91ab-007547a764d4",
           "keyValues": [],
           "type": "SingleSelect",
           "conceptUUID": "c922c13c-1fa2-42dd-a7e8-d234b0324870",
-          "displayOrder": 3,
+          "displayOrder": 4,
           "mandatory": true
         },
         {
@@ -49,7 +65,7 @@
           "keyValues": [],
           "type": "SingleSelect",
           "conceptUUID": "61ab6413-5c6a-4512-ab6e-7d5cd1439569",
-          "displayOrder": 4,
+          "displayOrder": 5,
           "mandatory": true
         },
         {
@@ -65,7 +81,7 @@
             "regex": "^[0-9]{12}$",
             "descriptionKey": "Required12Digits"
           },
-          "displayOrder": 5,
+          "displayOrder": 6,
           "mandatory": false
         },
         {
@@ -92,7 +108,7 @@
               }
             ]
           },
-          "displayOrder": 6,
+          "displayOrder": 7,
           "mandatory": true
         },
         {
@@ -108,7 +124,7 @@
             "regex": "^[0-9]{10}$",
             "descriptionKey": "Required10Digits"
           },
-          "displayOrder": 7,
+          "displayOrder": 8,
           "mandatory": true
         }
       ]
