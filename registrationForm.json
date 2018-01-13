@@ -125,7 +125,7 @@
             ]
           },
           "displayOrder": 8,
-          "mandatory": true
+          "mandatory": false
         },
         {
           "name": "Contact Number",
