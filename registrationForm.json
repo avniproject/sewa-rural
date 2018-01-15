@@ -101,17 +101,6 @@
           "mandatory": false
         },
         {
-          "name": "Village",
-          "uuid": "e7b24627-2e44-40f2-8542-e4d3096ca641",
-          "concept": {
-            "name": "Village",
-            "uuid": "a0b39dd8-b91b-4cbe-8c97-9657ced6c8cc",
-            "dataType": "Text"
-          },
-          "displayOrder": 8,
-          "mandatory": true
-        },
-        {
           "name": "Ration Card",
           "uuid": "0ce86417-7860-428a-acd7-02216e278699",
           "keyValues": [],
