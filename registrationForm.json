@@ -101,6 +101,17 @@
           "mandatory": false
         },
         {
+          "name": "Village",
+          "uuid": "e7b24627-2e44-40f2-8542-e4d3096ca641",
+          "concept": {
+            "name": "Village",
+            "uuid": "a0b39dd8-b91b-4cbe-8c97-9657ced6c8cc",
+            "dataType": "Text"
+          },
+          "displayOrder": 8,
+          "mandatory": true
+        },
+        {
           "name": "Ration Card",
           "uuid": "0ce86417-7860-428a-acd7-02216e278699",
           "keyValues": [],
@@ -121,10 +132,13 @@
               {
                 "name": "Antyodaya",
                 "uuid": "eace7aa2-8444-4c43-b5aa-8b5ec0b19a20"
+              },
+              {
+                "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
               }
             ]
           },
-          "displayOrder": 8,
+          "displayOrder": 9,
           "mandatory": false
         },
         {
@@ -140,7 +154,7 @@
             "regex": "^[0-9]{10}$",
             "descriptionKey": "Required10Digits"
           },
-          "displayOrder": 9,
+          "displayOrder": 10,
           "mandatory": true
         }
       ]
