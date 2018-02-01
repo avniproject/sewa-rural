@@ -35,22 +35,6 @@
           "mandatory": true
         },
         {
-          "name": "Block",
-          "uuid": "4adf9a4b-bda2-43ad-a244-34f5858ced22",
-          "keyValues": [],
-          "concept": {
-            "name": "Block",
-            "uuid": "87e1989a-c690-4385-b3da-e6e1bacc8f85",
-            "dataType": "Text"
-          },
-          "validFormat": {
-            "regex": "^[a-zA-Z ]+$",
-            "descriptionKey": "OnlyLettersAndSpaces"
-          },
-          "displayOrder": 3,
-          "mandatory": true
-        },
-        {
           "name": "Village",
           "uuid": "4de2b129-2cb6-4f4e-8963-e437068989a9",
           "keyValues": [],
@@ -63,8 +47,24 @@
             "regex": "^[a-zA-Z ]+$",
             "descriptionKey": "OnlyLettersAndSpaces"
           },
-          "displayOrder": 4,
+          "displayOrder": 3,
           "mandatory": false
+        },
+        {
+          "name": "Block",
+          "uuid": "4adf9a4b-bda2-43ad-a244-34f5858ced22",
+          "keyValues": [],
+          "concept": {
+            "name": "Block",
+            "uuid": "87e1989a-c690-4385-b3da-e6e1bacc8f85",
+            "dataType": "Text"
+          },
+          "validFormat": {
+            "regex": "^[a-zA-Z ]+$",
+            "descriptionKey": "OnlyLettersAndSpaces"
+          },
+          "displayOrder": 4,
+          "mandatory": true
         },
         {
           "name": "Religion",
