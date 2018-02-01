@@ -2,7 +2,7 @@
   "organisation": "Sewa Rural",
   "catchments": [
     {
-      "name": "Dharoli",
+      "name": "Dharoli and Kapalsadi",
       "uuid": "777d6c2c-69d8-4c03-89f0-04eece847e98",
       "type": "Intervention Area",
       "addressLevels": [
@@ -35,51 +35,7 @@
           "level": 1,
           "name": "Kanya Aashram, Moriyana",
           "type": "Boarding"
-        }
-      ]
-    },
-    {
-      "name": "Daria",
-      "uuid": "66df685e-3ae4-4310-a41a-7cc74539471e",
-      "type": "Intervention Area",
-      "addressLevels": [
-        {
-          "uuid": "ca9ac3c7-961d-4ca5-8697-6c700acd5367",
-          "level": 1,
-          "name": "Daria Secondary",
-          "type": "School"
         },
-        {
-          "uuid": "eddb0068-cb87-4985-861a-51d8c0333737",
-          "level": 1,
-          "name": "Daria Primary",
-          "type": "School"
-        },
-        {
-          "uuid": "3fbeea29-a4c5-4804-b5b0-a2d9a113be5c",
-          "level": 1,
-          "name": "Govali Primary",
-          "type": "School"
-        },
-        {
-          "uuid": "9268a54f-c91c-4a40-a6d2-4e7b291bb5f4",
-          "level": 1,
-          "name": "Jhokla",
-          "type": "Village"
-        },
-        {
-          "uuid": "2cb6986b-98c7-4777-a29c-77384f3201bf",
-          "level": 1,
-          "name": "Kanya Adarsh, Jhagadia",
-          "type": "Boarding"
-        }
-      ]
-    },
-    {
-      "name": "Kapalsadi",
-      "uuid": "5a02ac45-5153-4bd1-afcb-e9ace3b33779",
-      "type": "Intervention Area",
-      "addressLevels": [
         {
           "uuid": "303050e0-2401-4b37-bdc7-2c6b9f416fe6",
           "level": 1,
@@ -113,10 +69,40 @@
       ]
     },
     {
-      "name": "Amalzar",
-      "uuid": "e481402e-0d1f-4f37-91c0-e56d61f8e2b4",
+      "name": "Daria and Amalzar",
+      "uuid": "66df685e-3ae4-4310-a41a-7cc74539471e",
       "type": "Intervention Area",
       "addressLevels": [
+        {
+          "uuid": "ca9ac3c7-961d-4ca5-8697-6c700acd5367",
+          "level": 1,
+          "name": "Daria Secondary",
+          "type": "School"
+        },
+        {
+          "uuid": "eddb0068-cb87-4985-861a-51d8c0333737",
+          "level": 1,
+          "name": "Daria Primary",
+          "type": "School"
+        },
+        {
+          "uuid": "3fbeea29-a4c5-4804-b5b0-a2d9a113be5c",
+          "level": 1,
+          "name": "Govali Primary",
+          "type": "School"
+        },
+        {
+          "uuid": "9268a54f-c91c-4a40-a6d2-4e7b291bb5f4",
+          "level": 1,
+          "name": "Jhokla",
+          "type": "Village"
+        },
+        {
+          "uuid": "2cb6986b-98c7-4777-a29c-77384f3201bf",
+          "level": 1,
+          "name": "Kanya Adarsh, Jhagadia",
+          "type": "Boarding"
+        },
         {
           "uuid": "966749c4-977a-4bec-b750-ace3251f6d64",
           "level": 1,
