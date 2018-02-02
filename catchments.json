@@ -7,33 +7,33 @@
       "type": "Intervention Area",
       "addressLevels": [
         {
-          "uuid": "d822e31a-9c01-47c1-a38a-9665dadee8ef",
+          "uuid": "ca9ac3c7-961d-4ca5-8697-6c700acd5367",
           "level": 1,
-          "name": "Dharoli Secondary",
+          "name": "Daria Secondary",
           "type": "School"
         },
         {
-          "uuid": "b6414df1-2b03-4e3b-8e8a-a9d9fbdd5133",
+          "uuid": "eddb0068-cb87-4985-861a-51d8c0333737",
           "level": 1,
-          "name": "Dharoli Primary",
+          "name": "Daria Primary",
           "type": "School"
         },
         {
-          "uuid": "c5736e66-a50d-4c3b-bf70-34748ad3d2e9",
+          "uuid": "3fbeea29-a4c5-4804-b5b0-a2d9a113be5c",
           "level": 1,
-          "name": "Govali Secondary",
+          "name": "Govali Primary",
           "type": "School"
         },
         {
-          "uuid": "8e2d8a3a-1a00-4507-963b-9115428b1d0c",
+          "uuid": "9268a54f-c91c-4a40-a6d2-4e7b291bb5f4",
           "level": 1,
-          "name": "Aambos",
+          "name": "Jhokla",
           "type": "Village"
         },
         {
-          "uuid": "0288e6cf-8c52-4183-ac21-ad8de606b837",
+          "uuid": "2cb6986b-98c7-4777-a29c-77384f3201bf",
           "level": 1,
-          "name": "Kanya Aashram, Moriyana",
+          "name": "Jhagadia, Kanya Adarsh",
           "type": "Boarding"
         },
         {
@@ -63,7 +63,7 @@
         {
           "uuid": "c456917b-324d-4149-8f6c-fe71d644a72b",
           "level": 1,
-          "name": "Gayatri School, Mandva",
+          "name": "Mandva, Gayatri School",
           "type": "Boarding"
         }
       ]
@@ -74,33 +74,33 @@
       "type": "Intervention Area",
       "addressLevels": [
         {
-          "uuid": "ca9ac3c7-961d-4ca5-8697-6c700acd5367",
+          "uuid": "d822e31a-9c01-47c1-a38a-9665dadee8ef",
           "level": 1,
-          "name": "Daria Secondary",
+          "name": "Dharoli Secondary",
           "type": "School"
         },
         {
-          "uuid": "eddb0068-cb87-4985-861a-51d8c0333737",
+          "uuid": "b6414df1-2b03-4e3b-8e8a-a9d9fbdd5133",
           "level": 1,
-          "name": "Daria Primary",
+          "name": "Dharoli Primary",
           "type": "School"
         },
         {
-          "uuid": "3fbeea29-a4c5-4804-b5b0-a2d9a113be5c",
+          "uuid": "c5736e66-a50d-4c3b-bf70-34748ad3d2e9",
           "level": 1,
-          "name": "Govali Primary",
+          "name": "Govali Secondary",
           "type": "School"
         },
         {
-          "uuid": "9268a54f-c91c-4a40-a6d2-4e7b291bb5f4",
+          "uuid": "8e2d8a3a-1a00-4507-963b-9115428b1d0c",
           "level": 1,
-          "name": "Jhokla",
+          "name": "Aambos",
           "type": "Village"
         },
         {
-          "uuid": "2cb6986b-98c7-4777-a29c-77384f3201bf",
+          "uuid": "0288e6cf-8c52-4183-ac21-ad8de606b837",
           "level": 1,
-          "name": "Kanya Adarsh, Jhagadia",
+          "name": "Moriyana, Kanya Aashram",
           "type": "Boarding"
         },
         {
@@ -124,13 +124,13 @@
         {
           "uuid": "db8106f1-2444-42a8-8373-cf7fc89fad9b",
           "level": 1,
-          "name": "KGBV, Ranipura",
+          "name": "Ranipura, KGBV",
           "type": "Boarding"
         },
         {
           "uuid": "5944ff97-55cc-466d-802f-37cb31b6b6e1",
           "level": 1,
-          "name": "Mission School, Jhagadia",
+          "name": "Jhagadia, Mission School",
           "type": "Boarding"
         }
       ]
