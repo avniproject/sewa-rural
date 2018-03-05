@@ -98,7 +98,7 @@
             "descriptionKey": "Required12Digits"
           },
           "displayOrder": 7,
-          "mandatory": false
+          "mandatory": true
         },
         {
           "name": "Ration Card",
