@@ -14,8 +14,9 @@ help:
 # </makefile>
 
 
-#port=8021
-#server=localhost
+port:= $(if $(port),$(port),8021)
+server:= $(if $(server),$(server),http://localhost)
+
 su:=$(shell id -un)
 
 create_org:
