@@ -22,7 +22,7 @@ create_org:
 	psql -U$(su) openchs < create_organisation.sql
 
 ## <refdata>
-deploy_refdata: create_org## Creates reference data by POSTing it to the server
+deploy_refdata: ## Creates reference data by POSTing it to the server
 	curl -X POST $(server):$(port)/catchments -d @catchments.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural"  -H "AUTH-TOKEN: $(token)"
 	curl -X POST $(server):$(port)/concepts -d @concepts.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
 	curl -X POST $(server):$(port)/concepts -d @concepts.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
