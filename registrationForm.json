@@ -93,9 +93,7 @@
           "uuid": "411ecaac-5b01-443f-a419-0d5b33360fbb",
           "keyValues": [],
           "concept": {
-            "name": "Aadhar ID",
-            "uuid": "43c4860f-fccf-48c9-818a-191bc0f8d0cf",
-            "dataType": "Numeric"
+            "uuid": "43c4860f-fccf-48c9-818a-191bc0f8d0cf"
           },
           "validFormat": {
             "regex": "^[0-9]{12}$",
