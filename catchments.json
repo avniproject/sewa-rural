@@ -9,61 +9,61 @@
         {
           "uuid": "ca9ac3c7-961d-4ca5-8697-6c700acd5367",
           "level": 1,
-          "name": "Daria Secondary",
+          "name": "દરિયા માધ્યમિક",
           "type": "School"
         },
         {
           "uuid": "eddb0068-cb87-4985-861a-51d8c0333737",
           "level": 1,
-          "name": "Daria Primary",
+          "name": "દરિયા પ્રાથમિક",
           "type": "School"
         },
         {
           "uuid": "3fbeea29-a4c5-4804-b5b0-a2d9a113be5c",
           "level": 1,
-          "name": "Govali Primary",
+          "name": "ગોવાલી પ્રાથમિક",
           "type": "School"
         },
         {
           "uuid": "9268a54f-c91c-4a40-a6d2-4e7b291bb5f4",
           "level": 1,
-          "name": "Jhokla",
+          "name": "ઝોકલા",
           "type": "Village"
         },
         {
           "uuid": "2cb6986b-98c7-4777-a29c-77384f3201bf",
           "level": 1,
-          "name": "Jhagadia, Kanya Adarsh",
+          "name": "ઝગડિયા, કન્યા આદર્શ",
           "type": "Boarding"
         },
         {
           "uuid": "303050e0-2401-4b37-bdc7-2c6b9f416fe6",
           "level": 1,
-          "name": "Kapalsadi Secondary",
+          "name": "કપલસાડી માધ્યમિક",
           "type": "School"
         },
         {
           "uuid": "fc4ac7f7-9a5e-4321-b014-150c42728d2b",
           "level": 1,
-          "name": "Kapalsadi Primary",
+          "name": "કપલસાડી પ્રાથમિક",
           "type": "School"
         },
         {
           "uuid": "8b5a4b18-ae85-49ec-847a-489d4092c82a",
           "level": 1,
-          "name": "Kantidara",
+          "name": "કાંટીદરા",
           "type": "Village"
         },
         {
           "uuid": "731a2a46-1320-429a-b877-776a89db3c2b",
           "level": 1,
-          "name": "Jamboi",
+          "name": "જાંબોઈ",
           "type": "Village"
         },
         {
           "uuid": "c456917b-324d-4149-8f6c-fe71d644a72b",
           "level": 1,
-          "name": "Mandva, Gayatri School",
+          "name": "ાંડવા, ગાયત્રી વિદ્યામન્દિર",
           "type": "Boarding"
         }
       ]
@@ -76,61 +76,61 @@
         {
           "uuid": "d822e31a-9c01-47c1-a38a-9665dadee8ef",
           "level": 1,
-          "name": "Dharoli Secondary",
+          "name": "ધારોલી માધ્યમિક",
           "type": "School"
         },
         {
           "uuid": "b6414df1-2b03-4e3b-8e8a-a9d9fbdd5133",
           "level": 1,
-          "name": "Dharoli Primary",
+          "name": "ધારોલી પ્રાથમિક",
           "type": "School"
         },
         {
           "uuid": "c5736e66-a50d-4c3b-bf70-34748ad3d2e9",
           "level": 1,
-          "name": "Govali Secondary",
+          "name": "ગોવાલી માધ્યમિક",
           "type": "School"
         },
         {
           "uuid": "8e2d8a3a-1a00-4507-963b-9115428b1d0c",
           "level": 1,
-          "name": "Aambos",
+          "name": "આંબોસ",
           "type": "Village"
         },
         {
           "uuid": "0288e6cf-8c52-4183-ac21-ad8de606b837",
           "level": 1,
-          "name": "Moriyana, Kanya Aashram",
+          "name": "મોરિયાણા, કન્યા આશ્રમ",
           "type": "Boarding"
         },
         {
           "uuid": "966749c4-977a-4bec-b750-ace3251f6d64",
           "level": 1,
-          "name": "Amalzar Secondary",
+          "name": "અમલઝર માધ્યમિક",
           "type": "School"
         },
         {
           "uuid": "a941867a-b4e9-436c-9222-8a8355f46d0d",
           "level": 1,
-          "name": "Amalzar Primary",
+          "name": "અમલઝર પ્રાથમિક",
           "type": "School"
         },
         {
           "uuid": "8fb0b088-cd21-4a31-9d7a-d7297c14d01f",
           "level": 1,
-          "name": "Nana Anadhara",
+          "name": "નાના અણધરા",
           "type": "Village"
         },
         {
           "uuid": "db8106f1-2444-42a8-8373-cf7fc89fad9b",
           "level": 1,
-          "name": "Ranipura, KGBV",
+          "name": "રાણીપુરા, કેજીબીવી",
           "type": "Boarding"
         },
         {
           "uuid": "5944ff97-55cc-466d-802f-37cb31b6b6e1",
           "level": 1,
-          "name": "Jhagadia, Mission School",
+          "name": "ઝગડિયા, મિશન સ્કૂલ",
           "type": "Boarding"
         }
       ]
