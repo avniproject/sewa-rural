@@ -13,5 +13,61 @@
     "name": "Antyodaya",
     "uuid": "eace7aa2-8444-4c43-b5aa-8b5ec0b19a20",
     "dataType": "NA"
+  },
+  {
+    "name": "Jhagadia",
+    "uuid": "b0238383-da12-4b5d-b274-489440f028ae"
+  },
+  {
+    "name": "Valia",
+    "uuid": "cc4d9c67-5f93-4d30-9ae3-b88c0d2c70d2"
+  },
+  {
+    "name": "Netrang",
+    "uuid": "746e3d3c-ef5a-4348-bab6-26bf9e5bddd1"
+  },
+  {
+    "name": "Bharuch",
+    "uuid": "f380e47e-8589-4516-81f6-1b842c6da4b8"
+  },
+  {
+    "name": "Ankleshwar",
+    "uuid": "d30349bd-e2fe-4dc7-b094-eeea22950e96"
+  },
+  {
+    "name": "Hansot",
+    "uuid": "a4eb3ce3-1487-44cd-8348-6785d261121e"
+  },
+  {
+    "name": "Amod",
+    "uuid": "631a23fe-879d-4c63-8435-4d9ffe6a48a1"
+  },
+  {
+    "name": "Jambusar",
+    "uuid": "355d0261-3a6b-4c4b-8575-6b1204852e82"
+  },
+  {
+    "name": "Vagra",
+    "uuid": "e1045dfa-d771-4433-b1d9-b3786b98f0f0"
+  },
+  {
+    "name": "Dediapada",
+    "uuid": "7d3e69ca-e363-4240-8ad9-67f5bf53d8f2"
+  },
+  {
+    "name": "Sagbara",
+    "uuid": "833d9b73-1743-424e-8b0e-0de05b69ca4a"
+  },
+  {
+    "name": "Nandod",
+    "uuid": "8f7befa1-2cc5-4189-9f67-1fd1953ab720"
+  },
+  {
+    "name": "Tilakwada",
+    "uuid": "236c7984-4176-45e3-819b-992a39e2a3a4"
+  },
+  {
+    "name": "Garudeshwar",
+    "uuid": "f4867ff0-ba0c-4a47-b806-96395f6066e1"
   }
 ]
