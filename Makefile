@@ -26,7 +26,6 @@ create_org:
 deploy_refdata: ## Creates reference data by POSTing it to the server
 	curl -X POST $(server):$(port)/catchments -d @catchments.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural"  -H "AUTH-TOKEN: $(token)"
 	curl -X POST $(server):$(port)/concepts -d @concepts.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
-	curl -X POST $(server):$(port)/concepts -d @concepts.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
 	curl -X POST $(server):$(port)/forms -d @registrationForm.json -H "Content-Type: application/json" -H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
 	curl -X POST $(server):$(port)/operationalModules -d @operationalModules.json -H "Content-Type: application/json" -H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
 ## </refdata>
