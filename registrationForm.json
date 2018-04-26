@@ -193,8 +193,7 @@
           "keyValues": [],
           "concept": {
             "name": "Contact Number",
-            "uuid": "82fa0dbb-92f9-4ec2-9263-49054e64d909",
-            "dataType": "Numeric"
+            "uuid": "82fa0dbb-92f9-4ec2-9263-49054e64d909"
           },
           "validFormat": {
             "regex": "^[0-9]{10}$",
