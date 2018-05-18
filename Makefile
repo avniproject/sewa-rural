@@ -18,16 +18,20 @@ port:= $(if $(port),$(port),8021)
 server:= $(if $(server),$(server),http://localhost)
 
 su:=$(shell id -un)
+org_name:=$(if $(org_name),$(org_name),Sewa Rural)
 
 create_org:
 	psql -U$(su) openchs < create_organisation.sql
 
 ## <refdata>
 deploy_refdata: ## Creates reference data by POSTing it to the server
-	curl -X POST $(server):$(port)/catchments -d @catchments.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural"  -H "AUTH-TOKEN: $(token)"
-	curl -X POST $(server):$(port)/concepts -d @concepts.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
-	curl -X POST $(server):$(port)/forms -d @registrationForm.json -H "Content-Type: application/json" -H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
-	curl -X POST $(server):$(port)/operationalModules -d @operationalModules.json -H "Content-Type: application/json" -H "ORGANISATION-NAME: Sewa Rural" -H "AUTH-TOKEN: $(token)"
+	curl -X POST $(server):$(port)/catchments -d @catchments.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: $(org_name)"  -H "AUTH-TOKEN: $(token)"
+	curl -X POST $(server):$(port)/concepts -d @concepts.json -H "Content-Type: application/json" 	-H "ORGANISATION-NAME: $(org_name)" -H "AUTH-TOKEN: $(token)"
+	curl -X POST $(server):$(port)/forms -d @registrationForm.json -H "Content-Type: application/json" -H "ORGANISATION-NAME: $(org_name)" -H "AUTH-TOKEN: $(token)"
+	curl -X POST $(server):$(port)/operationalModules -d @operationalModules.json -H "Content-Type: application/json" -H "ORGANISATION-NAME: $(org_name)" -H "AUTH-TOKEN: $(token)"
 ## </refdata>
 
 deploy: deploy_refdata
+
+dev_deploy:
+	org_name='Sewa Rural Old' make deploy
