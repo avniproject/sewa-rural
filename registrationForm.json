@@ -11,12 +11,12 @@
       "display": "Details",
       "formElements": [
         {
-          "name": "Mother's Name",
+          "name": "Mother's name",
           "uuid": "b87e829b-f656-4b70-aeb3-f9c63535218d",
           "keyValues": [],
           "concept": {
             "uuid": "36525e7b-575f-4b34-aae8-9a031adb84eb",
-            "name": "Mother's Name"
+            "name": "Mother's name"
           },
           "displayOrder": 1,
           "mandatory": true
