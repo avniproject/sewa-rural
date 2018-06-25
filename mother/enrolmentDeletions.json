@@ -1,0 +1,15 @@
+{
+  "uuid": "026e2f5c-8670-4e4b-9a54-cb03bbf3093d",
+  "userUUID": "5fed2907-df3a-4867-aef5-c87f4c78a31a",
+  "formElementGroups": [
+    {
+      "uuid": "50a2d045-88fe-44e3-86e0-0dba16f53818",
+      "formElements": [
+        {
+          "uuid": "4ae32d41-7c2e-4d7d-8ac6-566c9331f3a1",
+          "comment": "Remove default Obstetrics history (and customize in enrolmentAdditions)"
+        }
+      ]
+    }
+  ]
+}

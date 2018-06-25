@@ -1,0 +1,29 @@
+{
+  "uuid": "026e2f5c-8670-4e4b-9a54-cb03bbf3093d",
+  "name": "Mother Enrolment",
+  "formElementGroups": [
+    {
+      "uuid": "50a2d045-88fe-44e3-86e0-0dba16f53818",
+      "name": "ANC Enrolment past pregnancy complications",
+      "formElements": [
+        {
+          "name": "Obstetrics history",
+          "uuid": "3aeb6911-a064-4c90-b761-44c2ef0cda0b",
+          "keyValues": [
+            {
+              "key": "ExcludedAnswers",
+              "value": [
+                "Heavy bleeding during delivery"
+              ]
+            }
+          ],
+          "type": "MultiSelect",
+          "concept": {
+            "uuid": "8a4ab436-6767-45d5-95d7-075d9459609e"
+          },
+          "displayOrder": 1.1
+        }
+      ]
+    }
+  ]
+}
