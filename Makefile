@@ -20,11 +20,14 @@ server:= $(if $(server),$(server),http://localhost)
 su:=$(shell id -un)
 org_name:=$(if $(org_name),$(org_name),Sewa Rural)
 
-_curl = \
+define _curl
 	curl -X $(1) $(server):$(port)/$(2) -d $(3)  \
 		-H "Content-Type: application/json"  \
 		-H "ORGANISATION-NAME: $(org_name)"  \
 		-H "AUTH-TOKEN: $(token)" \
+	@echo
+	@echo
+endef
 
 create_org:
 	psql -U$(su) openchs < create_organisation.sql
