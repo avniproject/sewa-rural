@@ -24,7 +24,7 @@ define _curl
 	curl -X $(1) $(server):$(port)/$(2) -d $(3)  \
 		-H "Content-Type: application/json"  \
 		-H "ORGANISATION-NAME: $(org_name)"  \
-		-H "AUTH-TOKEN: $(token)" \
+		-H "AUTH-TOKEN: $(token)"
 	@echo
 	@echo
 endef
@@ -37,7 +37,8 @@ deploy_refdata: ## Creates reference data by POSTing it to the server
 	$(call _curl,POST,catchments,@catchments.json)
 	$(call _curl,POST,concepts,@concepts.json)
 	$(call _curl,POST,forms,@registrationForm.json)
-	$(call _curl,POST,operationalModules,@operationalModules.json)
+	$(call _curl,POST,operationalPrograms,@operationalModules.json)
+	$(call _curl,POST,operationalEncounterTypes,@operationalModules.json)
 	$(call _curl,DELETE,forms,@mother/enrolmentDeletions.json)
 	$(call _curl,PATCH,forms,@mother/enrolmentAdditions.json)
 
