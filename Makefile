@@ -37,8 +37,8 @@ deploy_refdata: ## Creates reference data by POSTing it to the server
 	$(call _curl,POST,catchments,@catchments.json)
 	$(call _curl,POST,concepts,@concepts.json)
 	$(call _curl,POST,forms,@registrationForm.json)
-	$(call _curl,POST,operationalPrograms,@operationalModules.json)
-	$(call _curl,POST,operationalEncounterTypes,@operationalModules.json)
+	$(call _curl,POST,operationalPrograms,@operationalModules/operationalPrograms.json)
+	$(call _curl,POST,operationalEncounterTypes,@operationalModules/operationalEncounterTypes.json)
 	$(call _curl,DELETE,forms,@mother/enrolmentDeletions.json)
 	$(call _curl,PATCH,forms,@mother/enrolmentAdditions.json)
 
