@@ -147,27 +147,5 @@
         "uuid": "f4867ff0-ba0c-4a47-b806-96395f6066e1"
       }
     ]
-  },
-  {
-    "name": "Ration Card",
-    "uuid": "476a0b71-485b-4a0a-ba6f-4f3cf13568ca",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "name": "APL",
-        "uuid": "36008c2c-7748-426d-9784-ffc5a267db07"
-      },
-      {
-        "name": "BPL",
-        "uuid": "5c9f10e3-3e20-4a3b-a971-f43b40dd017c"
-      },
-      {
-        "name": "Antyodaya",
-        "uuid": "eace7aa2-8444-4c43-b5aa-8b5ec0b19a20"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
   }
 ]
