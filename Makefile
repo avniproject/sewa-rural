@@ -18,7 +18,11 @@ port:= $(if $(port),$(port),8021)
 server:= $(if $(server),$(server),http://localhost)
 
 su:=$(shell id -un)
-org_name:=$(if $(org_name),$(org_name),Sewa Rural)
+org_name:=$(if $(org_name),$(org_name),Sewa Rural Old)
+
+auth:
+	$(if $(poolId),$(eval token:=$(shell node scripts/token.js $(poolId) $(clientId) $(username) $(password))))
+	echo $(token)
 
 define _curl
 	curl -X $(1) $(server):$(port)/$(2) -d $(3)  \
@@ -28,6 +32,9 @@ define _curl
 	@echo
 	@echo
 endef
+
+deps:
+	npm i
 
 create_org:
 	psql -U$(su) openchs < create_organisation.sql
@@ -43,7 +50,7 @@ deploy_refdata: ## Creates reference data by POSTing it to the server
 	$(call _curl,DELETE,forms,@mother/enrolmentDeletions.json)
 	$(call _curl,PATCH,forms,@mother/enrolmentAdditions.json)
 
-deploy_staging:
+deploy_staging: deps
 	make auth deploy poolId=ap-south-1_tuRfLFpm1 clientId=93kp4dj29cfgnoerdg33iev0v server=https://staging.openchs.org port=443 username=admin password=$(STAGING_ADMIN_USER_PASSWORD)
 
 ## </refdata>

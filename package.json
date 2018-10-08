@@ -1,0 +1,18 @@
+{
+  "name": "sewa-rural-openchs-config",
+  "version": "0.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenCHS/calcutta-kids.git"
+  },
+  "license": "AGPL-3.0",
+  "scripts": {},
+  "dependencies": {
+    "webpack": "^4.12.0"
+  },
+  "devDependencies": {
+    "rules-config": "github:openchs/rules-config#ae85596eafbc34d211902d2904ea208d33f3dcef",
+    "amazon-cognito-identity-js": "1.28.0"
+  }
+}
