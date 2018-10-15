@@ -18,7 +18,7 @@ port:= $(if $(port),$(port),8021)
 server:= $(if $(server),$(server),http://localhost)
 
 su:=$(shell id -un)
-org_name:=$(if $(org_name),$(org_name),Sewa Rural)
+org_name:=$(if $(org_name),$(org_name),Sewa Rural Old)
 
 define _curl
 	curl -X $(1) $(server):$(port)/$(2) -d $(3)  \
