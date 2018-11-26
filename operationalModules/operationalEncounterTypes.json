@@ -2,7 +2,7 @@
   "organisationName": "Sewa Rural Old",
   "operationalEncounterTypes": [
     {
-      "uuid": "7a98d6e2-5dcf-4ece-807e-dc134fc2a59a",
+      "uuid": "e3445db7-d843-4c6b-8c65-0af884acf933",
       "name": "Annual Visit",
       "encounterType": {
         "uuid": "14e23e16-5db0-4d16-9efe-b206a18010a7",
@@ -10,7 +10,7 @@
       }
     },
     {
-      "uuid": "d9cc9272-6d27-4a1e-b494-652a80a28ee2",
+      "uuid": "508e925c-832f-4282-9242-87aa10924d16",
       "name": "Quarterly Visit",
       "encounterType": {
         "uuid": "198b4844-2c66-4ad2-9a9c-3099270695a4",
@@ -18,7 +18,7 @@
       }
     },
     {
-      "uuid": "d44da17c-60d3-4124-bcc6-6a0e763b7ed2",
+      "uuid": "f0b5d456-5f1a-434c-857e-fb52e6a9fa1f",
       "name": "Half-Yearly Visit",
       "encounterType": {
         "uuid": "839940e8-1fd1-4fb7-9d0e-a57483e4945e",
@@ -26,7 +26,7 @@
       }
     },
     {
-      "uuid": "b1d0a2df-e893-4438-90df-239375c508b1",
+      "uuid": "f186c5f4-a02f-4e6d-95d2-7859f1e4c44d",
       "name": "Monthly Visit",
       "encounterType": {
         "uuid": "221cbc98-6676-4035-8e6c-59f807f8f06b",
@@ -34,7 +34,7 @@
       }
     },
     {
-      "uuid": "c7693129-0628-4e10-8dbc-6607b520cab8",
+      "uuid": "30eec1d1-d584-431d-bd9f-e70d9eba72d9",
       "name": "Dropout Home Visit",
       "encounterType": {
         "uuid": "897f24ba-55dd-4815-b4f7-281cdca69d3a",
@@ -42,7 +42,7 @@
       }
     },
     {
-      "uuid": "edae6409-a3e0-4544-be99-0a210afe0d9e",
+      "uuid": "a33740e9-0c2e-4cd8-b803-c0720114456a",
       "name": "Dropout Followup Visit",
       "encounterType": {
         "uuid": "e57cbb66-b981-4ff6-ad80-9628de38623d",
