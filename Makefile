@@ -46,6 +46,7 @@ by_org_admin:
 
 auth:
 	$(if $(poolId),$(eval token:=$(shell node scripts/token.js $(poolId) $(clientId) $(username) $(password))))
+	echo "token $(token)"
 
 create_org:
 	psql -U$(su) openchs < create_organisation.sql
@@ -76,7 +77,7 @@ deploy_concepts: deploy_non_coded_concepts
 	@$(foreach file,$(shell find . -iname '*concepts.json'),$(call _curl,POST,concepts,$(file));)
 
 deploy_refdata: deploy_concepts
-	@$(foreach item,locations catchments programs encounterTypes,\
+	@$(foreach item,locations catchments programs encounterTypes videos,\
 		$(if $(shell ls "$(item).json" 2> /dev/null),$(call _curl,POST,$(item),$(item).json);))
 
 	@$(foreach file,$(shell find . -iname 'operationalPrograms.json'),$(call _curl,POST,operationalPrograms,$(file));)

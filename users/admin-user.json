@@ -1,0 +1,13 @@
+[
+  {
+    "uuid": "a42f4ab8-14b3-4110-bb67-e5f0b180b25d",
+    "name": "sr-admin",
+    "password": "password",
+    "email": "openchssupport+staging+sewa@samanvayfoundation.org",
+    "phoneNumber": "+919999999999",
+    "organisationUUID": "b5399a48-60c4-4cea-b19e-d824c9dd00f5",
+    "operatingIndividualScope": "None",
+    "admin": false,
+    "orgAdmin": true
+  }
+]
