@@ -54,8 +54,8 @@ create_org:
 deploy_admin_user: by_admin
 	@$(call _curl,POST,users,users/admin-user.json)
 
-deploy_test_users:
-	@$(call _curl,POST,users,users/test-users.json)
+deploy_dev_users:
+	@$(call _curl,POST,users,users/dev-users.json)
 
 # <refdata>
 _get_non_coded_concepts=node -e "console.log(JSON.stringify(require('$(1)').filter(x=>x.dataType!=='Coded')));"
@@ -105,17 +105,17 @@ deploy_rules: ##
 deps:
 	npm i
 
-deploy_admin_user_dev: dev by_admin deploy_admin_user
+deploy_admin_user_dev: create_org dev by_admin deploy_admin_user
 
 deploy_admin_user_prod: prod by_admin auth deploy_admin_user #password=
 
 deploy_admin_user_staging: staging by_admin auth deploy_admin_user #password=
 
-deploy_test_users_prod: prod by_admin auth deploy_test_users #password=
+deploy_dev_users_prod: prod by_admin auth deploy_dev_users #password=
 
-deploy_test_users_staging: staging by_admin auth deploy_test_users #password=
+deploy_dev_users_staging: staging by_admin auth deploy_dev_users #password=
 
-deploy_users_dev: dev by_admin deploy_admin_user deploy_test_users
+deploy_users_dev: dev by_admin deploy_admin_user deploy_dev_users
 
 deploy_rules_dev: dev by_org_admin deploy_rules
 
@@ -123,7 +123,7 @@ deploy_rules_prod: prod by_org_admin auth deploy_rules #password=
 
 deploy_rules_staging: staging by_org_admin auth deploy_rules #password=
 
-deploy_dev: dev by_org_admin _deploy
+deploy_dev: dev deploy_admin_user_dev by_org_admin _deploy deploy_dev_users
 
 deploy_prod: prod by_org_admin auth _deploy #password=
 
