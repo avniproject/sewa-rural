@@ -1,8 +1,5 @@
 
-org_name=Sewa Rural Old
-#org_admin_name=adminsr
-#adminsr should belong to 'sewa rural old' to deploy to prod properly
-org_admin_name=FIX_PROD_ADMIN_SR_USER
+org_admin_name=adminsr
 
 #============commonMakefile=====================================
 
@@ -32,6 +29,7 @@ prod:
 	$(eval poolId:=$(OPENCHS_PROD_USER_POOL_ID))
 	$(eval clientId:=$(OPENCHS_PROD_APP_CLIENT_ID))
 	$(eval server_url:= https://server.openchs.org:443)
+	$(eval org_admin_name:=adminold@sr)
 
 staging:
 	$(eval poolId:=$(OPENCHS_STAGING_USER_POOL_ID))
