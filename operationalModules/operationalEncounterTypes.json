@@ -18,6 +18,14 @@
       }
     },
     {
+      "uuid": "5159bf71-1a41-4b4e-a38f-2196bb88b7af",
+      "name": "Midline Visit",
+      "encounterType": {
+        "uuid": "69a5c071-587f-4c53-bf09-781762138d5f",
+        "comment": "Midline Visit"
+      }
+    },
+    {
       "uuid": "f0b5d456-5f1a-434c-857e-fb52e6a9fa1f",
       "name": "Half-Yearly Visit",
       "encounterType": {
