@@ -17,23 +17,27 @@ module.exports = IDI.configure({
         },
         "forms": [
             "./registrationForm.json",
+            "./adolescent/sickleCellVulnerabilityForm.json",
         ],
         "formMappings": [
             "./formMappings.json",
         ],
         "formDeletions": [
-            "./mother/enrolmentDeletions.json",
+            "./mother/enrolmentDeletions.json"
         ],
         "formAdditions": [
             "./mother/enrolmentAdditions.json",
         ],
         "catchments": ["./catchments.json"],
         "checklistDetails": [],
-        "concepts": ["./concepts.json"],
+        "concepts": [
+            "./concepts.json",
+            "./adolescent/sickleCellVulnerabilityConcepts.json",
+        ],
         "addressLevelTypes": [],
         "locations": ["./locations.json"],
         "programs": [],
-        "encounterTypes": [],
+        "encounterTypes": ["./encounterTypes.json"],
         "operationalEncounterTypes": ["./operationalModules/operationalEncounterTypes.json"],
         "operationalPrograms": ["./operationalModules/operationalPrograms.json"],
         "operationalSubjectTypes": ["./operationalModules/operationalSubjectTypes.json"],

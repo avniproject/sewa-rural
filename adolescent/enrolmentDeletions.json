@@ -1,0 +1,15 @@
+{
+  "uuid": "32b3555a-7fe9-4246-a470-21ab2d2954e2",
+  "userUUID": "5fed2907-df3a-4867-aef5-c87f4c78a31a",
+  "comment": "Remove All Questions from enrolment form",
+  "formElementGroups": [
+    {
+      "uuid": "92caa1c4-f5fc-4275-bbb0-cb933e407790",
+      "formElements": [
+        {
+          "uuid": "bb35645a-5b32-45a4-bab9-c0aa459b4865"
+        }
+      ]
+    }
+  ]
+}

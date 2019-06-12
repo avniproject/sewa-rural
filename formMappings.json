@@ -4,5 +4,12 @@
     "formUUID": "6fd2d292-c5bc-4e2d-b4d5-9de1e7026916",
     "subjectTypeUUID": "9f2af1f9-e150-4f8e-aad3-40bb7eb05aa3",
     "comment": "Individual Registration"
+  },
+  {
+    "uuid": "41bfd6e4-6f40-42b2-9928-f15f3d2cbad0",
+    "formUUID": "e728eab9-af8b-46ea-9d5f-f1a9f8727567",
+    "encounterTypeUUID": "964c0c61-698c-4ad9-8b82-7a157dc8f8bd",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "comment": "Sickle Cell Vulnerability"
   }
 ]
