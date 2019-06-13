@@ -1,5 +1,6 @@
 const _ = require('lodash');
 
 module.exports = _.merge({},
-    require('./adolescent/sickleCellFormHandler')
+    require('./adolescent/sickleCellFormHandler'),
+    require('./adolescent/visitSchedules')
 );

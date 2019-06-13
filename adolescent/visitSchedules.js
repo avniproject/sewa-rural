@@ -1,44 +1,29 @@
-import {RuleFactory, VisitScheduleBuilder} from "rules-config";
+import {RuleFactory, VisitScheduleBuilder, RuleCondition} from "rules-config";
+import moment from "moment";
 
-const GMVisitSchedule = RuleFactory("", "VisitSchedule");
+const SickleCellFollowup = RuleFactory("92cd5f05-eec3-4e70-9537-62119c5e3a16", "VisitSchedule");
 
-@GMVisitSchedule("5daad80c-80c5-4471-b972-80aaab3e9592", "JSS Growth Monitoring Recurring Visit", 100.0)
-class GMVisitScheduleJSS {
+@SickleCellFollowup("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Sickle Cell Followup", 100.0)
+class SickleCellFollowupScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-
-        //not scheduling next visit when recording unplanned visit
-        if(_.isNil(programEncounter.earliestVisitDateTime)){
-            return [];
-        }
-
+        const programEnrolment = programEncounter.programEnrolment;
         const scheduleBuilder = new VisitScheduleBuilder({
-            programEnrolment: programEncounter.programEnrolment
+            programEncounter: programEncounter,
+            programEnrolment: programEnrolment,
         });
-        // const scheduledDateTime = programEncounter.earliestVisitDateTime;
-        // const scheduledDate = moment(scheduledDateTime).date();
-        // const encounterDateTime = programEncounter.encounterDateTime;
-        // const dayOfMonth = programEncounter.programEnrolment.findObservation("Day of month for growth monitoring visit").getValue();
-        // var monthForNextVisit = moment(scheduledDateTime).month() + 1;
-        // var earliestDate = moment(scheduledDateTime).month(monthForNextVisit).date(dayOfMonth).toDate();
-        // if(moment(earliestDate).month() !== monthForNextVisit){
-        //     earliestDate = moment(scheduledDateTime).add(1, 'M').endOf('month').toDate();
-        // }
-        // const maxDate = moment(earliestDate).add(3, 'days').toDate();
-        // visitSchedule.forEach((vs) => scheduleBuilder.add(vs));
-        // scheduleBuilder.add({
-        //         name: "Growth Monitoring Visit",
-        //         encounterType: "Anthropometry Assessment",
-        //         earliestDate: earliestDate,
-        //         maxDate: maxDate
-        //     }
-        // );
+
+        scheduleBuilder.add({
+            name: "Sickle Cell Vulnerability Followup",
+            encounterType: "Sickle Cell Vulnerability",
+            earliestDate: moment().add(1, "month"),
+            maxDate: moment().add(1, "month").add(15, "days")
+        }).when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Disease");
+
         return scheduleBuilder.getAllUnique("encounterType");
 
     }
 }
 
-
-
 export {
-    GMVisitScheduleJSS,
+    SickleCellFollowupScheduleSR,
 }

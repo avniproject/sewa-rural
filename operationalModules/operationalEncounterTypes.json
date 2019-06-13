@@ -3,7 +3,7 @@
   "operationalEncounterTypes": [
     {
       "uuid": "e95b3f1d-0ae6-4adf-a35b-ddfc2c56a7b6",
-      "name": "Sickle cell disease",
+      "name": "Sickle Cell Vulnerability",
       "encounterType": {
         "uuid": "964c0c61-698c-4ad9-8b82-7a157dc8f8bd"
       }
