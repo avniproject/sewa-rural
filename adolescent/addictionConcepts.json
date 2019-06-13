@@ -1,0 +1,108 @@
+[
+  {
+    "uuid": "3f55b097-3714-45c3-a3ec-dc05c6b200d3",
+    "name": "Chewable"
+  },
+  {
+    "uuid": "b76977fc-1532-4709-860f-1f44d8e7d457",
+    "name": "Non Chewable"
+  },
+  {
+    "name": "If tobbacco, what is the type?",
+    "uuid": "11c4b573-a155-4e63-bc88-070abdf29e33",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "3f55b097-3714-45c3-a3ec-dc05c6b200d3",
+        "abnormal": false
+      },
+      {
+        "uuid": "b76977fc-1532-4709-860f-1f44d8e7d457",
+        "abnormal": false
+      },
+      {
+        "uuid": "246df73a-07d8-4924-8cf9-787dea8278fe",
+        "abnormal": false
+      }
+    ]
+  },
+  {
+    "name": "How many pouches do you consume per day?",
+    "uuid": "fc5cc072-4df1-433d-a667-fa7014dc4377",
+    "dataType": "Numeric"
+  },
+  {
+    "name": "How many cigarettes/bidis do you consume per day?",
+    "uuid": "c9fc6d13-3567-4dc3-b04b-df14e734d984",
+    "dataType": "Numeric"
+  },
+  {
+    "name": "How much money you spend daily for tobacco pouches or bidi?",
+    "uuid": "376dd1e6-37ca-408f-a117-0a4fbe3498f4",
+    "dataType": "Numeric"
+  },
+  {
+    "uuid": "463500fe-b655-4e76-bdd6-df6bb38c6b64",
+    "name": "Occasionally"
+  },
+  {
+    "name": "If alcohol, frequency of consumption",
+    "uuid": "5a8ff9bf-9fa3-4465-981f-f6df0d0eaa17",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "ba04b615-f4af-4b5e-87aa-1ce70f28a1b1",
+        "abnormal": false
+      },
+      {
+        "uuid": "463500fe-b655-4e76-bdd6-df6bb38c6b64",
+        "abnormal": false
+      }
+    ]
+  },
+  {
+    "name": "Have you been referred?",
+    "uuid": "9d9195cf-9f6f-4498-9592-29d3684ba006",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Have you visited hospital?",
+    "uuid": "063023f9-c96a-447e-b877-a61ec5ff49ca",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Knowing about hazards of tobacco have you quit tobacco/alcohol?",
+    "uuid": "d351bfde-bec8-4b0c-aeb0-23f99403b387",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "If quitted then since how many days?",
+    "uuid": "659e398f-3fa0-4938-8ca7-38c1366b2bb0",
+    "dataType": "Numeric"
+  }
+
+]

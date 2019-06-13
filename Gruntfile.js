@@ -45,7 +45,7 @@ module.exports = IDI.configure({
             "dev": ["./users/dev-users.json"],
         },
         "videos": ["./videos.json"],
-        "rules": [],
+        "rules": ["./rules.js"],
         "organisationSql": []
     }
 }, rulesConfigInfra);
