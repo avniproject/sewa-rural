@@ -11,5 +11,12 @@
     "encounterTypeUUID": "964c0c61-698c-4ad9-8b82-7a157dc8f8bd",
     "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
     "comment": "Sickle Cell Vulnerability"
+  },
+  {
+    "uuid": "4b8ed07a-f1bd-4227-8f1d-37ad2b32ae95",
+    "formUUID": "dac9f78d-c0d5-48ff-ba0e-cb48106437b9",
+    "encounterTypeUUID": "9e3b24de-2f4d-416f-a5fc-eaa2a460989a",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "comment": "Chronic Sickness"
   }
 ]

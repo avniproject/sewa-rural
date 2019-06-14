@@ -18,6 +18,7 @@ module.exports = IDI.configure({
         "forms": [
             "./registrationForm.json",
             "./adolescent/sickleCellVulnerabilityForm.json",
+            "./adolescent/chronicSickness.json",
         ],
         "formMappings": [
             "./formMappings.json",
@@ -34,6 +35,7 @@ module.exports = IDI.configure({
         "concepts": [
             "./concepts.json",
             "./adolescent/sickleCellVulnerabilityConcepts.json",
+            "./adolescent/chronicSicknessConcepts.json",
         ],
         "addressLevelTypes": [],
         "locations": ["./locations.json"],

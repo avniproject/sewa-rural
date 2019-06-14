@@ -9,6 +9,13 @@
       }
     },
     {
+      "uuid": "0132a020-0796-403b-bbfe-060058b15999",
+      "name": "Chronic Sickness",
+      "encounterType": {
+        "uuid": "9e3b24de-2f4d-416f-a5fc-eaa2a460989a"
+      }
+    },
+    {
       "uuid": "e3445db7-d843-4c6b-8c65-0af884acf933",
       "name": "Annual Visit",
       "encounterType": {
