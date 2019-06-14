@@ -4,6 +4,7 @@ import _ from "lodash";
 
 const AnnualVisitSchedule = RuleFactory("92cd5f05-eec3-4e70-9537-62119c5e3a16", "VisitSchedule");
 const ChronicSicknessFollowup = RuleFactory("dac9f78d-c0d5-48ff-ba0e-cb48106437b9", "VisitSchedule");
+const MenstrualDisorderFollowup = RuleFactory("bb9bf699-92f3-4646-9cf4-f1792fa2c3a6", "VisitSchedule");
 
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Sickle Cell Followup", 100.0)
 class AnnualVisitScheduleSR {
@@ -15,11 +16,11 @@ class AnnualVisitScheduleSR {
         };
         const scheduleBuilder = new VisitScheduleBuilder(context);
 
-        if(programEncounter.encounterType.name === "Annual Visit") {
+        if (programEncounter.encounterType.name === "Annual Visit") {
             let oneMonthFromNow =
                 moment().add(1, "month").startOf("day");
 
-            if(new RuleCondition(context).when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Disease").matches()) {
+            if (new RuleCondition(context).when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Disease").matches()) {
                 scheduleBuilder.add({
                     name: "Sickle Cell Vulnerability Followup",
                     encounterType: "Sickle Cell Vulnerability",
@@ -28,14 +29,10 @@ class AnnualVisitScheduleSR {
                 });
             }
 
-            if(new RuleCondition(context).when
+            if (new RuleCondition(context).when
                 .valueInEncounter("Is there any other condition you want to mention about him/her?")
                 .containsAnswerConceptNameOtherThan("No problem")
-                .or
-                .valueInEncounter("Sickness in last 1 months")
-                .containsAnswerConceptNameOtherThan("No sickness")
-                .matches()
-            ) {
+                .matches()) {
                 scheduleBuilder.add({
                     name: "Chronic Sickness Followup",
                     encounterType: "Chronic Sickness",
@@ -52,9 +49,11 @@ class AnnualVisitScheduleSR {
                 earliestDate: quarterlyVisitEarliestDate.toDate(),
                 maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
             });
+
+            this.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
         }
 
-        if(programEncounter.encounterType.name === "Quarterly Visit") {
+        if (programEncounter.encounterType.name === "Quarterly Visit") {
 
             const currentMonth = moment().format("MMMM");
             const visitTable = {
@@ -63,7 +62,7 @@ class AnnualVisitScheduleSR {
                 "May": {"nextMonth": "October", "incrementInYear": 0},
             };
 
-            if(visitTable[currentMonth]) {
+            if (visitTable[currentMonth]) {
                 let quarterlyVisitEarliestDate = moment()
                     .date(1)
                     .month(visitTable[currentMonth].nextMonth)
@@ -77,9 +76,27 @@ class AnnualVisitScheduleSR {
                     maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
                 });
             }
+
+            this.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
+    }
+
+    static scheduleMenstualDisorderFollowup(context, scheduleBuilder) {
+        if (new RuleCondition(context).when
+            .valueInEncounter("Are you able to do daily routine work during menstruation?").is.yes
+            .or
+            .valueInEncounter("Does she remain absent during menstruation?").is.yes
+            .matches()
+        ) {
+            scheduleBuilder.add({
+                name: "Menstrual Disorder Followup",
+                encounterType: "Menstrual Disorder",
+                earliestDate: moment().add(1, "month").toDate(),
+                maxDate: moment().add(1, "month").add(15, "days").toDate()
+            });
+        }
     }
 }
 
@@ -101,7 +118,26 @@ class ChronicSicknessFollowupScheduleSR {
     }
 }
 
+@MenstrualDisorderFollowup("0dd989d4-027b-4b66-99d8-f91183981965", "Menstrual Disorder Followup", 100.0)
+class MenstrualDisorderFollowupSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        const programEnrolment = programEncounter.programEnrolment;
+        const scheduleBuilder = new VisitScheduleBuilder({
+            programEncounter: programEncounter,
+            programEnrolment: programEnrolment,
+        });
+        scheduleBuilder.add({
+            name: "Menstrual Disorder Followup",
+            encounterType: "Menstrual Disorder",
+            earliestDate: moment().add(1, "month").toDate(),
+            maxDate: moment().add(1, "month").add(15, "days").toDate()
+        });
+        return scheduleBuilder.getAllUnique("encounterType");
+    }
+}
+
 export {
     AnnualVisitScheduleSR,
     ChronicSicknessFollowupScheduleSR,
+    MenstrualDisorderFollowupSR
 }

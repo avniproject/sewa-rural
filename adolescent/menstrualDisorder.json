@@ -1,0 +1,120 @@
+{
+  "name": "Menstrual Disorder",
+  "uuid": "bb9bf699-92f3-4646-9cf4-f1792fa2c3a6",
+  "formType": "ProgramEncounter",
+  "formElementGroups": [
+    {
+      "uuid": "b6ae999b-7cf3-45c9-ba9c-ab87ef7f1143",
+      "name": "Vulnerability form for menstrual disorders",
+      "display": "Vulnerability form for menstrual disorders",
+      "displayOrder": 1,
+      "formElements": [
+        {
+          "name": "Have you been referred to hospital?",
+          "uuid": "dda59f8c-059d-43c8-b8f7-bc3948984e70",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "0a025ca8-1f44-4e59-9419-c3f3afad785e"
+          },
+          "displayOrder": 1,
+          "mandatory": true
+        },
+        {
+          "name": "Have you visited Hospital?",
+          "uuid": "9a63b5f3-613d-44e3-b483-55385537b1d5",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "f96ee9f1-5035-4cbc-87f2-be3c6a19463f"
+          },
+          "displayOrder": 2,
+          "mandatory": true
+        },
+        {
+          "name": "Have you taken treatment?",
+          "uuid": "f0741ab6-1a2e-439f-8c0a-26d458557e5e",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "581d7780-2a2e-4d8d-8791-9d0b34fde39c"
+          },
+          "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "Is your complaint resolved?",
+          "uuid": "ff3858bb-44c2-4e28-8b85-12c77b68fdf3",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "4256c7fb-6678-43fa-bfee-18bc9e362e26"
+          },
+          "displayOrder": 4,
+          "mandatory": true
+        },
+        {
+          "name": "do you still remain absent due to menstrual problem?",
+          "uuid": "2fa55882-714d-4b00-aa95-5416bc7d369c",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "e673b2ba-a4c9-466c-9a2a-955da09b184c"
+          },
+          "displayOrder": 5,
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "uuid": "4135bfa5-64f5-4839-bbb4-4d2c9f10b94b",
+      "name": "Counselling",
+      "comment": "Message needs to be added to openchs-client translation files for this to show up",
+      "display": "Counselling",
+      "displayOrder": 2,
+      "formElements": [
+        {
+          "name": "MenstrualDisorderCounselling for SR",
+          "uuid": "bd19714e-fdf5-43a3-9313-714ebbff033d",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4"
+          },
+          "displayOrder": 0.1,
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "003344bb-2ed0-4919-ac36-3b42581af301",
+      "name": "Counseling points for menstrual disorders",
+      "display": "Counseling points for menstrual disorders",
+      "displayOrder": 3,
+      "formElements": [
+        {
+          "name": "Counseling done?",
+          "uuid": "fd78978c-7f93-4ad1-925d-6a7b619f42d0",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "f44951a6-adc2-4983-947f-f8327ce05419"
+          },
+          "displayOrder": 1,
+          "mandatory": true
+        },
+        {
+          "name": "video shown?",
+          "uuid": "c1139a63-9093-49dc-a1ae-725fa5ce548e",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "21d7a3e3-a301-48d1-9992-d1166001442b"
+          },
+          "displayOrder": 2,
+          "mandatory": true
+        }
+      ]
+    }
+  ]
+}
