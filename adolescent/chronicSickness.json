@@ -109,6 +109,25 @@
           "mandatory": true
         }
       ]
+    },{
+      "uuid": "2c05a8de-83be-47f0-b5f4-c078e660a888",
+      "name": "Counselling",
+      "comment": "Message needs to be added to openchs-client translation files for this to show up",
+      "display": "Counselling",
+      "displayOrder": 2,
+      "formElements": [
+        {
+          "name": "ChronicSicknessCounselling for SR",
+          "uuid": "1ed11d32-548c-44b4-b429-473551b4b8b9",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4"
+          },
+          "displayOrder": 0.1,
+          "mandatory": false
+        }
+      ]
     }
   ]
 }
