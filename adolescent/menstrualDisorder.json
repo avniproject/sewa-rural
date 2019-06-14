@@ -54,6 +54,18 @@
           "mandatory": true
         },
         {
+          "name": "SR Is your complaint resolved counselling",
+          "uuid": "c25f08f6-dc26-40f4-b87d-a4c572cc0a7b",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4",
+            "comment": "Placeholder for counselling form element"
+          },
+          "displayOrder": 4.5,
+          "mandatory": false
+        },
+        {
           "name": "do you still remain absent due to menstrual problem?",
           "uuid": "2fa55882-714d-4b00-aa95-5416bc7d369c",
           "keyValues": [],

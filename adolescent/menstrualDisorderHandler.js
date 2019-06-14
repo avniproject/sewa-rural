@@ -32,6 +32,12 @@ class MenstrualDisorderHandlerSR {
         statusBuilder.show().when.valueInEncounter("Have you visited hospital?").is.yes;
     }
 
+    @WithName("SR Is your complaint resolved counselling")
+    @WithStatusBuilder
+    xyz3([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Is your complaint resolved?").is.no;
+    }
+
 }
 
 
