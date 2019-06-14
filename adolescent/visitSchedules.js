@@ -30,7 +30,7 @@ class AnnualVisitScheduleSR {
                 maxDate: moment().add(1, "month").add(15, "days").toDate()
             }).when
                 .valueInEncounter("Is there any other condition you want to mention about him/her?").containsAnswerConceptNameOtherThan("No problem")
-                .or.valueInEncounter("Sickness in last 3 months").containsAnswerConceptNameOtherThan("No sickness");
+                .or.valueInEncounter("Sickness in last 1 months").containsAnswerConceptNameOtherThan("No sickness");
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
