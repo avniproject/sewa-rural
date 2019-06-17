@@ -1,0 +1,238 @@
+{
+  "name": "Severe Anemia",
+  "uuid": "12cd243c-851c-4fd1-bc28-ab0b0141c76f",
+  "formType": "ProgramEncounter",
+  "formElementGroups": [
+    {
+      "uuid": "1bc9eaa4-6ad4-44cd-b536-99b18932ec73",
+      "name": "Medical Problems",
+      "display": "Medical Problems",
+      "displayOrder": 1,
+      "formElements": [
+        {
+          "name": "Does she/he have difficulty in breathing?",
+          "uuid": "f792615b-1131-43ce-a5be-c6cb06bf604a",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "bc1e3b8e-5ecf-4ac4-8058-9a1e228b0304"
+          },
+          "displayOrder": 1,
+          "mandatory": true
+        },
+        {
+          "name": "Have you been referred to hospital & refferal slip given?",
+          "uuid": "87d0fd7e-5ffd-4db5-b10e-a8ed99779f9a",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "eb211234-ece9-416b-97f4-d8c7cbe5ac0e"
+          },
+          "displayOrder": 2,
+          "mandatory": true
+        },
+        {
+          "name": "Have you visited hospital?",
+          "uuid": "7be60e15-df1c-4b99-9f25-3a597e64f69e",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "f96ee9f1-5035-4cbc-87f2-be3c6a19463f"
+          },
+          "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "Which treatment have been given?",
+          "uuid": "a9c70ce6-a583-4d25-8ee5-9ae5874ae9c5",
+          "keyValues": [],
+          "type": "MultiSelect",
+          "concept": {
+            "uuid": "eaddd65f-52a7-4003-8228-0dcf5d350301"
+          },
+          "displayOrder": 4,
+          "mandatory": true
+        },
+        {
+          "name": "Do you get food from Anganwadi?",
+          "uuid": "5ce9449f-fe21-456e-b5d2-b6f0574e8b56",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "86576028-c372-4e4e-9c14-52926eeb6995"
+          },
+          "displayOrder": 5,
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "uuid": "8328728d-3ae8-4bb0-b0ba-52e1f2559ab0",
+      "name": "Medical Details",
+      "display": "Medical Details",
+      "displayOrder": 2,
+      "formElements": [
+        {
+          "name": "Iron tablets consumed in last week?",
+          "uuid": "17d6caa0-9de2-451f-a937-2fbf0797f5a6",
+          "keyValues": [],
+          "concept": {
+            "uuid": "a0fa3ce5-adc6-4c6e-9715-2f8d53b986ca"
+          },
+          "displayOrder": 1,
+          "mandatory": true
+        },
+        {
+          "name": "Any other medicine if given, have you taken that?",
+          "uuid": "67cd37c0-dbb6-4b21-86a9-fa1ed8dcfbaa",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "d1e2923c-f947-4352-849f-300b3d7a696b"
+          },
+          "displayOrder": 2,
+          "mandatory": true
+        },
+        {
+          "name": "Albendazole tablets received?",
+          "uuid": "2c310e04-74e9-47d5-b929-0a85bc204427",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "a2e181c3-0827-4da2-9121-a59386449823"
+          },
+          "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "Have your symptoms relieved?",
+          "uuid": "c00a5f9b-4c53-42d5-99c2-7524881c1bb3",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "60b4a01b-cc37-4b23-94b1-cd6d564648ff"
+          },
+          "displayOrder": 4,
+          "mandatory": true
+        },
+        {
+          "name": "HB after 3 months of treatment?",
+          "uuid": "f324bbed-d62c-4c9e-9992-3da9399f55b0",
+          "keyValues": [],
+          "concept": {
+            "uuid": "e364c3c1-087b-45b4-a78b-878e967f5119"
+          },
+          "displayOrder": 5,
+          "mandatory": true
+        },
+        {
+          "name": "Taking B12 folic acid tablets?",
+          "uuid": "418300d8-1a78-4578-99f5-28709f644c51",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "d93edddb-4024-46d7-a988-d62c5a397fa9"
+          },
+          "displayOrder": 6,
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "uuid": "195a5f60-15a6-48c9-8324-8939f1bc859f",
+      "name": "Counseling Points",
+      "display": "Counseling Points",
+      "displayOrder": 3,
+      "formElements": [
+        {
+          "name": "SR SevereAnemiaCounselling",
+          "uuid": "e518cf19-763f-4888-8bcd-d5629894a85d",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4"
+          },
+          "displayOrder": 0.1,
+          "mandatory": false
+        },
+        {
+          "name": "Have you done your blood testing?",
+          "uuid": "59bc30e6-27f6-4791-81ed-2f7d1d269b35",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "c9815f4a-6e3f-4dd5-9c3b-55bbc42c1a09"
+          },
+          "displayOrder": 1,
+          "mandatory": true
+        },
+        {
+          "name": "Do you know your HB?",
+          "uuid": "c7c68ed4-7170-4535-b8ff-078ed08f3f69",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "dc6e287c-a83c-43bd-a0f5-3604ce348249"
+          },
+          "displayOrder": 2,
+          "mandatory": true
+        },
+        {
+          "name": "What are symptoms of anemia?",
+          "uuid": "9cc5e3be-b825-4aa2-a9f1-ead9b2499412",
+          "keyValues": [],
+          "type": "MultiSelect",
+          "concept": {
+            "uuid": "588f193e-51f4-46b5-b2db-9b4b3d63e774"
+          },
+          "displayOrder": 3,
+          "mandatory": false
+        },
+        {
+          "name": "In which food iron contains are more?",
+          "uuid": "28d68208-ae59-4801-831e-165d47f2aca3",
+          "keyValues": [],
+          "type": "MultiSelect",
+          "concept": {
+            "uuid": "358dbc54-b35d-4c70-9945-6bd2b4c062b2"
+          },
+          "displayOrder": 4,
+          "mandatory": false
+        },
+        {
+          "name": "Anemia video shown?",
+          "uuid": "4a73fdc2-4f24-4504-948c-f1deb48bdf72",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "2f2f6737-2d14-4c92-b225-8e45903ca7e9"
+          },
+          "displayOrder": 5,
+          "mandatory": true
+        },
+        {
+          "name": "Counseling done?",
+          "uuid": "67c590d2-bbe5-4d95-978d-34048d64e9d6",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "f44951a6-adc2-4983-947f-f8327ce05419"
+          },
+          "displayOrder": 6,
+          "mandatory": true
+        },
+        {
+          "name": "Home visit done?",
+          "uuid": "8e880bfd-db2d-4523-b308-71200c6d4fa3",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "4c594be1-997f-43f7-a419-5d490162706a"
+          },
+          "displayOrder": 7,
+          "mandatory": true
+        }
+      ]
+    }
+  ]
+}

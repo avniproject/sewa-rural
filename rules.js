@@ -5,4 +5,5 @@ module.exports = _.merge({},
     require('./adolescent/visitSchedules'),
     require('./adolescent/chronicSicknessFormHandler'),
     require('./adolescent/menstrualDisorderHandler'),
+    require('./adolescent/severeAnemiaFormHandler')
 );

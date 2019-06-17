@@ -25,5 +25,12 @@
     "encounterTypeUUID": "5e206e14-aad9-4b7c-9fb0-f25c12643696",
     "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
     "comment": "Menstrual Disorder"
+  },
+  {
+    "uuid": "339975a2-d2e6-408d-a8a9-82637500644a",
+    "formUUID": "12cd243c-851c-4fd1-bc28-ab0b0141c76f",
+    "encounterTypeUUID": "31d1dd8f-634c-41ee-8e47-7679b85b74af",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "comment": "Severe Anemia"
   }
 ]

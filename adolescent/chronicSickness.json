@@ -109,7 +109,8 @@
           "mandatory": true
         }
       ]
-    },{
+    },
+    {
       "uuid": "2c05a8de-83be-47f0-b5f4-c078e660a888",
       "name": "Counselling",
       "comment": "Message needs to be added to openchs-client translation files for this to show up",

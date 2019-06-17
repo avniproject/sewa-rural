@@ -10,5 +10,9 @@
   {
     "uuid": "5e206e14-aad9-4b7c-9fb0-f25c12643696",
     "name": "Menstrual Disorder"
+  },
+  {
+    "uuid": "31d1dd8f-634c-41ee-8e47-7679b85b74af",
+    "name": "Severe Anemia"
   }
 ]

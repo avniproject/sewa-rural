@@ -23,6 +23,13 @@
       }
     },
     {
+      "uuid": "6a15532c-9fe9-46ec-abd2-b2478b4ee385",
+      "name": "Severe Anemia",
+      "encounterType": {
+        "uuid": "31d1dd8f-634c-41ee-8e47-7679b85b74af"
+      }
+    },
+    {
       "uuid": "e3445db7-d843-4c6b-8c65-0af884acf933",
       "name": "Annual Visit",
       "encounterType": {
