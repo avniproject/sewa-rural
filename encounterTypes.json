@@ -14,5 +14,9 @@
   {
     "uuid": "31d1dd8f-634c-41ee-8e47-7679b85b74af",
     "name": "Severe Anemia"
+  },
+  {
+    "uuid": "27d62c75-b61d-4cf8-a840-4a839388d51a",
+    "name": "Moderate Anemia"
   }
 ]

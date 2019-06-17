@@ -1,5 +1,3 @@
-import RuleHelper from "../../ihmp/RuleHelper";
-
 const _ = require("lodash");
 import {
     FormElementsStatusHelper,

@@ -30,6 +30,13 @@
       }
     },
     {
+      "uuid": "1e22fdc9-9d2d-4aff-adf6-a498d76e4d63",
+      "name": "Moderate Anemia",
+      "encounterType": {
+        "uuid": "27d62c75-b61d-4cf8-a840-4a839388d51a"
+      }
+    },
+    {
       "uuid": "e3445db7-d843-4c6b-8c65-0af884acf933",
       "name": "Annual Visit",
       "encounterType": {

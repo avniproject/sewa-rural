@@ -21,6 +21,7 @@ module.exports = IDI.configure({
             "./adolescent/chronicSickness.json",
             "./adolescent/menstrualDisorder.json",
             "./adolescent/severeAnemia.json",
+            "./adolescent/moderateAnemia.json",
         ],
         "formMappings": [
             "./formMappings.json",
@@ -41,6 +42,7 @@ module.exports = IDI.configure({
             "./adolescent/chronicSicknessConcepts.json",
             "./adolescent/menstrualDisorderConcepts.json",
             "./adolescent/severeAnemiaConcepts.json",
+            "./adolescent/moderateAnemiaConcepts.json",
         ],
         "addressLevelTypes": [],
         "locations": ["./locations.json"],

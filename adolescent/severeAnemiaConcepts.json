@@ -57,83 +57,8 @@
     ]
   },
   {
-    "name": "Do you get food from Anganwadi?",
-    "uuid": "86576028-c372-4e4e-9c14-52926eeb6995",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
-    "name": "Iron tablets consumed in last week?",
-    "uuid": "a0fa3ce5-adc6-4c6e-9715-2f8d53b986ca",
-    "dataType": "Numeric"
-  },
-  {
-    "name": "Any other medicine if given, have you taken that?",
-    "uuid": "d1e2923c-f947-4352-849f-300b3d7a696b",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
-    "name": "Have your symptoms relieved?",
-    "uuid": "60b4a01b-cc37-4b23-94b1-cd6d564648ff",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
-    "name": "HB after 3 months of treatment?",
-    "uuid": "e364c3c1-087b-45b4-a78b-878e967f5119",
-    "dataType": "Numeric"
-  },
-  {
-    "name": "Taking B12 folic acid tablets?",
-    "uuid": "d93edddb-4024-46d7-a988-d62c5a397fa9",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
     "name": "Have you done your blood testing?",
     "uuid": "c9815f4a-6e3f-4dd5-9c3b-55bbc42c1a09",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
-    "name": "Do you know your HB?",
-    "uuid": "dc6e287c-a83c-43bd-a0f5-3604ce348249",
     "dataType": "Coded",
     "answers": [
       {
@@ -210,19 +135,6 @@
       },
       {
         "uuid": "7cc32986-45f6-474e-93bc-9d015fff4415"
-      }
-    ]
-  },
-  {
-    "name": "Anemia video shown?",
-    "uuid": "2f2f6737-2d14-4c92-b225-8e45903ca7e9",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]
   }

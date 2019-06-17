@@ -32,5 +32,12 @@
     "encounterTypeUUID": "31d1dd8f-634c-41ee-8e47-7679b85b74af",
     "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
     "comment": "Severe Anemia"
+  },
+  {
+    "uuid": "f85d9c4f-9918-4583-b90b-55493644576c",
+    "formUUID": "038e6819-2a41-44f5-8473-eda5eeb37806",
+    "encounterTypeUUID": "27d62c75-b61d-4cf8-a840-4a839388d51a",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "comment": "Moderate Anemia"
   }
 ]
