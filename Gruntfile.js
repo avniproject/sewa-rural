@@ -1,6 +1,5 @@
 const rulesConfigInfra = require('rules-config/infra');
 const IDI = require('openchs-idi');
-const secrets = require('../secrets.json');
 
 module.exports = IDI.configure({
     "name": "sewa_rural",
@@ -10,26 +9,33 @@ module.exports = IDI.configure({
         "dev": "adminsr",
         "prod": "adminold@sr",
     },
-    "secrets": secrets,
+    "secrets": "../secrets.json",
     "files": {
         "adminUsers": {
             "dev": ["./users/admin-user.json"],
         },
         "forms": [
+            "./adolescent/metadata/adolescentEnrolment.json",
+            "./adolescent/metadata/adolescentProgramExitForm.json",
+            "./adolescent/metadata/adolescentRoutineVisit.json",
+            "./adolescent/metadata/adolescentDropoutForm.json",
+            "./adolescent/metadata/adolescentDropoutFollowupForm.json",
+            "./adolescent/metadata/adolescentProgramEncounterCancellationForm.json",
             "./registrationForm.json",
-            "./adolescent/sickleCellVulnerabilityForm.json",
-            "./adolescent/chronicSickness.json",
-            "./adolescent/menstrualDisorder.json",
-            "./adolescent/severeAnemia.json",
-            "./adolescent/moderateAnemia.json",
-            "./adolescent/severeMalnutrition.json",
+            "./adolescent/followups/sickleCellVulnerabilityForm.json",
+            "./adolescent/followups/chronicSickness.json",
+            "./adolescent/followups/menstrualDisorder.json",
+            "./adolescent/followups/severeAnemia.json",
+            "./adolescent/followups/moderateAnemia.json",
+            "./adolescent/followups/severeMalnutrition.json",
         ],
         "formMappings": [
+            "./adolescent/metadata/formMappings.json",
             "./formMappings.json",
         ],
         "formDeletions": [
             "./mother/enrolmentDeletions.json",
-            "./adolescent/enrolmentDeletions.json"
+            "./adolescent/metadata/enrolmentDeletions.json"
         ],
         "formAdditions": [
             "./mother/enrolmentAdditions.json",
@@ -37,19 +43,26 @@ module.exports = IDI.configure({
         "catchments": ["./catchments.json"],
         "checklistDetails": [],
         "concepts": [
+            "./adolescent/metadata/adolescentConcepts.json",
             "./concepts.json",
-            "./adolescent/commonConcepts.json",
-            "./adolescent/sickleCellVulnerabilityConcepts.json",
-            "./adolescent/chronicSicknessConcepts.json",
-            "./adolescent/menstrualDisorderConcepts.json",
-            "./adolescent/severeAnemiaConcepts.json",
-            "./adolescent/moderateAnemiaConcepts.json",
-            "./adolescent/severeMalnutritionConcepts.json",
+            "./adolescent/metadata/commonConcepts.json",
+            "./adolescent/followups/sickleCellVulnerabilityConcepts.json",
+            "./adolescent/followups/chronicSicknessConcepts.json",
+            "./adolescent/followups/menstrualDisorderConcepts.json",
+            "./adolescent/followups/severeAnemiaConcepts.json",
+            "./adolescent/followups/moderateAnemiaConcepts.json",
+            "./adolescent/followups/severeMalnutritionConcepts.json",
+        ],
+        "adolescentConfig": [
+            "./adolescent/metadata/adolescentProgramConfig.json"
         ],
         "addressLevelTypes": [],
         "locations": ["./locations.json"],
-        "programs": [],
-        "encounterTypes": ["./encounterTypes.json"],
+        "programs": ["./adolescent/metadata/adolescentProgram.json"],
+        "encounterTypes": [
+            "./adolescent/metadata/encounterTypes.json",
+            "./encounterTypes.json"
+        ],
         "operationalEncounterTypes": ["./operationalModules/operationalEncounterTypes.json"],
         "operationalPrograms": ["./operationalModules/operationalPrograms.json"],
         "operationalSubjectTypes": ["./operationalModules/operationalSubjectTypes.json"],

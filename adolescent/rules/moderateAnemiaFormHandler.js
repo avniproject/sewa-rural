@@ -7,7 +7,7 @@ import {
     StatusBuilderAnnotationFactory,
     WithName,
 } from 'rules-config/rules';
-import lib from '../lib';
+import lib from '../../lib';
 
 const ModerateAnemiaViewFilter = RuleFactory("038e6819-2a41-44f5-8473-eda5eeb37806", "ViewFilter");
 const WithStatusBuilder = StatusBuilderAnnotationFactory('programEncounter', 'formElement');
