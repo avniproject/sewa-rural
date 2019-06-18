@@ -7,4 +7,5 @@ module.exports = _.merge({},
     require('./adolescent/menstrualDisorderHandler'),
     require('./adolescent/severeAnemiaFormHandler'),
     require('./adolescent/moderateAnemiaFormHandler'),
+    require('./adolescent/severeMalnutritionFormHandler'),
 );

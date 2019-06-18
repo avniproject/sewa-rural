@@ -30,7 +30,7 @@ class ModerateAnemiaViewFilterHandlerSR {
     abc2(programEncounter, formElement) {
         const annualVisitEncounters = programEncounter.programEnrolment.getEncountersOfType("Annual Visit");
         const sicklingTestResultObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Sickling Test Result', annualVisitEncounters);
-        return new FormElementStatus(formElement.uuid, sicklingTestResultObs.getReadableValue() !== ('Negative' || 'Trait'));
+        return new FormElementStatus(formElement.uuid, sicklingTestResultObs && sicklingTestResultObs.getReadableValue() !== ('Negative' || 'Trait') || true);
     }
 }
 

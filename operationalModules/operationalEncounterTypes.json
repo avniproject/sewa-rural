@@ -37,6 +37,13 @@
       }
     },
     {
+      "uuid": "4dd0e905-2363-45a3-b845-59b350bc6c22",
+      "name": "Severe Malnutrition Followup",
+      "encounterType": {
+        "uuid": "b66dd0cd-71cd-4262-8c80-ef3d3f2177f9"
+      }
+    },
+    {
       "uuid": "e3445db7-d843-4c6b-8c65-0af884acf933",
       "name": "Annual Visit",
       "encounterType": {

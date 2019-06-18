@@ -112,5 +112,18 @@
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]
+  },
+  {
+    "name": "Have you been referred?",
+    "uuid": "169ba77c-1007-4d90-836f-d44a83dcdc92",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
   }
 ]
