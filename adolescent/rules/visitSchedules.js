@@ -1,12 +1,14 @@
 import {RuleFactory, VisitScheduleBuilder, RuleCondition} from "rules-config";
 import moment from "moment";
 import _ from "lodash";
+import lib from "../../lib";
 
 const AnnualVisitSchedule = RuleFactory("92cd5f05-eec3-4e70-9537-62119c5e3a16", "VisitSchedule");
 const ChronicSicknessFollowup = RuleFactory("dac9f78d-c0d5-48ff-ba0e-cb48106437b9", "VisitSchedule");
 const MenstrualDisorderFollowup = RuleFactory("bb9bf699-92f3-4646-9cf4-f1792fa2c3a6", "VisitSchedule");
 const SeverAnemiaFollowup = RuleFactory("12cd243c-851c-4fd1-bc28-ab0b0141c76f", "VisitSchedule");
 const ModerateAnemiaFollowup = RuleFactory("038e6819-2a41-44f5-8473-eda5eeb37806", "VisitSchedule");
+const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9a7f", "VisitSchedule");
 
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Sickle Cell Followup", 100.0)
 class AnnualVisitScheduleSR {
@@ -67,6 +69,8 @@ class AnnualVisitScheduleSR {
                 });
             }
 
+            AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
+
             let quarterlyVisitEarliestDate =
                 moment().date(1).month("October").year(moment().year()).startOf("day");
             scheduleBuilder.add({
@@ -76,10 +80,11 @@ class AnnualVisitScheduleSR {
                 maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
             });
 
-            this.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
         }
 
         if (programEncounter.encounterType.name === "Quarterly Visit") {
+
+            AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
 
             const currentMonth = moment().format("MMMM");
             const visitTable = {
@@ -102,10 +107,20 @@ class AnnualVisitScheduleSR {
                     maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
                 });
             }
-
-            this.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
         }
 
+        //Visit not getting scheduled when keeping this block in the first if of Annual Visit, hence kept separately
+        const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Height', programEncounter);
+        const weightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Weight', programEncounter);
+        const isUnderweight = heightObs && weightObs && lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 14.5 || false;
+         if (programEncounter.encounterType.name === "Annual Visit" && isUnderweight) {
+            scheduleBuilder.add({
+                name: "Severe Malnutrition Followup",
+                encounterType: "Severe Malnutrition Followup",
+                earliestDate: moment().add(1, "month").toDate(),
+                maxDate: moment().add(1, "month").add(15, "days").toDate()
+            });
+        }
         return scheduleBuilder.getAllUnique("encounterType");
     }
 
@@ -198,10 +213,29 @@ class ModerateAnemiaFollowupSR {
     }
 }
 
+@SeverMalnutritionFollowup("2bf7b5fd-adfe-49f1-b249-48482ef6e6e8", "Sever Malnutrition Followup", 100.0)
+class SeverMalnutritionFollowupSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        const programEnrolment = programEncounter.programEnrolment;
+        const scheduleBuilder = new VisitScheduleBuilder({
+            programEncounter: programEncounter,
+            programEnrolment: programEnrolment,
+        });
+        scheduleBuilder.add({
+            name: "Severe Malnutrition Followup",
+            encounterType: "Severe Malnutrition Followup",
+            earliestDate: moment().add(1, "month").toDate(),
+            maxDate: moment().add(1, "month").add(15, "days").toDate()
+        });
+        return scheduleBuilder.getAllUnique("encounterType");
+    }
+}
+
 export {
     AnnualVisitScheduleSR,
     ChronicSicknessFollowupScheduleSR,
     MenstrualDisorderFollowupSR,
     SeverAnemiaFollowupSR,
-    ModerateAnemiaFollowupSR
+    ModerateAnemiaFollowupSR,
+    SeverMalnutritionFollowupSR
 }

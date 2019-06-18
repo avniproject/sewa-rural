@@ -152,6 +152,7 @@
           "name": "what will happen if your weight is less?",
           "uuid": "d70f7231-9b0a-4fa9-ae56-de9a8070e787",
           "keyValues": [],
+          "type": "MultiSelect",
           "concept": {
             "uuid": "72f70001-fc64-4371-8b88-2c20e4860ef1"
           },

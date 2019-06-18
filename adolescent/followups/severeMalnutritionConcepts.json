@@ -128,9 +128,28 @@
     ]
   },
   {
+    "name": "Will be sick",
+    "uuid": "c7a1a0a0-2a88-42d9-9776-3aa5f1735092"
+  },
+  {
+    "name": "Difficult to concentrate in study",
+    "uuid": "7f2ce91e-ab85-46c7-b5f9-af0cd3e1ec0d"
+  },
+  {
     "name": "what will happen if your weight is less?",
     "uuid": "72f70001-fc64-4371-8b88-2c20e4860ef1",
-    "dataType": "Text"
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "c7a1a0a0-2a88-42d9-9776-3aa5f1735092"
+      },
+      {
+        "uuid": "7f2ce91e-ab85-46c7-b5f9-af0cd3e1ec0d"
+      },
+      {
+        "uuid": "05ea583c-51d2-412d-ad00-06c432ffe538"
+      }
+    ]
   },
   {
     "name": "Malnutrition video shown?",
