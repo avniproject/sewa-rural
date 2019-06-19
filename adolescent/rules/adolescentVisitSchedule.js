@@ -133,7 +133,7 @@ const getNextScheduledVisits = function (programEncounter) {
     return scheduleBuilder.getAllUnique("encounterType");
 };
 
-const RoutineVisitSchedule = RuleFactory("92cd5f05-eec3-4e70-9537-62119c5e3a16", "VisitSchedule");
+const RoutineVisitSchedule = RuleFactory("35e54f14-3a23-45a3-b90e-5383fa026ffd", "VisitSchedule");
 const DropoutVisitSchedule = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792", "VisitSchedule");
 const DropoutFollowupVisitSchedule = RuleFactory("0c444bf3-54c3-41e4-8ca9-f0deb8760831", "VisitSchedule");
 

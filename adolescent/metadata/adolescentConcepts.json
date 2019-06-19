@@ -308,7 +308,6 @@
     "uuid": "104c7ffb-fb43-45a0-876b-77fba9ee7759",
     "dataType": "NA"
   },
-  
   {
     "name": "No school in village",
     "uuid": "af10b937-e9f2-4b9b-8cfe-1d59bc0b21f6",
@@ -1562,18 +1561,40 @@
     ]
   },
   {
-    "uuid": "729d937f-204e-4409-8e0d-1cf9354cb980",
-    "name": "Sickling Test Done",
+    "name": "Done",
+    "uuid": "8d161a9c-9401-4883-8cf7-ce0a8f2d7b45"
+  },
+  {
+    "name": "Not Done",
+    "uuid": "474477a3-9859-4d7c-865c-e8fdc7bba9d8"
+  },
+  {
+    "uuid": "c5d4acdc-86f5-4b6f-b700-ef85d89108dc",
+    "name": "Hemoglobin Test",
     "dataType": "Coded",
     "answers": [
       {
-        "name": "Yes",
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+        "name": "Done",
+        "uuid": "8d161a9c-9401-4883-8cf7-ce0a8f2d7b45"
       },
       {
-        "name": "No",
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc",
-        "abnormal": true
+        "name": "Not Done",
+        "uuid": "474477a3-9859-4d7c-865c-e8fdc7bba9d8"
+      }
+    ]
+  },
+  {
+    "uuid": "729d937f-204e-4409-8e0d-1cf9354cb980",
+    "name": "Sickling Test Status",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Done",
+        "uuid": "8d161a9c-9401-4883-8cf7-ce0a8f2d7b45"
+      },
+      {
+        "name": "Not Done",
+        "uuid": "474477a3-9859-4d7c-865c-e8fdc7bba9d8"
       }
     ]
   },
@@ -2178,6 +2199,48 @@
   {
     "name": "Sickness in last 3 months",
     "uuid": "719fc446-50b0-4212-9e91-47bfd1aa5559",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Fever",
+        "uuid": "0b7f3334-f81e-4d84-a13d-b35011e34456",
+        "abnormal": true
+      },
+      {
+        "name": "Diarrhoea",
+        "uuid": "88af3c67-3828-4f4b-8993-1497a86bf2bf",
+        "abnormal": true
+      },
+      {
+        "name": "Abdominal pain",
+        "uuid": "7b8829db-9a5a-4177-bab3-6f8e3bb3832c",
+        "abnormal": true
+      },
+      {
+        "name": "Jaundice",
+        "uuid": "352bb8a4-1569-492f-9a53-14e3b134c104",
+        "abnormal": true
+      },
+      {
+        "name": "Common cold",
+        "uuid": "48689220-7064-4a73-90c4-b8857445a0c8",
+        "abnormal": true
+      },
+      {
+        "name": "No sickness",
+        "uuid": "c43f9228-2995-48d3-8ecd-a22586210664",
+        "unique": true
+      },
+      {
+        "name": "Other",
+        "uuid": "05ea583c-51d2-412d-ad00-06c432ffe538",
+        "abnormal": true
+      }
+    ]
+  },
+  {
+    "name": "Sickness in last 1 month",
+    "uuid": "0361d3b7-1187-414b-acb1-ed1da58e4e44",
     "dataType": "Coded",
     "answers": [
       {
@@ -3060,6 +3123,37 @@
       },
       {
         "name": "No",
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "After which standard left the school",
+    "uuid": "8c9c9ff5-73c4-4814-81aa-8ade0716614c",
+    "dataType": "Numeric"
+  },
+  {
+    "name": "able to do daily routine work during menstruation",
+    "uuid": "c0bd2d7a-c485-451c-a4fa-7c5de3c49383",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Is referral card given?",
+    "uuid": "bc7bfc68-28e1-4a3f-a944-f55ba27c88fb",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]

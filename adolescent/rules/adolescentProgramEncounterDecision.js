@@ -7,17 +7,18 @@ import {encounterDecisions as counsellingEncounterDecisions} from '../decisions/
 import {getNextScheduledVisits} from './adolescentVisitSchedule';
 import {referralDecisions} from "../decisions/referralDecision";
 import {RuleFactory} from 'rules-config/rules';
+import AnnualVisitHandler from "../formFilters/AnnualVisitHandler";
 
-const RoutineVisitDecisions = RuleFactory("92cd5f05-eec3-4e70-9537-62119c5e3a16", "Decision");
+const RoutineVisitDecisions = RuleFactory("35e54f14-3a23-45a3-b90e-5383fa026ffd", "Decision");
 const DropoutHomeVisit = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792", "Decision");
 const DropoutFollowUpVisit = RuleFactory("0c444bf3-54c3-41e4-8ca9-f0deb8760831", "Decision");
 
-const RoutineVisitViewFilters = RuleFactory("92cd5f05-eec3-4e70-9537-62119c5e3a16", "ViewFilter");
+const RoutineVisitViewFilters = RuleFactory("35e54f14-3a23-45a3-b90e-5383fa026ffd", "ViewFilter");
 const DropoutHomeViewFilters = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792", "ViewFilter");
 const DropoutFollowUpViewFilters = RuleFactory("0c444bf3-54c3-41e4-8ca9-f0deb8760831", "ViewFilter");
 
 const encounterTypeHandlerMap = new Map([
-    ['Annual Visit', new RoutineEncounterHandler()],
+    ['Annual Visit', new AnnualVisitHandler()],
     ['Quarterly Visit', new RoutineEncounterHandler()],
     ['Half-Yearly Visit', new RoutineEncounterHandler()],
     ['Monthly Visit', new RoutineEncounterHandler()],

@@ -17,10 +17,10 @@ module.exports = IDI.configure({
         "forms": [
             "./adolescent/metadata/adolescentEnrolment.json",
             "./adolescent/metadata/adolescentProgramExitForm.json",
-            "./adolescent/metadata/adolescentRoutineVisit.json",
             "./adolescent/metadata/adolescentDropoutForm.json",
             "./adolescent/metadata/adolescentDropoutFollowupForm.json",
             "./adolescent/metadata/adolescentProgramEncounterCancellationForm.json",
+            "./adolescent/metadata/annualVisit.json",
             "./registrationForm.json",
             "./adolescent/followups/sickleCellVulnerabilityForm.json",
             "./adolescent/followups/chronicSickness.json",
