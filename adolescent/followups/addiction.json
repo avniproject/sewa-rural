@@ -1,0 +1,217 @@
+{
+  "name": "Addiction Vulnerability",
+  "uuid": "8aec0b76-79ae-4e47-9375-ed9db3739997",
+  "formType": "ProgramEncounter",
+  "formElementGroups": [
+    {
+      "uuid": "a7b2d2a9-e9c3-4924-938e-492f89f892c7",
+      "name": "Details",
+      "display": "Details",
+      "displayOrder": 1,
+      "formElements": [
+        {
+          "name": "If tobbacco, what is the type?",
+          "uuid": "6bffb23f-4cb2-478f-8b0d-27082f150133",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Type of tobbacco",
+            "uuid": "6cdf2da5-d9b4-4a9d-9301-864ae7cebfed"          },
+          "displayOrder":1,
+          "mandatory": true
+        },
+        {
+          "name": "How many pouches do you consume per day?",
+          "uuid": "6c726559-c2eb-4273-b24b-3888c01a1b32",
+          "keyValues": [],
+          "concept": {
+            "name": "Number of cigarettes/bidis consumed per day",
+            "uuid": "44fdb923-9073-49ba-a0ed-de6242b98967"
+          },
+          "displayOrder":2,
+          "mandatory": true
+        },
+        {
+          "name": "How many cigarettes/bidis do you consume per day?",
+          "uuid": "10b7efbb-3a19-4f0d-8eb3-c379660c0488",
+          "keyValues": [],
+          "concept": {
+            "name": "Number of cigarettes/bidis consumed per day",
+            "uuid": "44fdb923-9073-49ba-a0ed-de6242b98967"
+          },
+          "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "How much money you spend daily for tobacco pouches?or bidi",
+          "uuid": "bbc63c05-3fa2-4371-83a7-ac38e7be54f9",
+          "keyValues": [],
+          "concept": {
+            "name": "Money spent daily for tobacco pouches or bidi",
+            "uuid": "40cf7cae-4156-4446-87dc-0627ac3b4f6a"
+          },
+          "displayOrder":4,
+          "mandatory": true
+        },
+        {
+          "name": "If alcohol, frequency of consumption",
+          "uuid": "c760d692-cae8-4cd1-bf73-8c5bf4273906",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Frequency of alcohol consumption",
+            "uuid": "1dd385aa-d57a-40b1-9a05-0f5643f18c52"
+          },
+          "displayOrder": 5,
+          "mandatory": true
+        },
+        {
+          "name": "Have you been referred?",
+          "uuid": "ee3cbc64-b732-4caf-98b9-670bcb991809",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Is referred",
+            "uuid": "7eb15cce-e364-4faf-aa0b-16047415f7ae"
+          },
+          "displayOrder":6,
+          "mandatory": true
+        },
+        {
+          "name": "Have you visited hospital?",
+          "uuid": "7a9f63a4-68a4-4074-b211-25934c89bb62",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Visited hospital",
+            "uuid": "a76353fb-c908-4647-a334-2351dec14ef1"
+        },
+          "displayOrder": 7,
+          "mandatory": true
+        },
+        {
+          "name": "Knowing about hazards of tobacco, have you quit tobacco/alcohol?",
+          "uuid": "6fcb235a-7908-4879-b8fc-abc05df2c739",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Knowing about hazards of tobacco have you quit tobacco/alcohol",
+            "uuid": "7593f241-b3c8-4b5c-8176-c9dfac3d4396"
+          },
+          "displayOrder":8 ,
+          "mandatory": true
+        },
+        {
+          "name": "If yes quitted then how many days?",
+          "uuid": "af077335-3614-4d56-89b2-a34c52e8d976",
+          "keyValues": [],
+          "concept": {
+            "name": "If quitted then since how many days",
+            "uuid": "eb7afe3e-19b4-472a-893d-aca115396314"
+          },
+          "displayOrder":9 ,
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "uuid": "9317c8a3-9192-40e8-97ba-4759fc52f162",
+      "name": "Counselling Checklist",
+      "display": "Counselling Checklist",
+      "displayOrder":2,
+      "formElements": [
+        {
+          "name": "Addiction is harmful for self, family and society",
+          "uuid": "32c5043b-58ea-46db-b070-f63c29f19adf",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4",
+            "comment": "Placeholder for counselling form element"
+          },
+          "displayOrder":1,
+          "mandatory": false
+        },
+        {
+          "name": "Addiction causes cancer",
+          "uuid": "e1880505-28b7-45e2-a10d-01dd7478d31f",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4",
+            "comment": "Placeholder for counselling form element"
+          },
+          "displayOrder":2,
+          "mandatory": false
+        },
+        {
+          "name": "Laws and acts related to smoking / drinking",
+          "uuid": "fdd3803d-8865-42b1-8f47-30be42fa9a35",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4",
+            "comment": "Placeholder for counselling form element"
+          },
+          "displayOrder":3,
+          "mandatory": false
+        },
+        {
+          "name": "Addiction can cause financial crisis",
+          "uuid": "90aa3605-5f8c-43c2-a4ff-6ef5ced3c391",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4",
+            "comment": "Placeholder for counselling form element"
+          },
+          "displayOrder":4,
+          "mandatory": false
+        },
+        {
+          "name": "Say NO to substances like bidi, gutka, cigarette, tobacco or alcohol",
+          "uuid": "66d0b5a8-d27a-4878-ab64-7eeea529347f",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4",
+            "comment": "Placeholder for counselling form element"
+          },
+          "displayOrder":5,
+          "mandatory": false 
+        },
+        {
+          "name": "What happens due to tobacco addiction?",
+          "uuid": "def144d7-7fcd-4dab-9f87-3887911994ff",
+          "keyValues": [],
+          "type": "MultiSelect",
+          "concept": {
+            "name": "Effects of tobacco consumption",
+            "uuid": "76300f94-62bf-4d58-9c8a-11bf2df63a2b"
+          },
+          "displayOrder":6 ,
+          "mandatory": true
+        },
+        {
+          "name": "Counseling done?",
+          "uuid": "67f7e72c-b7e9-4251-9d0a-1c99e834dae3",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Counseling done",
+            "uuid": "0c2c40f6-9086-440b-99af-d7a92ac5f565"
+          },
+          "displayOrder":7 ,
+          "mandatory": true
+        },
+        {
+          "name": "Video shown?",
+          "uuid": "33441bd3-6bd1-4ae7-9155-b4f7f449f5bd",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Video shown",
+            "uuid": "3fe4051a-2166-4b14-bb63-5ff5ff6108d0"
+          },
+          "displayOrder":8,
+          "mandatory": true
+        }  
+      ]
+    }
+  ]
+}

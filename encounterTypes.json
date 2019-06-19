@@ -22,5 +22,9 @@
   {
     "uuid": "b66dd0cd-71cd-4262-8c80-ef3d3f2177f9",
     "name": "Severe Malnutrition Followup"
+  },
+  {
+    "uuid": "6ee0fcc7-bd02-4f87-9dd2-9bdbb952b89a",
+    "name": "Addiction Vulnerability"
   }
 ]

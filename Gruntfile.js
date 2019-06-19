@@ -28,6 +28,7 @@ module.exports = IDI.configure({
             "./adolescent/followups/severeAnemia.json",
             "./adolescent/followups/moderateAnemia.json",
             "./adolescent/followups/severeMalnutrition.json",
+            "./adolescent/followups/addiction.json"
         ],
         "formMappings": [
             "./adolescent/metadata/formMappings.json",
@@ -52,6 +53,7 @@ module.exports = IDI.configure({
             "./adolescent/followups/severeAnemiaConcepts.json",
             "./adolescent/followups/moderateAnemiaConcepts.json",
             "./adolescent/followups/severeMalnutritionConcepts.json",
+            "./adolescent/followups/addictionConcepts.json"
         ],
         "adolescentConfig": [
             "./adolescent/metadata/adolescentProgramConfig.json"

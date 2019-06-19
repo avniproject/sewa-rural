@@ -8,8 +8,8 @@
     "name": "Non Chewable"
   },
   {
-    "name": "If tobbacco, what is the type?",
-    "uuid": "11c4b573-a155-4e63-bc88-070abdf29e33",
+    "name": "Type of tobbacco",
+    "uuid": "6cdf2da5-d9b4-4a9d-9301-864ae7cebfed",
     "dataType": "Coded",
     "answers": [
       {
@@ -27,18 +27,18 @@
     ]
   },
   {
-    "name": "How many pouches do you consume per day?",
-    "uuid": "fc5cc072-4df1-433d-a667-fa7014dc4377",
+    "name": "Number of pouches consumed per day",
+    "uuid": "44aa00b3-6446-4900-a0eb-adb219eaf192",
     "dataType": "Numeric"
   },
   {
-    "name": "How many cigarettes/bidis do you consume per day?",
-    "uuid": "c9fc6d13-3567-4dc3-b04b-df14e734d984",
+    "name": "Number of cigarettes/bidis consumed per day",
+    "uuid": "44fdb923-9073-49ba-a0ed-de6242b98967",
     "dataType": "Numeric"
   },
   {
-    "name": "How much money you spend daily for tobacco pouches or bidi?",
-    "uuid": "376dd1e6-37ca-408f-a117-0a4fbe3498f4",
+    "name": "Money spent daily for tobacco pouches or bidi",
+    "uuid": "40cf7cae-4156-4446-87dc-0627ac3b4f6a",
     "dataType": "Numeric"
   },
   {
@@ -46,8 +46,8 @@
     "name": "Occasionally"
   },
   {
-    "name": "If alcohol, frequency of consumption",
-    "uuid": "5a8ff9bf-9fa3-4465-981f-f6df0d0eaa17",
+    "name": "Frequency of alcohol consumption",
+    "uuid": "1dd385aa-d57a-40b1-9a05-0f5643f18c52",
     "dataType": "Coded",
     "answers": [
       {
@@ -61,8 +61,8 @@
     ]
   },
   {
-    "name": "Have you been referred?",
-    "uuid": "9d9195cf-9f6f-4498-9592-29d3684ba006",
+    "name": "Is referred",
+    "uuid": "7eb15cce-e364-4faf-aa0b-16047415f7ae",
     "dataType": "Coded",
     "answers": [
       {
@@ -74,8 +74,8 @@
     ]
   },
   {
-    "name": "Have you visited hospital?",
-    "uuid": "063023f9-c96a-447e-b877-a61ec5ff49ca",
+    "name": "Visited hospital",
+    "uuid": "a76353fb-c908-4647-a334-2351dec14ef1",
     "dataType": "Coded",
     "answers": [
       {
@@ -87,8 +87,8 @@
     ]
   },
   {
-    "name": "Knowing about hazards of tobacco have you quit tobacco/alcohol?",
-    "uuid": "d351bfde-bec8-4b0c-aeb0-23f99403b387",
+    "name": "Knowing about hazards of tobacco have you quit tobacco/alcohol",
+    "uuid": "7593f241-b3c8-4b5c-8176-c9dfac3d4396",
     "dataType": "Coded",
     "answers": [
       {
@@ -100,9 +100,81 @@
     ]
   },
   {
-    "name": "If quitted then since how many days?",
-    "uuid": "659e398f-3fa0-4938-8ca7-38c1366b2bb0",
+    "name": "If quitted then since how many days",
+    "uuid": "eb7afe3e-19b4-472a-893d-aca115396314",
     "dataType": "Numeric"
-  }
-
+  },
+  {
+    "uuid": "8d261636-a271-418b-8982-a472e27a08a5",
+    "name": "Can't open mouth wide"
+  },
+  {
+    "uuid": "ddeb703f-9723-4086-93c9-10161a127932",
+    "name": "Cancer of mouth"
+  },
+  {
+    "uuid": "cce2f4ce-a481-4811-83d9-c72c59dd66b2",
+    "name": "Ulcer in mouth"
+  },
+  {
+    "uuid": "e0a27764-e8c1-438b-b60d-8d0fa76f0ccb",
+    "name": "Money Loss"
+  },
+  {
+    "uuid": "38fe61ab-b426-4e7f-a485-6c6dfe11364f",
+    "name": "Sickness"
+  },
+  {
+    "name": "Effects of tobacco consumption",
+    "uuid": "76300f94-62bf-4d58-9c8a-11bf2df63a2b",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "8d261636-a271-418b-8982-a472e27a08a5",
+        "name": "Can't open mouth wide"
+      },
+      {
+        "uuid": "ddeb703f-9723-4086-93c9-10161a127932",
+        "name": "Cancer of mouth"
+      },
+      {
+        "uuid": "cce2f4ce-a481-4811-83d9-c72c59dd66b2",
+        "name": "Ulcer in mouth"
+      },
+      {
+        "uuid": "e0a27764-e8c1-438b-b60d-8d0fa76f0ccb",
+        "name": "Money Loss"
+      },
+      {
+        "uuid": "38fe61ab-b426-4e7f-a485-6c6dfe11364f",
+        "name": "Sickness"
+      }
+    ]
+  },
+  {
+    "name": "Counseling done",
+    "uuid": "0c2c40f6-9086-440b-99af-d7a92ac5f565",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Video shown",
+    "uuid": "3fe4051a-2166-4b14-bb63-5ff5ff6108d0",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  }  
 ]

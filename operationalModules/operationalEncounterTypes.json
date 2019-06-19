@@ -44,6 +44,12 @@
       }
     },
     {
+      "uuid": "38149159-4ce4-4fd7-9f3e-34feedbf2b6e",
+      "name": "Addiction Vulnerability",
+      "encounterType": {
+        "uuid": "6ee0fcc7-bd02-4f87-9dd2-9bdbb952b89a"      }
+    },
+    {
       "uuid": "e3445db7-d843-4c6b-8c65-0af884acf933",
       "name": "Annual Visit",
       "encounterType": {
