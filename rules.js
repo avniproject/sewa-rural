@@ -10,5 +10,6 @@ module.exports = _.merge({},
     require('./adolescent/rules/menstrualDisorderHandler'),
     require('./adolescent/rules/severeAnemiaFormHandler'),
     require('./adolescent/rules/moderateAnemiaFormHandler'),
-    require('./adolescent/rules/severeMalnutritionFormHandler')
+    require('./adolescent/rules/severeMalnutritionFormHandler'),
+    require('./adolescent/rules/addictionFormHandler')
 );
