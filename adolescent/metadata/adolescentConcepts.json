@@ -167,8 +167,8 @@
     "dataType": "Coded",
     "answers": [
       {
-        "name": "School dropout",
-        "uuid": "b5e3310a-7628-40d9-8bb3-961a6c302c84",
+        "name": "School dropped out",
+        "uuid": "d46e7d44-c0bd-4dc9-adf8-1fb9a1a5e6e0",
         "abnormal": true
       }
     ]
@@ -3155,6 +3155,87 @@
       },
       {
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Severe",
+    "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+  },
+  {
+    "name": "Moderate",
+    "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+  },
+  {
+    "name": "Nutritional Status",
+    "uuid": "b70b5401-1a1d-4901-8cc7-606c21913b4e",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Severe",
+        "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+      },
+      {
+        "name": "Moderate",
+        "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+      },
+      {
+        "name": "Normal",
+        "uuid": "ba43b326-18a1-4f8d-ad04-29b0371461e0"
+      }
+    ]
+  },
+  {
+    "name": "School Dropout",
+    "uuid": "5db2a54e-d656-4f51-b88d-e61dfa24441d"
+  },
+  {
+    "name": "Anemia Status",
+    "uuid": "cc54cff8-efc5-4246-b9c2-c226361b3798",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Severe",
+        "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+      },
+      {
+        "name": "Moderate",
+        "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+      }
+    ]
+  },
+  {
+    "name": "Menstrual absenteeism",
+    "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175"
+  },
+  {
+    "name": "Addiction (Self)",
+    "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+  },
+  {
+    "name": "Chronic Sickness",
+    "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
+  },
+  {
+    "name": "Other Vulnerabilities",
+    "uuid": "0b5bfbb9-d446-412d-8449-d61d63ee65d4",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "School dropout",
+        "uuid": "b5e3310a-7628-40d9-8bb3-961a6c302c84"
+      },
+      {
+        "name": "Menstrual absenteeism",
+        "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175"
+      },
+      {
+        "name": "Addiction (Self)",
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+      },
+      {
+        "name": "Chronic Sickness",
+        "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
       }
     ]
   }

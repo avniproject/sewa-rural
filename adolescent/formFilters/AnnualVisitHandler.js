@@ -77,8 +77,7 @@ export default class AnnualVisitHandler {
     @WithStatusBuilder
     abc71([programEncounter], statusBuilder) {
         statusBuilder.show().when.valueInEntireEnrolment("Sickling Test Status").not.defined
-            .or.when.valueInEntireEnrolment("Sickling Test Status").containsAnswerConceptName('Not Done')
-            .or.when.valueInEncounter("Sickling Test Status").is.defined;
+            .or.when.valueInEntireEnrolment("Sickling Test Status").containsAnswerConceptName('Not Done');
         return statusBuilder.build();
     }
 
