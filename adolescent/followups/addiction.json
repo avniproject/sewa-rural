@@ -5,17 +5,17 @@
   "formElementGroups": [
     {
       "uuid": "a7b2d2a9-e9c3-4924-938e-492f89f892c7",
-      "name": "Details",
-      "display": "Details",
+      "name": "Addiction Details",
+      "display": "Addiction Details",
       "displayOrder": 1,
       "formElements": [
         {
-          "name": "If tobbacco, what is the type?",
+          "name": "If tobacco, what is the type?",
           "uuid": "6bffb23f-4cb2-478f-8b0d-27082f150133",
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "name": "Type of tobbacco",
+            "name": "Type of tobacco",
             "uuid": "6cdf2da5-d9b4-4a9d-9301-864ae7cebfed"          },
           "displayOrder":1,
           "mandatory": true
@@ -43,7 +43,7 @@
           "mandatory": true
         },
         {
-          "name": "How much money you spend daily for tobacco pouches?or bidi",
+          "name": "How much money you spend daily for tobacco pouches or bidi?",
           "uuid": "bbc63c05-3fa2-4371-83a7-ac38e7be54f9",
           "keyValues": [],
           "concept": {
