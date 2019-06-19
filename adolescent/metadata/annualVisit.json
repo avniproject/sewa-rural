@@ -192,7 +192,7 @@
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "uuid": "729d937f-204e-4409-8e0d-1cf9354cb980",
+            "uuid": "8b8941cb-311d-4911-8769-73fabb62d025",
             "name": "Sickling Test Status"
           },
           "mandatory": true,

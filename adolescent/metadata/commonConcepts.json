@@ -125,5 +125,205 @@
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]
+  },
+  {
+    "name": "Done",
+    "uuid": "8d161a9c-9401-4883-8cf7-ce0a8f2d7b45"
+  },
+  {
+    "name": "Not Done",
+    "uuid": "474477a3-9859-4d7c-865c-e8fdc7bba9d8"
+  },
+  {
+    "uuid": "c5d4acdc-86f5-4b6f-b700-ef85d89108dc",
+    "name": "Hemoglobin Test",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Done",
+        "uuid": "8d161a9c-9401-4883-8cf7-ce0a8f2d7b45"
+      },
+      {
+        "name": "Not Done",
+        "uuid": "474477a3-9859-4d7c-865c-e8fdc7bba9d8"
+      }
+    ]
+  },
+  {
+    "uuid": "8b8941cb-311d-4911-8769-73fabb62d025",
+    "name": "Sickling Test Status",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Done",
+        "uuid": "8d161a9c-9401-4883-8cf7-ce0a8f2d7b45"
+      },
+      {
+        "name": "Not Done",
+        "uuid": "474477a3-9859-4d7c-865c-e8fdc7bba9d8"
+      }
+    ]
+  },
+  {
+    "name": "Sickness in last 1 month",
+    "uuid": "0361d3b7-1187-414b-acb1-ed1da58e4e44",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Fever",
+        "uuid": "0b7f3334-f81e-4d84-a13d-b35011e34456",
+        "abnormal": true
+      },
+      {
+        "name": "Diarrhoea",
+        "uuid": "88af3c67-3828-4f4b-8993-1497a86bf2bf",
+        "abnormal": true
+      },
+      {
+        "name": "Abdominal pain",
+        "uuid": "7b8829db-9a5a-4177-bab3-6f8e3bb3832c",
+        "abnormal": true
+      },
+      {
+        "name": "Jaundice",
+        "uuid": "352bb8a4-1569-492f-9a53-14e3b134c104",
+        "abnormal": true
+      },
+      {
+        "name": "Common cold",
+        "uuid": "48689220-7064-4a73-90c4-b8857445a0c8",
+        "abnormal": true
+      },
+      {
+        "name": "No sickness",
+        "uuid": "c43f9228-2995-48d3-8ecd-a22586210664",
+        "unique": true
+      },
+      {
+        "name": "Other",
+        "uuid": "05ea583c-51d2-412d-ad00-06c432ffe538",
+        "abnormal": true
+      }
+    ]
+  },
+  {
+    "name": "After which standard left the school",
+    "uuid": "8c9c9ff5-73c4-4814-81aa-8ade0716614c",
+    "dataType": "Numeric"
+  },
+  {
+    "name": "able to do daily routine work during menstruation",
+    "uuid": "c0bd2d7a-c485-451c-a4fa-7c5de3c49383",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Is referral card given?",
+    "uuid": "bc7bfc68-28e1-4a3f-a944-f55ba27c88fb",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Severe",
+    "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+  },
+  {
+    "name": "Moderate",
+    "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+  },
+  {
+    "name": "Nutritional Status",
+    "uuid": "b70b5401-1a1d-4901-8cc7-606c21913b4e",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Severe",
+        "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+      },
+      {
+        "name": "Moderate",
+        "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+      },
+      {
+        "name": "Normal",
+        "uuid": "ba43b326-18a1-4f8d-ad04-29b0371461e0"
+      }
+    ]
+  },
+  {
+    "name": "Anemia Status",
+    "uuid": "cc54cff8-efc5-4246-b9c2-c226361b3798",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Severe",
+        "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+      },
+      {
+        "name": "Moderate",
+        "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+      }
+    ]
+  },
+  {
+    "name": "Menstrual absenteeism",
+    "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175"
+  },
+  {
+    "name": "Addiction (Self)",
+    "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+  },
+  {
+    "name": "Chronic Sickness",
+    "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
+  },
+  {
+    "name": "Other Vulnerabilities",
+    "uuid": "0b5bfbb9-d446-412d-8449-d61d63ee65d4",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "School dropout",
+        "uuid": "b5e3310a-7628-40d9-8bb3-961a6c302c84"
+      },
+      {
+        "name": "Menstrual absenteeism",
+        "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175"
+      },
+      {
+        "name": "Addiction (Self)",
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+      },
+      {
+        "name": "Chronic Sickness",
+        "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
+      }
+    ]
+  },
+  {
+    "name": "Reason for Early Marriage Vulnerability",
+    "uuid": "dc9e46a2-dddc-4847-9224-e19c099c693a",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "School dropped out",
+        "uuid": "d46e7d44-c0bd-4dc9-adf8-1fb9a1a5e6e0",
+        "abnormal": true
+      }
+    ]
   }
 ]

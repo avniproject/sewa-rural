@@ -44,7 +44,6 @@ module.exports = IDI.configure({
         "catchments": ["./catchments.json"],
         "checklistDetails": [],
         "concepts": [
-            "./adolescent/metadata/adolescentConcepts.json",
             "./concepts.json",
             "./adolescent/metadata/commonConcepts.json",
             "./adolescent/followups/sickleCellVulnerabilityConcepts.json",
