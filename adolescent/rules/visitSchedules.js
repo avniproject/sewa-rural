@@ -8,6 +8,7 @@ const MenstrualDisorderFollowup = RuleFactory("bb9bf699-92f3-4646-9cf4-f1792fa2c
 const SeverAnemiaFollowup = RuleFactory("12cd243c-851c-4fd1-bc28-ab0b0141c76f", "VisitSchedule");
 const ModerateAnemiaFollowup = RuleFactory("038e6819-2a41-44f5-8473-eda5eeb37806", "VisitSchedule");
 const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9a7f", "VisitSchedule");
+const AddictionVulnerabilityFollowup = RuleFactory("8aec0b76-79ae-4e47-9375-ed9db3739997", "VisitSchedule");
 
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
 class AnnualVisitScheduleSR {
@@ -63,6 +64,17 @@ class AnnualVisitScheduleSR {
                 scheduleBuilder.add({
                     name: "Moderate Anemia Followup",
                     encounterType: "Moderate Anemia",
+                    earliestDate: moment().add(1, "month").toDate(),
+                    maxDate: moment().add(1, "month").add(15, "days").toDate()
+                });
+            }
+
+            if (new RuleCondition(context).when
+                .valueInEncounter("Addiction Details").containsAnswerConceptName("Alcohol", "Tobacco", "Both")
+                .matches()) {
+                scheduleBuilder.add({
+                    name: "Addiction Vulnerability Followup",
+                    encounterType: "Addiction Vulnerability",
                     earliestDate: moment().add(1, "month").toDate(),
                     maxDate: moment().add(1, "month").add(15, "days").toDate()
                 });
@@ -245,11 +257,30 @@ class SeverMalnutritionFollowupSR {
     }
 }
 
+@AddictionVulnerabilityFollowup("beca45b9-f037-4d3f-906d-5970018ce5bb", "Addiction Vulnerability Followup", 100.0)
+class AddictionVulnerabilityFollowupSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        const programEnrolment = programEncounter.programEnrolment;
+        const scheduleBuilder = new VisitScheduleBuilder({
+            programEncounter: programEncounter,
+            programEnrolment: programEnrolment,
+        });
+        scheduleBuilder.add({
+            name: "Addiction Vulnerability Followup",
+            encounterType: "Addiction Vulnerability",
+            earliestDate: moment().add(1, "month").toDate(),
+            maxDate: moment().add(1, "month").add(15, "days").toDate()
+        });
+        return scheduleBuilder.getAllUnique("encounterType");
+    }
+}
+
 export {
     AnnualVisitScheduleSR,
     ChronicSicknessFollowupScheduleSR,
     MenstrualDisorderFollowupSR,
     SeverAnemiaFollowupSR,
     ModerateAnemiaFollowupSR,
-    SeverMalnutritionFollowupSR
+    SeverMalnutritionFollowupSR,
+    AddictionVulnerabilityFollowupSR
 }
