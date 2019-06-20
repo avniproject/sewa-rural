@@ -10,7 +10,7 @@ const SeverAnemiaFollowup = RuleFactory("12cd243c-851c-4fd1-bc28-ab0b0141c76f", 
 const ModerateAnemiaFollowup = RuleFactory("038e6819-2a41-44f5-8473-eda5eeb37806", "VisitSchedule");
 const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9a7f", "VisitSchedule");
 
-@AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Sickle Cell Followup", 100.0)
+@AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
 class AnnualVisitScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
         const programEnrolment = programEncounter.programEnrolment;
@@ -71,14 +71,14 @@ class AnnualVisitScheduleSR {
 
             AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
 
-            let quarterlyVisitEarliestDate =
-                moment().date(1).month("October").year(moment().year()).startOf("day");
-            scheduleBuilder.add({
-                name: "Quarterly Visit",
-                encounterType: "Quarterly Visit",
-                earliestDate: quarterlyVisitEarliestDate.toDate(),
-                maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
-            });
+            // let quarterlyVisitEarliestDate =
+            //     moment().date(1).month("October").year(moment().year()).startOf("day");
+            // scheduleBuilder.add({
+            //     name: "Quarterly Visit",
+            //     encounterType: "Quarterly Visit",
+            //     earliestDate: quarterlyVisitEarliestDate.toDate(),
+            //     maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
+            // });
 
         }
 
