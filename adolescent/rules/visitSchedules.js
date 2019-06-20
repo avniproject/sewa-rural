@@ -69,7 +69,7 @@ class AnnualVisitScheduleSR {
             }
 
             AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
-            AnnualVisitScheduleSR.scheduleAnnualVisit(context, scheduleBuilder);
+            AnnualVisitScheduleSR.scheduleAnnualVisit(scheduleBuilder);
 
             // let quarterlyVisitEarliestDate =
             //     moment().date(1).month("October").year(moment().year()).startOf("day");
@@ -149,7 +149,7 @@ class AnnualVisitScheduleSR {
         scheduleBuilder.add({
             name: "Annual Visit",
             encounterType: "Annual Visit",
-            earliestDate: moment().add(1, "month").toDate(),
+            earliestDate: earliestDate.toDate(),
             maxDate: moment(earliestDate).add(1, "month").endOf("day").toDate()
         });
     }
