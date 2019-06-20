@@ -20,14 +20,20 @@ class SickleCellFollowupViewFilterHandlerSR {
 
     @WithName("Have you visited hospital?")
     @WithStatusBuilder
-    haveYouVisitedHospital([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Do you know that you have a sickle cell disease?").is.yes;
+    abc1([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Have you been referred?").is.yes;
+    }
+
+    @WithName("Are you taking it regularly?")
+    @WithStatusBuilder
+    areYouTakingItRegularly([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Do you have FA tablets?").is.yes;
     }
 
     @WithName("What did you do for your problem?")
     @WithStatusBuilder
     whatDidYouDoForYourPain([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("In last one month have  you sufferred  from any pain or problem?").is.yes;
+        statusBuilder.show().when.valueInEncounter("In last one month have you suffered from any pain or problem?").is.yes;
     }
 }
 
