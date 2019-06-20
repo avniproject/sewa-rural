@@ -1,6 +1,5 @@
 import {RuleFactory, VisitScheduleBuilder, RuleCondition} from "rules-config";
 import moment from "moment";
-import _ from "lodash";
 import lib from "../../lib";
 
 const AnnualVisitSchedule = RuleFactory("35e54f14-3a23-45a3-b90e-5383fa026ffd", "VisitSchedule");
@@ -70,6 +69,7 @@ class AnnualVisitScheduleSR {
             }
 
             AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
+            AnnualVisitScheduleSR.scheduleAnnualVisit(context, scheduleBuilder);
 
             // let quarterlyVisitEarliestDate =
             //     moment().date(1).month("October").year(moment().year()).startOf("day");
@@ -138,6 +138,20 @@ class AnnualVisitScheduleSR {
                 maxDate: moment().add(1, "month").add(15, "days").toDate()
             });
         }
+    }
+
+    static scheduleAnnualVisit(scheduleBuilder) {
+        let earliestDate = moment()
+            .date(1)
+            .month("July")
+            .year(moment().year()+1)
+            .startOf("day");
+        scheduleBuilder.add({
+            name: "Annual Visit",
+            encounterType: "Annual Visit",
+            earliestDate: moment().add(1, "month").toDate(),
+            maxDate: moment(earliestDate).add(1, "month").endOf("day").toDate()
+        });
     }
 }
 
