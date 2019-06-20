@@ -61,7 +61,7 @@ class AdolescentProgramSummary {
         add("School dropout").when[latest]("School going")[has]("Dropped Out");
         add("Menstrual absenteeism").when[latest]("Are you able to do daily routine work during menstruation?")[has]("Yes").or
             .when[latest]("Does she remain absent during menstruation?")[has]("Yes");
-        add("Addiction (Self)").when[latest]("Do you have any addiction")[has]("Alcohol", "Tobacco", "Both");
+        add("Addiction (Self)").when[latest]("Addiction Details")[has]("Alcohol", "Tobacco", "Both");
         add("Chronic Sickness").when[latest]("Is there any other condition you want to mention about him/her?")[has]("Heart problem",
             "Kidney problem", "Sickle cell disease", "Epilepsy", "Other");
 
