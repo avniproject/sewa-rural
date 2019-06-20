@@ -8,6 +8,7 @@ module.exports = IDI.configure({
     "org-admin": {
         "dev": "adminsr",
         "prod": "adminold@sr",
+        "staging": "adminsr"
     },
     "secrets": "../secrets.json",
     "files": {
@@ -31,8 +32,7 @@ module.exports = IDI.configure({
             "./adolescent/followups/addiction.json"
         ],
         "formMappings": [
-            "./adolescent/metadata/formMappings.json",
-            "./formMappings.json",
+            "./formMappings.json"
         ],
         "formDeletions": [
             "./mother/enrolmentDeletions.json",
@@ -54,14 +54,11 @@ module.exports = IDI.configure({
             "./adolescent/followups/severeMalnutritionConcepts.json",
             "./adolescent/followups/addictionConcepts.json"
         ],
-        "adolescentConfig": [
-            "./adolescent/metadata/adolescentProgramConfig.json"
-        ],
+        "adolescentConfig": [],
         "addressLevelTypes": [],
         "locations": ["./locations.json"],
-        "programs": ["./adolescent/metadata/adolescentProgram.json"],
+        "programs": [],
         "encounterTypes": [
-            "./adolescent/metadata/encounterTypes.json",
             "./encounterTypes.json"
         ],
         "operationalEncounterTypes": ["./operationalModules/operationalEncounterTypes.json"],

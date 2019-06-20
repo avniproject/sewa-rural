@@ -11,7 +11,7 @@ import {
 const SickleCellViewFilter = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "ViewFilter");
 const WithStatusBuilder = StatusBuilderAnnotationFactory('programEncounter', 'formElement');
 
-@SickleCellViewFilter("0485b65e-772b-4d1f-8906-c7203510639b", "Sickle Cell Followup View Filter", 100.0, {})
+@SickleCellViewFilter("39dd9bd1-63ae-44c7-9184-9bdaf261a8da", "Sickle Cell Followup View Filter", 100.0, {})
 class SickleCellFollowupViewFilterHandlerSR {
     static exec(programEncounter, formElementGroup, today) {
         return FormElementsStatusHelper

@@ -133,17 +133,8 @@ const getNextScheduledVisits = function (programEncounter) {
     return scheduleBuilder.getAllUnique("encounterType");
 };
 
-const RoutineVisitSchedule = RuleFactory("35e54f14-3a23-45a3-b90e-5383fa026ffd", "VisitSchedule");
 const DropoutVisitSchedule = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792", "VisitSchedule");
 const DropoutFollowupVisitSchedule = RuleFactory("0c444bf3-54c3-41e4-8ca9-f0deb8760831", "VisitSchedule");
-
-@RoutineVisitSchedule("8c711ca5-63de-44c6-a824-6b85177822b3", "Routine Visit Schedule Default", 1.0, {})
-class RoutineVisitScheduleHandler {
-    static exec(programEncounter, schedule, visitScheduleConfig) {
-        return getNextScheduledVisits(programEncounter);
-    }
-}
-
 
 @DropoutVisitSchedule("08cdd999-47bb-4205-917b-efb2a819121f", "Dropout Visit Schedule Default", 1.0, {})
 class DropoutVisitScheduleHandler {
@@ -152,7 +143,6 @@ class DropoutVisitScheduleHandler {
     }
 }
 
-
 @DropoutFollowupVisitSchedule("64ae053e-97f4-4fc3-878d-81c3545136a7", "Dropout Followup Visit Schedule Default", 1.0, {})
 class DropoutFollowupVisitScheduleHandler {
     static exec(programEncounter, schedule, visitScheduleConfig) {
@@ -160,4 +150,4 @@ class DropoutFollowupVisitScheduleHandler {
     }
 }
 
-export {RoutineVisitScheduleHandler, DropoutVisitScheduleHandler, DropoutFollowupVisitScheduleHandler};
+export {DropoutVisitScheduleHandler, DropoutFollowupVisitScheduleHandler};
