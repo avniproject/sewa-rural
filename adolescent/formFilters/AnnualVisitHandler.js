@@ -102,6 +102,13 @@ export default class AnnualVisitHandler {
         return statusBuilder.build();
     }
 
+    @WithName("MHM Kit received?")
+    @WithStatusBuilder
+    abc91([programEncounter], statusBuilder) {
+        statusBuilder.show().whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy;
+        return statusBuilder.build();
+    }
+
     @WithName("If Yes, Age at Menarche")
     @WithStatusBuilder
     abc10([programEncounter], statusBuilder) {

@@ -23,7 +23,7 @@ class AdolescentProgramSummary {
 
         const add = builder.addComplication.bind(builder);
 
-        //TODO: need to fix it as per the logic
+        //TODO: need to fix it as per the logic when sheet get updated
         add("Severe").when[latest]("BMI").lessThan(14.5);
         add("Moderate").when[latest]("BMI").greaterThan(14.5).and.when[latest]("BMI").lessThan(25);
         add("Normal").when[latest]("BMI").greaterThan(25);
@@ -58,7 +58,7 @@ class AdolescentProgramSummary {
         });
         const add = builder.addComplication.bind(builder);
 
-        add("School Dropout").when[latest]("School going")[has]("Dropped Out");
+        add("School dropout").when[latest]("School going")[has]("Dropped Out");
         add("Menstrual absenteeism").when[latest]("Are you able to do daily routine work during menstruation?")[has]("Yes").or
             .when[latest]("Does she remain absent during menstruation?")[has]("Yes");
         add("Addiction (Self)").when[latest]("Do you have any addiction")[has]("Alcohol", "Tobacco", "Both");
