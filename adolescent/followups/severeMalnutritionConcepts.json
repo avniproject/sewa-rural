@@ -9,25 +9,32 @@
     "dataType": "Coded",
     "answers": [
       {
-        "uuid": "939549f6-f091-4411-baaa-bbd20f745bd0"
+        "uuid": "939549f6-f091-4411-baaa-bbd20f745bd0",
+        "unique": true
       },
       {
-        "uuid": "ca8a5f57-c409-47ad-8acf-921cdd0fc191"
+        "uuid": "ca8a5f57-c409-47ad-8acf-921cdd0fc191",
+        "abnormal": true
       },
       {
-        "uuid": "4cb9f91e-c8f8-4e9f-8c4b-544d94b5afa5"
+        "uuid": "4cb9f91e-c8f8-4e9f-8c4b-544d94b5afa5",
+        "abnormal": true
       },
       {
-        "uuid": "89d2230c-7c64-4959-8835-bef4667f8428"
+        "uuid": "89d2230c-7c64-4959-8835-bef4667f8428",
+        "abnormal": true
       },
       {
-        "uuid": "674f348f-5075-4c85-8bc2-9edfdee27505"
+        "uuid": "674f348f-5075-4c85-8bc2-9edfdee27505",
+        "abnormal": true
       },
       {
-        "uuid": "c7bfff2a-43f6-4547-a0ad-a6837f22688f"
+        "uuid": "c7bfff2a-43f6-4547-a0ad-a6837f22688f",
+        "abnormal": true
       },
       {
-        "uuid": "05ea583c-51d2-412d-ad00-06c432ffe538"
+        "uuid": "05ea583c-51d2-412d-ad00-06c432ffe538",
+        "abnormal": true
       }
     ]
   },

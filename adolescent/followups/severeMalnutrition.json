@@ -83,7 +83,8 @@
             "uuid": "50a1a380-1f86-4d44-9eb0-a314e23d8a1e"
           },
           "displayOrder": 7,
-          "mandatory": true
+          "mandatory": true,
+          "voided": true
         },
         {
           "name": "Do you have any addiction",
