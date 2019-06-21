@@ -325,5 +325,20 @@
         "abnormal": true
       }
     ]
+  },
+  {
+    "name": "Medical Problems",
+    "uuid": "ac87104b-9518-4670-992a-749eaaa22616"
+  },
+  {
+    "name": "Additional Medical Problems",
+    "uuid": "d217989f-444f-4c02-8e65-da8268d4c193"
+  },
+  {
+    "name": "Sexual Problems",
+    "uuid": "aaa4b80c-2dc5-4acd-9def-46405870f46f"
   }
+
+
+
 ]
