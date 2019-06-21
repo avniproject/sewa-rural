@@ -26,8 +26,8 @@
           "uuid": "6c726559-c2eb-4273-b24b-3888c01a1b32",
           "keyValues": [],
           "concept": {
-            "name": "Number of cigarettes/bidis consumed per day",
-            "uuid": "44fdb923-9073-49ba-a0ed-de6242b98967"
+            "name": "Number of pouches consumed per day",
+            "uuid": "44aa00b3-6446-4900-a0eb-adb219eaf192"
           },
           "displayOrder": 2,
           "mandatory": true
