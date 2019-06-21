@@ -114,20 +114,33 @@ class AnnualVisitScheduleSR {
         };
         const scheduleBuilder = new VisitScheduleBuilder(context);
 
+        const getEarliestDate = () => _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment()
+                .add(1, "month").startOf("day")
+                .toDate()
+            : moment(programEncounter.earliestVisitDateTime)
+                .add(1, "month")
+                .startOf("day")
+                .toDate();
+
+        const getMaxDate = () => moment(getEarliestDate())
+            .add(15, "days")
+            .endOf("day")
+            .toDate();
+
         if (programEncounter.encounterType.name === "Annual Visit") {
-            let oneMonthFromNow =
-                moment(programEncounter.earliestVisitDateTime).add(1, "month").startOf("day");
 
             if (new RuleCondition(context).when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Disease").matches()) {
                 scheduleBuilder.add({
                     name: "Sickle Cell Vulnerability Followup",
                     encounterType: "Sickle Cell Vulnerability",
-                    earliestDate: oneMonthFromNow.toDate(),
-                    maxDate: moment(oneMonthFromNow).add(15, "days").endOf("day").toDate()
+                    earliestDate: getEarliestDate(),
+                    maxDate: getMaxDate()
                 });
             }
 
-            const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+
+
             if (new RuleCondition(context).when
                 .valueInEncounter("Is there any other condition you want to mention about him/her?")
                 .containsAnswerConceptNameOtherThan("No problem")
@@ -135,8 +148,8 @@ class AnnualVisitScheduleSR {
                 scheduleBuilder.add({
                     name: "Chronic Sickness Followup",
                     encounterType: "Chronic Sickness",
-                    earliestDate: nextVisitDate.toDate(),
-                    maxDate: nextVisitDate.add(15, "days").toDate()
+                    earliestDate: getEarliestDate(),
+                    maxDate: getMaxDate()
                 });
             }
 
@@ -147,8 +160,8 @@ class AnnualVisitScheduleSR {
                 scheduleBuilder.add({
                     name: "Severe Anemia Followup",
                     encounterType: "Severe Anemia",
-                    earliestDate: nextVisitDate.toDate(),
-                    maxDate: nextVisitDate.add(15, "days").toDate()
+                    earliestDate: getEarliestDate(),
+                    maxDate: getMaxDate()
                 });
             }
 
@@ -159,8 +172,8 @@ class AnnualVisitScheduleSR {
                 scheduleBuilder.add({
                     name: "Moderate Anemia Followup ",
                     encounterType: "Moderate Anemia",
-                    earliestDate: nextVisitDate.toDate(),
-                    maxDate: nextVisitDate.add(15, "days").toDate()
+                    earliestDate: getEarliestDate(),
+                    maxDate: getMaxDate()
                 });
             }
 
@@ -170,12 +183,12 @@ class AnnualVisitScheduleSR {
                 scheduleBuilder.add({
                     name: "Addiction Vulnerability Followup",
                     encounterType: "Addiction Vulnerability",
-                    earliestDate: nextVisitDate.toDate(),
-                    maxDate: nextVisitDate.add(15, "days").toDate()
+                    earliestDate: getEarliestDate(),
+                    maxDate: getMaxDate()
                 });
             }
 
-            AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder, nextVisitDate);
+            AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder, getEarliestDate, getMaxDate);
             AnnualVisitScheduleSR.scheduleAnnualVisit(scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
@@ -222,19 +235,19 @@ class AnnualVisitScheduleSR {
         const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Height', programEncounter);
         const weightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Weight', programEncounter);
         const isUnderweight = heightObs && weightObs && lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 14.5 || false;
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-         if (programEncounter.encounterType.name === "Annual Visit" && isUnderweight) {
+
+        if (programEncounter.encounterType.name === "Annual Visit" && isUnderweight) {
             scheduleBuilder.add({
                 name: "Severe Malnutrition Followup",
                 encounterType: "Severe Malnutrition Followup",
-                earliestDate: nextVisitDate.toDate(),
-                maxDate: nextVisitDate.add(15, "days").toDate()
+                earliestDate: getEarliestDate().toDate(),
+                maxDate: getEarliestDate().add(15, "days").toDate()
             });
         }
         return scheduleBuilder.getAllUnique("encounterType");
     }
 
-    static scheduleMenstualDisorderFollowup(context, scheduleBuilder, nextVisitDate) {
+    static scheduleMenstualDisorderFollowup(context, scheduleBuilder, getEarliestDate, getMaxDate) {
         if (new RuleCondition(context).when
             .valueInEncounter("Are you able to do daily routine work during menstruation?").is.yes
             .or
@@ -244,8 +257,8 @@ class AnnualVisitScheduleSR {
             scheduleBuilder.add({
                 name: "Menstrual Disorder Followup",
                 encounterType: "Menstrual Disorder",
-                earliestDate: nextVisitDate.toDate(),
-                maxDate: nextVisitDate.add(15, "days").toDate()
+                earliestDate: getEarliestDate(),
+                maxDate: getMaxDate()
             });
         }
     }
