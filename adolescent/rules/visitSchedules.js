@@ -12,6 +12,98 @@ const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9
 const AddictionVulnerabilityFollowup = RuleFactory("8aec0b76-79ae-4e47-9375-ed9db3739997", "VisitSchedule");
 const SickleCellVulnerabilityFollowup = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "VisitSchedule");
 
+const addDropoutHomeVisits = (programEncounter, scheduleBuilder) => {
+    const dateTimeToUse = programEncounter.encounterDateTime;
+    const enrolment = programEncounter.programEnrolment;
+    const scheduledDropoutVisit = enrolment.scheduledEncountersOfType("Dropout Home Visit");
+    if (!_.isEmpty(scheduledDropoutVisit)) return;
+    scheduleBuilder.add({
+            name: "Dropout Home Visit",
+            encounterType: "Dropout Home Visit",
+            earliestDate: dateTimeToUse,
+            maxDate: lib.C.addDays(dateTimeToUse, 15)
+        }
+    ).when.valueInEncounter("School going").containsAnswerConceptName("Dropped Out");
+};
+
+const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
+    const dateTimeToUse = programEncounter.encounterDateTime;
+    const enrolment = programEncounter.programEnrolment;
+
+    scheduleBuilder.add({
+            name: "Dropout Followup Visit",
+            encounterType: "Dropout Followup Visit",
+            earliestDate: lib.C.addDays(dateTimeToUse, 7),
+            maxDate: lib.C.addDays(dateTimeToUse, 17)
+        }
+    ).whenItem(programEncounter.encounterType.name).equals("Dropout Home Visit")
+        .and.whenItem(
+            programEncounter
+                .programEnrolment
+                .getEncounters(true)
+                .filter((encounter) => encounter.encounterType.name === "Dropout Followup Visit")
+                .length
+        ).lessThanOrEqualTo(5);
+
+    scheduleBuilder.add({
+            name: "Dropout Followup Visit",
+            encounterType: "Dropout Followup Visit",
+            earliestDate: lib.C.addDays(dateTimeToUse, 7),
+            maxDate: lib.C.addDays(dateTimeToUse, 17)
+        }
+    ).when.valueInEncounter("Have you started going to school once again").containsAnswerConceptName("No")
+        .and.whenItem(
+            programEncounter
+                .programEnrolment
+                .getEncounters(true)
+                .filter((encounter) => encounter.encounterType.name === "Dropout Followup Visit")
+                .length
+        ).lessThanOrEqualTo(5);
+
+    let schoolRestartDate = moment(programEncounter.encounterDateTime).month(5).date(1).hour(0).minute(0).second(0);
+    schoolRestartDate = schoolRestartDate < moment(programEncounter.encounterDateTime) ? schoolRestartDate.add(12, 'months').toDate()
+        : schoolRestartDate.toDate();
+    scheduleBuilder.add({
+            name: "Dropout Followup Visit",
+            encounterType: "Dropout Followup Visit",
+            earliestDate: schoolRestartDate,
+            maxDate: lib.C.addDays(schoolRestartDate, 15)
+        }
+    ).when.valueInEncounter("Have you started going to school once again")
+        .containsAnswerConceptName("Yes, but could not attend");
+
+};
+
+const getNextScheduledVisits = function (programEncounter) {
+    const scheduleBuilder = new VisitScheduleBuilder({
+        programEnrolment: programEncounter.programEnrolment,
+        programEncounter: programEncounter
+    });
+
+    addDropoutHomeVisits(programEncounter, scheduleBuilder);
+    addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
+
+    return scheduleBuilder.getAllUnique("encounterType");
+};
+
+const DropoutVisitSchedule = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792", "VisitSchedule");
+const DropoutFollowupVisitSchedule = RuleFactory("0c444bf3-54c3-41e4-8ca9-f0deb8760831", "VisitSchedule");
+
+@DropoutVisitSchedule("08cdd999-47bb-4205-917b-efb2a819121f", "Dropout Visit Schedule Not Default", 1.0, {})
+class DropoutVisitScheduleHandler {
+    static exec(programEncounter, schedule, visitScheduleConfig) {
+        return getNextScheduledVisits(programEncounter);
+    }
+}
+
+@DropoutFollowupVisitSchedule("64ae053e-97f4-4fc3-878d-81c3545136a7", "Dropout Followup Visit Schedule Not Default", 1.0, {})
+class DropoutFollowupVisitScheduleHandler {
+    static exec(programEncounter, schedule, visitScheduleConfig) {
+        console.log(`DropoutFollowupVisitScheduleHandler is invoked`);
+        return getNextScheduledVisits(programEncounter);
+    }
+}
+
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
 class AnnualVisitScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
@@ -85,6 +177,8 @@ class AnnualVisitScheduleSR {
 
             AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder, nextVisitDate);
             AnnualVisitScheduleSR.scheduleAnnualVisit(scheduleBuilder);
+            addDropoutHomeVisits(programEncounter, scheduleBuilder);
+            addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
 
             // let quarterlyVisitEarliestDate =
             //     moment().date(1).month("October").year(moment().year()).startOf("day");
@@ -329,5 +423,7 @@ export {
     ModerateAnemiaFollowupSR,
     SeverMalnutritionFollowupSR,
     AddictionVulnerabilityFollowupSR,
-    SickleCellVulnerabilityFollowupSR
+    SickleCellVulnerabilityFollowupSR,
+    DropoutFollowupVisitScheduleHandler,
+    DropoutVisitScheduleHandler
 }

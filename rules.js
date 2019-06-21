@@ -2,7 +2,6 @@ const _ = require('lodash');
 
 module.exports = _.merge({},
     require('./adolescent/rules/visitSchedules'),
-    require('./adolescent/rules/adolescentVisitSchedule'),
     require('./adolescent/rules/adolescentProgramEncounterDecision'),
     require('./adolescent/rules/adolescentProgramEnrolmentDecision'),
     require('./adolescent/rules/sickleCellFormHandler'),

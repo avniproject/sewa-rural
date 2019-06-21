@@ -1,7 +1,5 @@
 import {FormElementsStatusHelper} from "rules-config/rules";
-import RoutineEncounterHandler from "../formFilters/RoutineEncounterHandler";
 import DropoutEncounterFormHandler from "../formFilters/DropoutEncounterFormHandler";
-import {getNextScheduledVisits} from './adolescentVisitSchedule';
 import {RuleFactory} from 'rules-config/rules';
 import AnnualVisitHandler from "../formFilters/AnnualVisitHandler";
 
@@ -11,10 +9,6 @@ const DropoutFollowUpViewFilters = RuleFactory("0c444bf3-54c3-41e4-8ca9-f0deb876
 
 const encounterTypeHandlerMap = new Map([
     ['Annual Visit', new AnnualVisitHandler()],
-    ['Quarterly Visit', new RoutineEncounterHandler()],
-    ['Half-Yearly Visit', new RoutineEncounterHandler()],
-    ['Monthly Visit', new RoutineEncounterHandler()],
-    ['Midline Visit', new RoutineEncounterHandler()],
     ['Dropout Home Visit', new DropoutEncounterFormHandler()]
 ]);
 
