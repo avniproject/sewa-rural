@@ -20,7 +20,7 @@ export class AnnualVisitDecisionHandler {
         const referralAdvice = new ComplicationsBuilder({
             programEnrolment: programEncounter.programEnrolment,
             programEncounter: programEncounter,
-            complicationsConcept: 'Refer to the hospital immediately for'
+            complicationsConcept: 'Refer to hospital immediately for'
         });
 
         if (!programEncounter) return referralAdvice.getComplications();

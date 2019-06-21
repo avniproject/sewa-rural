@@ -338,8 +338,36 @@
   {
     "name": "Sexual Problems",
     "uuid": "aaa4b80c-2dc5-4acd-9def-46405870f46f"
+  },
+  {
+    "name": "Refer to hospital immediately for",
+    "uuid": "de5f1932-263b-48d2-8add-720c089aa6d6",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "1aff631c-e487-4202-a862-122b45168ac6",
+        "name": "Severe Anemia"
+      },
+      {
+        "name": "Sickle cell disease",
+        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66"
+      },
+      {
+        "name": "Medical Problems",
+        "uuid": "ac87104b-9518-4670-992a-749eaaa22616"
+      },
+      {
+        "name": "Additional Medical Problems",
+        "uuid": "d217989f-444f-4c02-8e65-da8268d4c193"
+      },
+      {
+        "name": "Sexual Problems",
+        "uuid": "aaa4b80c-2dc5-4acd-9def-46405870f46f"
+      },
+      {
+        "name": "Menstrual disorders",
+        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
+      }
+    ]
   }
-
-
-
 ]
