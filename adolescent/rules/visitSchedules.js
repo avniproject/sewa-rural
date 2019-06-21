@@ -206,17 +206,34 @@ class MenstrualDisorderFollowupSR {
 @SeverAnemiaFollowup("83098b53-fbfa-4acb-9bc8-7f1e38b9789b", "Sever Anemia Followup", 100.0)
 class SeverAnemiaFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        const scheduleBuilder = new VisitScheduleBuilder({
+        let context = {
             programEncounter: programEncounter,
-            programEnrolment: programEnrolment,
-        });
-        scheduleBuilder.add({
-            name: "Severe Anemia Followup",
-            encounterType: "Severe Anemia",
-            earliestDate: moment().add(1, "month").toDate(),
-            maxDate: moment().add(1, "month").add(15, "days").toDate()
-        });
+            programEnrolment: programEncounter.programEnrolment,
+        };
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+        if (new RuleCondition(context).when
+            .valueInEncounter("HB after 3 months of treatment?")
+            .is.lessThanOrEqualTo(7)
+            .matches()) {
+            scheduleBuilder.add({
+                name: "Severe Anemia Followup",
+                encounterType: "Severe Anemia",
+                earliestDate: moment().add(1, "month").toDate(),
+                maxDate: moment().add(1, "month").add(15, "days").toDate()
+            });
+        }
+        if (new RuleCondition(context).when
+            .valueInEncounter("HB after 3 months of treatment?").is.greaterThanOrEqualTo(7.1)
+            .and.valueInEncounter("HB after 3 months of treatment?").is.lessThanOrEqualTo(10)
+            .matches()) {
+            scheduleBuilder.add({
+                name: "Moderate Anemia Followup",
+                encounterType: "Moderate Anemia",
+                earliestDate: moment().add(1, "month").toDate(),
+                maxDate: moment().add(1, "month").add(15, "days").toDate()
+            });
+        }
+
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
