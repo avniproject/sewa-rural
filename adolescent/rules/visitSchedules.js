@@ -240,8 +240,8 @@ class AnnualVisitScheduleSR {
             scheduleBuilder.add({
                 name: "Severe Malnutrition Followup",
                 encounterType: "Severe Malnutrition Followup",
-                earliestDate: getEarliestDate().toDate(),
-                maxDate: getEarliestDate().add(15, "days").toDate()
+                earliestDate: getEarliestDate(),
+                maxDate: getMaxDate()
             });
         }
         return scheduleBuilder.getAllUnique("encounterType");
