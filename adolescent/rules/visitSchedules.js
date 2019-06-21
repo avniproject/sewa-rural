@@ -70,7 +70,7 @@ class AnnualVisitScheduleSR {
             }
 
             if (new RuleCondition(context).when
-                .valueInEncounter("Addiction Details").containsAnswerConceptName("Alcohol", "Tobacco", "Both")
+                .valueInEncounter("Addiction Details").containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both")
                 .matches()) {
                 scheduleBuilder.add({
                     name: "Addiction Vulnerability Followup",
