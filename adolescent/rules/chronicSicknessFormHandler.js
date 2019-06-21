@@ -37,24 +37,6 @@ class ChronicSicknessViewFilterSR{
     abc3([programEncounter], statusBuilder){
         statusBuilder.show().when.valueInEncounter("Is your condition cured?").is.no;
     }
-
-    @WithName("Counseling done?")
-    @WithStatusBuilder
-    abc4([programEncounter], statusBuilder){
-        statusBuilder.show().when.valueInEncounter("Is your condition cured?").is.no;
-    }
-
-    @WithName("Home visit done?")
-    @WithStatusBuilder
-    abc5([programEncounter], statusBuilder){
-        statusBuilder.show().when.valueInEncounter("Is your condition cured?").is.no;
-    }
-
-    @WithName("cured ?")
-    @WithStatusBuilder
-    abc6([programEncounter], statusBuilder){
-        statusBuilder.show().when.valueInEncounter("Is your condition cured?").is.no;
-    }
 }
 
 module.exports = {ChronicSicknessViewFilterSR};

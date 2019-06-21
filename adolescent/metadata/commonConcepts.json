@@ -367,6 +367,10 @@
       {
         "name": "Menstrual disorders",
         "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
+      },
+      {
+        "name": "Addiction (Self)",
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
       }
     ]
   }

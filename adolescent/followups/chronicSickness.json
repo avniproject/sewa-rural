@@ -84,7 +84,8 @@
             "uuid": "f44951a6-adc2-4983-947f-f8327ce05419"
           },
           "displayOrder": 7,
-          "mandatory": true
+          "mandatory": true,
+          "voided": true
         },
         {
           "name": "Home visit done?",
@@ -95,7 +96,8 @@
             "uuid": "4c594be1-997f-43f7-a419-5d490162706a"
           },
           "displayOrder": 8,
-          "mandatory": true
+          "mandatory": true,
+          "voided": true
         },
         {
           "name": "cured ?",
@@ -106,7 +108,8 @@
             "uuid": "56d43609-c80f-4ed9-8d6e-0feb8e05e368"
           },
           "displayOrder": 9,
-          "mandatory": true
+          "mandatory": true,
+          "voided": true
         }
       ]
     },
@@ -127,6 +130,39 @@
           },
           "displayOrder": 0.1,
           "mandatory": false
+        },
+        {
+          "name": "Counseling done?",
+          "uuid": "c3f56e41-43d7-47a0-9027-829656853d47",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "f44951a6-adc2-4983-947f-f8327ce05419"
+          },
+          "displayOrder": 2,
+          "mandatory": true
+        },
+        {
+          "name": "Home visit done?",
+          "uuid": "b9e00924-4872-4ed7-9833-f2ce8ecde94a",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "4c594be1-997f-43f7-a419-5d490162706a"
+          },
+          "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "cured ?",
+          "uuid": "8347263f-a8e7-4810-8ce9-b7901fba3a08",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "56d43609-c80f-4ed9-8d6e-0feb8e05e368"
+          },
+          "displayOrder": 4,
+          "mandatory": true
         }
       ]
     }
