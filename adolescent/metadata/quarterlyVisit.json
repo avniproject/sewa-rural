@@ -140,6 +140,7 @@
           "name": "Absorbent material used",
           "uuid": "b553ce5e-24ad-479a-9ef6-031c9b8488fe",
           "keyValues": [],
+          "type": "MultiSelect",
           "concept": {
             "uuid": "a54fcfad-8656-46ae-9706-671a600eabca",
             "name": "Absorbent material used"
@@ -148,9 +149,10 @@
           "mandatory":true
         },
         {
-          "name": "Menstrual disorder",
+          "name": "Menstrual disorders",
           "uuid": "3d588339-08f0-4871-b36b-e61168d5dad0",
           "keyValues": [],
+          "type": "MultiSelect",
           "concept": {
             "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
           },
@@ -194,7 +196,7 @@
           "name": "Reason for remaining absent during mensturation",
           "uuid": "32f6f41e-f8f3-4481-abaf-6fd907bc8755",
           "keyValues": [],
-          "type": "SingleSelect",
+          "type": "MultiSelect",
           "concept": {
             "uuid": "c1288e8a-9b6a-4928-aa6d-3010814ee5c2",
             "name": "Reason for remaining absent during menstruation"
@@ -249,6 +251,7 @@
           "name": "Sickness in last 3 months",
           "uuid": "b5f5141f-5552-4887-8eb1-6dcb483ec6f8",
           "keyValues": [],
+          "type": "MultiSelect",
           "concept": {
             "name": "Sickness in last 3 month",
             "uuid": "49b70138-ea65-45ee-8f3f-676bb8a1f8d3"
