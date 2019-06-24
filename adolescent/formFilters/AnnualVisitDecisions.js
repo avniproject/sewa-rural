@@ -8,7 +8,6 @@ import {
     WithName,
 } from 'rules-config/rules';
 import {complicationsBuilder as ComplicationsBuilder} from "rules-config";
-import RuleHelper from "../../../ihmp/RuleHelper";
 
 const Decision = RuleFactory('35e54f14-3a23-45a3-b90e-5383fa026ffd', 'Decision');
 
@@ -60,7 +59,9 @@ export class AnnualVisitDecisionHandler {
     }
 
     static exec(programEncounter, decisions, context, today) {
-        RuleHelper.replaceRecommendation(decisions, 'encounterDecisions', AnnualVisitDecisionHandler.referrals(programEncounter));
+        const recommendation = AnnualVisitDecisionHandler.referrals(programEncounter);
+        decisions['encounterDecisions'] = decisions['encounterDecisions'] || [];
+        decisions['encounterDecisions'] = decisions['encounterDecisions'].filter((d) => d.name !== recommendation.name).concat(recommendation);
         return decisions;
     }
 
