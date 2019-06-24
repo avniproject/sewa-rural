@@ -13,6 +13,26 @@
     ]
   },
   {
+    "name": "Present in school",
+    "uuid": "576d89c7-0a14-40db-80a8-d4f7066fc3e6",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "From how many days not coming to school",
+    "uuid": "bae06237-8738-45cc-993c-efc19c9ea003",
+    "dataType": "Numeric",
+    "unit": "days"
+  },
+  
+  {
     "name": "Counseling done?",
     "uuid": "f44951a6-adc2-4983-947f-f8327ce05419",
     "dataType": "Coded",
@@ -167,6 +187,48 @@
   {
     "name": "Sickness in last 1 month",
     "uuid": "0361d3b7-1187-414b-acb1-ed1da58e4e44",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Fever",
+        "uuid": "0b7f3334-f81e-4d84-a13d-b35011e34456",
+        "abnormal": true
+      },
+      {
+        "name": "Diarrhoea",
+        "uuid": "88af3c67-3828-4f4b-8993-1497a86bf2bf",
+        "abnormal": true
+      },
+      {
+        "name": "Abdominal pain",
+        "uuid": "7b8829db-9a5a-4177-bab3-6f8e3bb3832c",
+        "abnormal": true
+      },
+      {
+        "name": "Jaundice",
+        "uuid": "352bb8a4-1569-492f-9a53-14e3b134c104",
+        "abnormal": true
+      },
+      {
+        "name": "Common cold",
+        "uuid": "48689220-7064-4a73-90c4-b8857445a0c8",
+        "abnormal": true
+      },
+      {
+        "name": "No sickness",
+        "uuid": "c43f9228-2995-48d3-8ecd-a22586210664",
+        "unique": true
+      },
+      {
+        "name": "Other",
+        "uuid": "05ea583c-51d2-412d-ad00-06c432ffe538",
+        "abnormal": true
+      }
+    ]
+  },
+  {
+    "name": "Sickness in last 3 month",
+    "uuid": "49b70138-ea65-45ee-8f3f-676bb8a1f8d3",
     "dataType": "Coded",
     "answers": [
       {
