@@ -37,7 +37,7 @@ export default class QuarterlyVisitHandler {
         return statusBuilder.build();
     }
 
-    @WithName("Menstruation started")
+    @WithName("Menstrutation started")
     @WithStatusBuilder
     abc9([], statusBuilder) {
         statusBuilder.show().whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy;
@@ -89,8 +89,9 @@ export default class QuarterlyVisitHandler {
     @WithName("Does she remain absent during menstruation?")
     @WithStatusBuilder
     abc15([], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("School going").containsAnswerConceptName("Yes").or
-            .when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem");
+        statusBuilder.show().when.valueInEncounter("School going").containsAnswerConceptName("Yes")
+        .and.whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy
+        .or.when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem");
         return statusBuilder.build();
     }
 
