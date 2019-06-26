@@ -188,6 +188,8 @@ class AnnualVisitScheduleSR {
                 });
             }
 
+
+            AnnualVisitScheduleSR.scheduleMalnutritionFollowup(programEncounter, scheduleBuilder, getEarliestDate, getMaxDate);
             AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder, getEarliestDate, getMaxDate);
             AnnualVisitScheduleSR.scheduleAnnualVisit(scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
@@ -231,20 +233,24 @@ class AnnualVisitScheduleSR {
             }
         }
 
-        //Visit not getting scheduled when keeping this block in the first if of Annual Visit, hence kept separately
+        return scheduleBuilder.getAllUnique("encounterType");
+    }
+
+    static scheduleMalnutritionFollowup(programEncounter, scheduleBuilder, getEarliestDate, getMaxDate) {
         const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Height', programEncounter);
         const weightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Weight', programEncounter);
         const isUnderweight = heightObs && weightObs && lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 14.5 || false;
 
-        if (programEncounter.encounterType.name === "Annual Visit" && isUnderweight) {
+        if (isUnderweight) {
+            let earliestDate = getEarliestDate();
+            let maxDate = getMaxDate();
             scheduleBuilder.add({
                 name: "Severe Malnutrition Followup",
                 encounterType: "Severe Malnutrition Followup",
-                earliestDate: getEarliestDate(),
-                maxDate: getMaxDate()
+                earliestDate: earliestDate,
+                maxDate: maxDate
             });
         }
-        return scheduleBuilder.getAllUnique("encounterType");
     }
 
     static scheduleMenstualDisorderFollowup(context, scheduleBuilder, getEarliestDate, getMaxDate) {
