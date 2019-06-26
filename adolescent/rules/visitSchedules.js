@@ -4,6 +4,7 @@ import lib from "../../lib";
 import _ from 'lodash';
 
 const AnnualVisitSchedule = RuleFactory("35e54f14-3a23-45a3-b90e-5383fa026ffd", "VisitSchedule");
+const QuarterlyVisitSchedule = RuleFactory("a8c1f2a0-f4e0-4190-b0c3-bd81f21bef6c","VisitSchedule");
 const ChronicSicknessFollowup = RuleFactory("dac9f78d-c0d5-48ff-ba0e-cb48106437b9", "VisitSchedule");
 const MenstrualDisorderFollowup = RuleFactory("bb9bf699-92f3-4646-9cf4-f1792fa2c3a6", "VisitSchedule");
 const SeverAnemiaFollowup = RuleFactory("12cd243c-851c-4fd1-bc28-ab0b0141c76f", "VisitSchedule");
@@ -140,7 +141,6 @@ class AnnualVisitScheduleSR {
             }
 
 
-
             if (new RuleCondition(context).when
                 .valueInEncounter("Is there any other condition you want to mention about him/her?")
                 .containsAnswerConceptNameOtherThan("No problem")
@@ -192,45 +192,10 @@ class AnnualVisitScheduleSR {
             AnnualVisitScheduleSR.scheduleMalnutritionFollowup(programEncounter, scheduleBuilder, getEarliestDate, getMaxDate);
             AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder, getEarliestDate, getMaxDate);
             AnnualVisitScheduleSR.scheduleAnnualVisit(scheduleBuilder);
+            AnnualVisitScheduleSR.scheduleQuarterlyVisit(scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
 
-            // let quarterlyVisitEarliestDate =
-            //     moment().date(1).month("October").year(moment().year()).startOf("day");
-            // scheduleBuilder.add({
-            //     name: "Quarterly Visit",
-            //     encounterType: "Quarterly Visit",
-            //     earliestDate: quarterlyVisitEarliestDate.toDate(),
-            //     maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
-            // });
-
-        }
-
-        if (programEncounter.encounterType.name === "Quarterly Visit") {
-            const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-            AnnualVisitScheduleSR.scheduleMenstualDisorderFollowup(context, scheduleBuilder, nextVisitDate);
-
-            const currentMonth = moment().format("MMMM");
-            const visitTable = {
-                "October": {"nextMonth": "January", "incrementInYear": 1},
-                "January": {"nextMonth": "May", "incrementInYear": 0},
-                "May": {"nextMonth": "October", "incrementInYear": 0},
-            };
-
-            if (visitTable[currentMonth]) {
-                let quarterlyVisitEarliestDate = moment()
-                    .date(1)
-                    .month(visitTable[currentMonth].nextMonth)
-                    .year(moment().year() + visitTable[currentMonth].incrementInYear)
-                    .startOf("day");
-
-                scheduleBuilder.add({
-                    name: "Quarterly Visit",
-                    encounterType: "Quarterly Visit",
-                    earliestDate: quarterlyVisitEarliestDate.toDate(),
-                    maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
-                });
-            }
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
@@ -282,6 +247,53 @@ class AnnualVisitScheduleSR {
             maxDate: moment(earliestDate).add(1, "month").endOf("day").toDate()
         });
     }
+
+    static scheduleQuarterlyVisit(scheduleBuilder) {
+        let quarterlyVisitEarliestDate = moment()
+                    .date(1)
+                    .month("October")
+                    .year(moment().year())
+                    .startOf("day");
+             scheduleBuilder.add({
+                     name: "Quarterly Visit",
+                     encounterType: "Quarterly Visit",
+                     earliestDate: quarterlyVisitEarliestDate.toDate(),
+                     maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
+    });
+    }
+}
+
+@QuarterlyVisitSchedule("ac928c59-d26d-4f74-9b5e-db506a44b4e0","Quarterly Visit Schedule", 100.0)   
+class QuarterlyVisitScheduleSR{
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        const programEnrolment = programEncounter.programEnrolment;
+        let context = {
+            programEncounter: programEncounter,
+            programEnrolment: programEnrolment,
+        };
+        const scheduleBuilder = new VisitScheduleBuilder(context); 
+        const currentMonth = moment().format("MMMM");
+        const visitTable = {
+                "October": {"nextMonth": "January", "incrementInYear": 1},
+                "January": {"nextMonth": "May", "incrementInYear": 0},
+                "May": {"nextMonth": "October", "incrementInYear": 0},
+            };
+
+            if (visitTable[currentMonth]) {
+                let quarterlyVisitEarliestDate = moment()
+                    .date(1)
+                    .month(visitTable[currentMonth].nextMonth)
+                    .year(moment().year() + visitTable[currentMonth].incrementInYear)
+                    .startOf("day");
+            scheduleBuilder.add({
+                    name: "Quarterly Visit",
+                    encounterType: "Quarterly Visit",
+                    earliestDate: quarterlyVisitEarliestDate.toDate(),
+                    maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
+                });
+            }
+        return scheduleBuilder.getAllUnique("encounterType");
+         }       
 }
 
 @ChronicSicknessFollowup("625a709f-90b9-40f9-8483-b0c9790a4eba", "Chronic Sickness Followup", 100.0)
@@ -436,6 +448,7 @@ class SickleCellVulnerabilityFollowupSR {
 
 export {
     AnnualVisitScheduleSR,
+    QuarterlyVisitScheduleSR,
     ChronicSicknessFollowupScheduleSR,
     MenstrualDisorderFollowupSR,
     SeverAnemiaFollowupSR,
