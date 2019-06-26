@@ -2,160 +2,140 @@
   {
     "uuid": "ca9ac3c7-961d-4ca5-8697-6c700acd5367",
     "level": 1,
-    "comment": "દરિયા માધ્યમિક",
-    "name": "Dariya Madhyamik",
+    "name": "દરિયા માધ્યમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "eddb0068-cb87-4985-861a-51d8c0333737",
     "level": 1,
-    "comment": "દરિયા પ્રાથમિક",
-    "name": "Dariya Prathmik",
+    "name": "દરિયા પ્રાથમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "3fbeea29-a4c5-4804-b5b0-a2d9a113be5c",
     "level": 1,
-    "comment": "ગોવાલી પ્રાથમિક",
-    "name": "Govali Prathmik",
+    "name": "ગોવાલી પ્રાથમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "9268a54f-c91c-4a40-a6d2-4e7b291bb5f4",
     "level": 1,
-    "comment": "ઝોકલા",
-    "name": "Jhokla",
+    "name": "ઝોકલા",
     "type": "Village",
     "parents": []
   },
   {
     "uuid": "2cb6986b-98c7-4777-a29c-77384f3201bf",
     "level": 1,
-    "comment": "ઝગડિયા, કન્યા આદર્શ",
-    "name": "Jhagadia, Kanya Adarsh",
+    "name": "ઝગડિયા, કન્યા આદર્શ",
     "type": "Boarding",
     "parents": []
   },
   {
     "uuid": "303050e0-2401-4b37-bdc7-2c6b9f416fe6",
     "level": 1,
-    "comment": "કપલસાડી માધ્યમિક",
-    "name": "Kapalsadi Madhyamik",
+    "name": "કપલસાડી માધ્યમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "fc4ac7f7-9a5e-4321-b014-150c42728d2b",
     "level": 1,
-    "comment": "કપલસાડી પ્રાથમિક",
-    "name": "Kapalsadi Prathmik",
+    "name": "કપલસાડી પ્રાથમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "8b5a4b18-ae85-49ec-847a-489d4092c82a",
     "level": 1,
-    "comment": "કાંટીદરા",
-    "name": "Kantidara",
+    "name": "કાંટીદરા",
     "type": "Village",
     "parents": []
   },
   {
     "uuid": "731a2a46-1320-429a-b877-776a89db3c2b",
     "level": 1,
-    "comment": "જાંબોઈ",
-    "name": "Jamboi",
+    "name": "જાંબોઈ",
     "type": "Village",
     "parents": []
   },
   {
     "uuid": "c456917b-324d-4149-8f6c-fe71d644a72b",
     "level": 1,
-    "comment": "માંડવા, ગાયત્રી વિદ્યામન્દિર",
-    "name": "Mandava, Gayatri Vidhyamandir",
+    "name": "ાંડવા, ગાયત્રી વિદ્યામન્દિર",
     "type": "Boarding",
     "parents": []
   },
   {
     "uuid": "d822e31a-9c01-47c1-a38a-9665dadee8ef",
     "level": 1,
-    "comment": "ધારોલી માધ્યમિક",
-    "name": "Dharoli Madhyamik",
+    "name": "ધારોલી માધ્યમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "b6414df1-2b03-4e3b-8e8a-a9d9fbdd5133",
     "level": 1,
-    "comment": "ધારોલી પ્રાથમિક",
-    "name": "Dharoli Prathmik",
+    "name": "ધારોલી પ્રાથમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "c5736e66-a50d-4c3b-bf70-34748ad3d2e9",
     "level": 1,
-    "comment": "ગોવાલી માધ્યમિક",
-    "name": "Govali Madhyamik",
+    "name": "ગોવાલી માધ્યમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "8e2d8a3a-1a00-4507-963b-9115428b1d0c",
     "level": 1,
-    "comment": "આંબોસ",
-    "name": "Aambos",
+    "name": "આંબોસ",
     "type": "Village",
     "parents": []
   },
   {
     "uuid": "0288e6cf-8c52-4183-ac21-ad8de606b837",
     "level": 1,
-    "comment": "મોરિયાણા, કન્યા આશ્રમ",
-    "name": "Moriyana, Kanya Ashram",
+    "name": "મોરિયાણા, કન્યા આશ્રમ",
     "type": "Boarding",
     "parents": []
   },
   {
     "uuid": "966749c4-977a-4bec-b750-ace3251f6d64",
     "level": 1,
-    "comment": "અમલઝર માધ્યમિક",
-    "name": "Amalzar Madhyamik",
+    "name": "અમલઝર માધ્યમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "a941867a-b4e9-436c-9222-8a8355f46d0d",
     "level": 1,
-    "comment": "અમલઝર પ્રાથમિક",
-    "name": "Amalzar Prathmik",
+    "name": "અમલઝર પ્રાથમિક",
     "type": "School",
     "parents": []
   },
   {
     "uuid": "8fb0b088-cd21-4a31-9d7a-d7297c14d01f",
     "level": 1,
-    "comment": "નાના અણધરા",
-    "name": "Nana Anadhara",
+    "name": "નાના અણધરા",
     "type": "Village",
     "parents": []
   },
   {
     "uuid": "db8106f1-2444-42a8-8373-cf7fc89fad9b",
     "level": 1,
-    "comment": "રાણીપુરા, કેજીબીવી",
-    "name": "Ranipura, KGBV",
+    "name": "રાણીપુરા, કેજીબીવી",
     "type": "Boarding",
     "parents": []
   },
   {
     "uuid": "5944ff97-55cc-466d-802f-37cb31b6b6e1",
     "level": 1,
-    "comment": "ઝગડિયા, મિશન સ્કૂલ",
-    "name": "Jhagadia, Mission School",
+    "name": "ઝગડિયા, મિશન સ્કૂલ",
     "type": "Boarding",
     "parents": []
   }
