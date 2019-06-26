@@ -4,7 +4,7 @@
     "uuid": "939549f6-f091-4411-baaa-bbd20f745bd0"
   },
   {
-    "name": "Are you sufferring from any other medical problem?",
+    "name": "Suffering from any other medical problem",
     "uuid": "63d7156c-91cb-43d9-af94-d99e85fde18a",
     "dataType": "Coded",
     "answers": [
@@ -39,7 +39,7 @@
     ]
   },
   {
-    "name": "Are you taken IFA tablets?",
+    "name": "Taking IFA tablets",
     "uuid": "4ae0cd47-191e-4678-aeb0-fdfad29057bf",
     "dataType": "Coded",
     "answers": [
@@ -52,7 +52,7 @@
     ]
   },
   {
-    "name": "Are you taking multivitamins?",
+    "name": "Taking multivitamins",
     "uuid": "88aef9e2-f1ec-46fe-91f6-764c58ca1a53",
     "dataType": "Coded",
     "answers": [
@@ -65,12 +65,12 @@
     ]
   },
   {
-    "name": "what do you eat in a whole day?",
+    "name": "What you eat in a whole day",
     "uuid": "ee2daa41-1c5f-4a24-96ef-d8a5d52b5969",
     "dataType": "Text"
   },
   {
-    "name": "Are you taking more food than before?",
+    "name": "Taking more food than before",
     "uuid": "50a1a380-1f86-4d44-9eb0-a314e23d8a1e",
     "dataType": "Coded",
     "answers": [
@@ -83,7 +83,7 @@
     ]
   },
   {
-    "name": "Do you have any addiction",
+    "name": "Have any addiction",
     "uuid": "dd825dbf-a061-488b-a8f5-e8dcf2e2c1ac",
     "dataType": "Coded",
     "answers": [
@@ -96,7 +96,7 @@
     ]
   },
   {
-    "name": "Have you fill growth chart?",
+    "name": "Filled growth chart",
     "uuid": "15c8a721-509f-41e7-b818-366931bf9995",
     "dataType": "Coded",
     "answers": [
@@ -109,7 +109,7 @@
     ]
   },
   {
-    "name": "Are you taking more food than previous, as you are malnourished?",
+    "name": "Taking more food than previous",
     "uuid": "c6c4c4c7-ab84-4eff-99eb-c7453af61f28",
     "dataType": "Coded",
     "answers": [
@@ -122,7 +122,7 @@
     ]
   },
   {
-    "name": "Do you know your weight is less?",
+    "name": "Know that weight is less",
     "uuid": "0c38f9b1-5c78-40c2-ac82-ef8a36061fd3",
     "dataType": "Coded",
     "answers": [
@@ -143,7 +143,7 @@
     "uuid": "7f2ce91e-ab85-46c7-b5f9-af0cd3e1ec0d"
   },
   {
-    "name": "what will happen if your weight is less?",
+    "name": "Problems if your weight is less",
     "uuid": "72f70001-fc64-4371-8b88-2c20e4860ef1",
     "dataType": "Coded",
     "answers": [
@@ -159,7 +159,7 @@
     ]
   },
   {
-    "name": "Malnutrition video shown?",
+    "name": "Malnutrition video shown",
     "uuid": "affaf6f2-8cea-429e-a81b-529ffae867e6",
     "dataType": "Coded",
     "answers": [

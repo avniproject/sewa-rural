@@ -67,7 +67,7 @@
           "mandatory": true
         },
         {
-          "name": "Have you been referred?",
+          "name": "Whether referred to hospital",
           "uuid": "ee3cbc64-b732-4caf-98b9-670bcb991809",
           "keyValues": [],
           "type": "SingleSelect",
@@ -79,7 +79,7 @@
           "mandatory": true
         },
         {
-          "name": "Have you visited hospital?",
+          "name": "Whether visited hospital",
           "uuid": "7a9f63a4-68a4-4074-b211-25934c89bb62",
           "keyValues": [],
           "type": "SingleSelect",

@@ -15,13 +15,14 @@
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "uuid": "d02f3560-9253-42df-b8ce-f95c61661ab6"
+            "uuid": "d02f3560-9253-42df-b8ce-f95c61661ab6",
+            "name": "Know what the problem is"
           },
           "displayOrder": 1,
           "mandatory": true
         },
         {
-          "name": "Have you been referred?",
+          "name": "Whether referred to hospital",
           "uuid": "ccf047d9-4a8b-4c3c-83c9-3a6d69884a1a",
           "keyValues": [],
           "type": "SingleSelect",
@@ -32,7 +33,7 @@
           "mandatory": true
         },
         {
-          "name": "Have you visited hospital?",
+          "name": "Whether visited hospital",
           "uuid": "dc0d5927-e524-4a43-98e8-b791d7b9b19a",
           "keyValues": [],
           "type": "SingleSelect",
@@ -48,7 +49,8 @@
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "uuid": "03400ffc-68ab-4b1e-9f45-0a38ce52ca41"
+            "uuid": "03400ffc-68ab-4b1e-9f45-0a38ce52ca41",
+            "name": "Taking regular treatment"
           },
           "displayOrder": 4,
           "mandatory": true
@@ -59,13 +61,14 @@
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "uuid": "df8729c1-3780-4a20-8c19-8fbd31a080c2"
+            "uuid": "df8729c1-3780-4a20-8c19-8fbd31a080c2",
+            "name": "Whether condition cured"
           },
           "displayOrder": 5,
           "mandatory": true
         },
         {
-          "name": "If not cured reffer to hospital again",
+          "name": "If not cured refer to hospital again",
           "uuid": "d7ecb7c0-574d-4465-a129-8e7da9ade9d5",
           "keyValues": [],
           "type": "SingleSelect",
@@ -74,49 +77,12 @@
           },
           "displayOrder": 6,
           "mandatory": true
-        },
-        {
-          "name": "Counseling done?",
-          "uuid": "ca61a84d-1483-4acb-a727-b24dd0ae7d68",
-          "keyValues": [],
-          "type": "SingleSelect",
-          "concept": {
-            "uuid": "f44951a6-adc2-4983-947f-f8327ce05419"
-          },
-          "displayOrder": 7,
-          "mandatory": true,
-          "voided": true
-        },
-        {
-          "name": "Home visit done?",
-          "uuid": "23024193-fdc9-456f-bd31-166c2cd3bd4e",
-          "keyValues": [],
-          "type": "SingleSelect",
-          "concept": {
-            "uuid": "4c594be1-997f-43f7-a419-5d490162706a"
-          },
-          "displayOrder": 8,
-          "mandatory": true,
-          "voided": true
-        },
-        {
-          "name": "cured ?",
-          "uuid": "9c1f9136-ebd9-4cfd-afbf-4f58e3416fd9",
-          "keyValues": [],
-          "type": "SingleSelect",
-          "concept": {
-            "uuid": "56d43609-c80f-4ed9-8d6e-0feb8e05e368"
-          },
-          "displayOrder": 9,
-          "mandatory": true,
-          "voided": true
         }
       ]
     },
     {
       "uuid": "2c05a8de-83be-47f0-b5f4-c078e660a888",
       "name": "Counselling",
-      "comment": "Message needs to be added to openchs-client translation files for this to show up",
       "display": "Counselling",
       "displayOrder": 2,
       "formElements": [

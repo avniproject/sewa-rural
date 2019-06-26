@@ -326,7 +326,7 @@ class SeverAnemiaFollowupSR {
         const scheduleBuilder = new VisitScheduleBuilder(context);
         const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         if (new RuleCondition(context).when
-            .valueInEncounter("HB after 3 months of treatment?")
+            .valueInEncounter("HB after 3 months of treatment")
             .is.lessThanOrEqualTo(7)
             .matches()) {
             scheduleBuilder.add({
@@ -337,8 +337,8 @@ class SeverAnemiaFollowupSR {
             });
         }
         if (new RuleCondition(context).when
-            .valueInEncounter("HB after 3 months of treatment?").is.greaterThanOrEqualTo(7.1)
-            .and.valueInEncounter("HB after 3 months of treatment?").is.lessThanOrEqualTo(10)
+            .valueInEncounter("HB after 3 months of treatment").is.greaterThanOrEqualTo(7.1)
+            .and.valueInEncounter("HB after 3 months of treatment").is.lessThanOrEqualTo(10)
             .matches()) {
             scheduleBuilder.add({
                 name: "Moderate Anemia Followup",

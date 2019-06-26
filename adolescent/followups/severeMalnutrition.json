@@ -10,7 +10,7 @@
       "displayOrder": 1,
       "formElements": [
         {
-          "name": "Are you sufferring from any other medical problem?",
+          "name": "Are you suffering from any other medical problem?",
           "uuid": "3dedbd63-549f-498a-8baf-0c0648171f69",
           "keyValues": [],
           "type": "MultiSelect",
@@ -21,7 +21,7 @@
           "mandatory": true
         },
         {
-          "name": "Have you been referred?",
+          "name": "Whether referred to hospital",
           "uuid": "a1a5745f-1b7a-4767-b576-653b70d7ccd2",
           "keyValues": [],
           "type": "SingleSelect",
@@ -32,7 +32,7 @@
           "mandatory": true
         },
         {
-          "name": "Have you visited hospital?",
+          "name": "Whether visited hospital",
           "uuid": "628491d8-ca31-4916-a4c1-a53f22df1641",
           "keyValues": [],
           "type": "SingleSelect",

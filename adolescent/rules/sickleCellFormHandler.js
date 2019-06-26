@@ -21,19 +21,19 @@ class SickleCellFollowupViewFilterHandlerSR {
     @WithName("Have you visited hospital?")
     @WithStatusBuilder
     abc1([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Have you been referred?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Whether referred to hospital").is.yes;
     }
 
-    @WithName("Are you taking it regularly?")
+    @WithName("Do you have FA tablets?")
     @WithStatusBuilder
     areYouTakingItRegularly([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Do you have FA tablets?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Have FA Tablets").is.yes;
     }
 
     @WithName("What did you do for your problem?")
     @WithStatusBuilder
     whatDidYouDoForYourPain([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("In last one month have you suffered from any pain or problem?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Suffered from any pain or problem in last one month").is.yes;
     }
 }
 

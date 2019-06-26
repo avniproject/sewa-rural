@@ -163,18 +163,5 @@
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]
-  },
-  {
-    "name": "Video shown",
-    "uuid": "3fe4051a-2166-4b14-bb63-5ff5ff6108d0",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  }  
+  }
 ]

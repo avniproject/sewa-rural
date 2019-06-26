@@ -20,16 +20,16 @@ class SevereAnemiaViewFilterHandlerSR {
             .getFormElementsStatusesWithoutDefaults(new SevereAnemiaViewFilterHandlerSR(), programEncounter, formElementGroup, today);
     }
 
-    @WithName("Have you visited hospital?")
+    @WithName("Whether visited hospital")
     @WithStatusBuilder
     abc1([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Have you been referred to hospital & refferal slip given?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Have been referred to hospital and referral slip given").is.yes;
     }
 
     @WithName("Which treatment have been given?")
     @WithStatusBuilder
     abc2([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Have you visited hospital?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Whether visited hospital").is.yes;
     }
 
     @WithName("Do you get food from Anganwadi?")
@@ -41,10 +41,10 @@ class SevereAnemiaViewFilterHandlerSR {
     @WithName("Any other medicine if given, have you taken that?")
     @WithStatusBuilder
     abc4([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Does she/he have difficulty in breathing?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Have difficulty in breathing").is.yes;
     }
 
-    @WithName("Taking B12 folic acid tablets?")
+    @WithName("Whether taking B12 folic acid tablets")
     abc5(programEncounter, formElement) {
         const annualVisitEncounters = programEncounter.programEnrolment.getEncountersOfType("Annual Visit");
         const sicklingTestResultObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Sickling Test Result', annualVisitEncounters);
@@ -56,7 +56,7 @@ class SevereAnemiaViewFilterHandlerSR {
 class SevereAnemiaValidationsSR {
     validate(programEncounter) {
         const validationResults = [];
-        const ifaTabletsConsumed = programEncounter.getObservationReadableValue("Iron tablets consumed in last week?");
+        const ifaTabletsConsumed = programEncounter.getObservationReadableValue("Iron tablets consumed in last week");
         if (ifaTabletsConsumed && ifaTabletsConsumed.toString().length > 2) {
             validationResults.push(lib.C.createValidationError('IronTabletsMoreThanTwoDigitNotAllowed'));
         }

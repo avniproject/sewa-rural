@@ -15,13 +15,13 @@
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "uuid": "0a025ca8-1f44-4e59-9419-c3f3afad785e"
+            "uuid": "169ba77c-1007-4d90-836f-d44a83dcdc92"
           },
           "displayOrder": 1,
           "mandatory": true
         },
         {
-          "name": "Have you visited Hospital?",
+          "name": "Whether visited hospital",
           "uuid": "9a63b5f3-613d-44e3-b483-55385537b1d5",
           "keyValues": [],
           "type": "SingleSelect",
@@ -121,7 +121,7 @@
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "uuid": "21d7a3e3-a301-48d1-9992-d1166001442b"
+            "uuid": "3fe4051a-2166-4b14-bb63-5ff5ff6108d0"
           },
           "displayOrder": 2,
           "mandatory": true

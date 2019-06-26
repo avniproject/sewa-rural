@@ -1,19 +1,6 @@
 [
   {
-    "name": "Have you been referred to hospital?",
-    "uuid": "0a025ca8-1f44-4e59-9419-c3f3afad785e",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
-    "name": "Have you taken treatment?",
+    "name": "Taken treatment",
     "uuid": "581d7780-2a2e-4d8d-8791-9d0b34fde39c",
     "dataType": "Coded",
     "answers": [
@@ -26,7 +13,7 @@
     ]
   },
   {
-    "name": "Is your complaint resolved?",
+    "name": "Complaint resolved",
     "uuid": "4256c7fb-6678-43fa-bfee-18bc9e362e26",
     "dataType": "Coded",
     "answers": [
@@ -39,21 +26,8 @@
     ]
   },
   {
-    "name": "do you still remain absent due to menstrual problem?",
+    "name": "Remains absent due to menstrual problem",
     "uuid": "e673b2ba-a4c9-466c-9a2a-955da09b184c",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
-    "name": "video shown?",
-    "uuid": "21d7a3e3-a301-48d1-9992-d1166001442b",
     "dataType": "Coded",
     "answers": [
       {

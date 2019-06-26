@@ -19,10 +19,10 @@ class SeverMalnutritionViewFilterSR {
             .getFormElementsStatusesWithoutDefaults(new SeverMalnutritionViewFilterSR(), programEncounter, formElementGroup, today);
     }
 
-    @WithName("Have you visited hospital?")
+    @WithName("Whether visited hospital")
     @WithStatusBuilder
     abc1([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Have you been referred?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Whether referred to hospital").is.yes;
     }
 
 

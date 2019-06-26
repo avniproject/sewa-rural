@@ -20,22 +20,22 @@ class ChronicSicknessViewFilterSR{
             .getFormElementsStatusesWithoutDefaults(new ChronicSicknessViewFilterSR(), programEncounter, formElementGroup, today);
     }
 
-    @WithName("Have you visited hospital?")
+    @WithName("Whether visited hospital")
     @WithStatusBuilder
     abc1([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Do you know what problem do you have?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Know what the problem is").is.yes;
     }
 
     @WithName("Are you taking treatment regularly?")
     @WithStatusBuilder
     abc2([programEncounter], statusBuilder){
-        statusBuilder.show().when.valueInEncounter("Have you visited hospital?").is.yes;
+        statusBuilder.show().when.valueInEncounter("Whether visited hospital").is.yes;
     }
 
-    @WithName("If not cured reffer to hospital again")
+    @WithName("If not cured refer to hospital again")
     @WithStatusBuilder
     abc3([programEncounter], statusBuilder){
-        statusBuilder.show().when.valueInEncounter("Is your condition cured?").is.no;
+        statusBuilder.show().when.valueInEncounter("Whether condition cured").is.no;
     }
 }
 

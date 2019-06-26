@@ -1,19 +1,6 @@
 [
   {
-    "name": "Does she/he have difficulty in breathing?",
-    "uuid": "bc1e3b8e-5ecf-4ac4-8058-9a1e228b0304",
-    "dataType": "Coded",
-    "answers": [
-      {
-        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
-      },
-      {
-        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
-      }
-    ]
-  },
-  {
-    "name": "Have you been referred to hospital & refferal slip given?",
+    "name": "Have been referred to hospital and referral slip given",
     "uuid": "eb211234-ece9-416b-97f4-d8c7cbe5ac0e",
     "dataType": "Coded",
     "answers": [
@@ -38,7 +25,7 @@
     "uuid": "f4728e23-10ee-4268-8d2a-45a16a528260"
   },
   {
-    "name": "Which treatment have been given?",
+    "name": "Treatment given",
     "uuid": "eaddd65f-52a7-4003-8228-0dcf5d350301",
     "dataType": "Coded",
     "answers": [
@@ -57,7 +44,7 @@
     ]
   },
   {
-    "name": "Have you done your blood testing?",
+    "name": "Done blood testing",
     "uuid": "c9815f4a-6e3f-4dd5-9c3b-55bbc42c1a09",
     "dataType": "Coded",
     "answers": [
@@ -82,7 +69,7 @@
     "uuid": "2ab25614-a046-4ffa-8607-6f961e15624a"
   },
   {
-    "name": "What are symptoms of anemia?",
+    "name": "Symptoms of anemia",
     "uuid": "588f193e-51f4-46b5-b2db-9b4b3d63e774",
     "dataType": "Coded",
     "answers": [
@@ -120,7 +107,7 @@
     "uuid": "7cc32986-45f6-474e-93bc-9d015fff4415"
   },
   {
-    "name": "In which food iron contains are more?",
+    "name": "Foods with more iron",
     "uuid": "358dbc54-b35d-4c70-9945-6bd2b4c062b2",
     "dataType": "Coded",
     "answers": [

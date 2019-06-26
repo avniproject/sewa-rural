@@ -26,7 +26,7 @@ class ModerateAnemiaViewFilterHandlerSR {
         statusBuilder.show().whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy;
     }
 
-    @WithName("Taking B12 folic acid tablets?")
+    @WithName("Whether taking B12 folic acid tablets")
     abc2(programEncounter, formElement) {
         const annualVisitEncounters = programEncounter.programEnrolment.getEncountersOfType("Annual Visit");
         const sicklingTestResultObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment('Sickling Test Result', annualVisitEncounters);
@@ -38,7 +38,7 @@ class ModerateAnemiaViewFilterHandlerSR {
 class ModerateAnemiaValidationsSR {
     validate(programEncounter) {
         const validationResults = [];
-        const ifaTabletsConsumed = programEncounter.getObservationReadableValue("Iron tablets consumed in last week?");
+        const ifaTabletsConsumed = programEncounter.getObservationReadableValue("Iron tablets consumed in last week");
         if (ifaTabletsConsumed && ifaTabletsConsumed.toString().length > 2) {
             validationResults.push(lib.C.createValidationError('IronTabletsMoreThanTwoDigitNotAllowed'));
         }

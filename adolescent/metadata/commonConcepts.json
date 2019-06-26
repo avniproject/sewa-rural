@@ -1,6 +1,6 @@
 [
   {
-    "name": "Have you visited hospital?",
+    "name": "Whether visited hospital",
     "uuid": "f96ee9f1-5035-4cbc-87f2-be3c6a19463f",
     "dataType": "Coded",
     "answers": [
@@ -33,7 +33,7 @@
   },
   
   {
-    "name": "Counseling done?",
+    "name": "Whether counseling done",
     "uuid": "f44951a6-adc2-4983-947f-f8327ce05419",
     "dataType": "Coded",
     "answers": [
@@ -46,7 +46,7 @@
     ]
   },
   {
-    "name": "Home visit done?",
+    "name": "Whether home visit done",
     "uuid": "4c594be1-997f-43f7-a419-5d490162706a",
     "dataType": "Coded",
     "answers": [
@@ -59,7 +59,7 @@
     ]
   },
   {
-    "name": "Do you get food from Anganwadi?",
+    "name": "Whether get food from Anganwadi",
     "uuid": "86576028-c372-4e4e-9c14-52926eeb6995",
     "dataType": "Coded",
     "answers": [
@@ -72,12 +72,12 @@
     ]
   },
   {
-    "name": "Iron tablets consumed in last week?",
+    "name": "Iron tablets consumed in last week",
     "uuid": "a0fa3ce5-adc6-4c6e-9715-2f8d53b986ca",
     "dataType": "Numeric"
   },
   {
-    "name": "Have your symptoms relieved?",
+    "name": "Whether symptoms relieved",
     "uuid": "60b4a01b-cc37-4b23-94b1-cd6d564648ff",
     "dataType": "Coded",
     "answers": [
@@ -90,12 +90,12 @@
     ]
   },
   {
-    "name": "HB after 3 months of treatment?",
+    "name": "HB after 3 months of treatment",
     "uuid": "e364c3c1-087b-45b4-a78b-878e967f5119",
     "dataType": "Numeric"
   },
   {
-    "name": "Taking B12 folic acid tablets?",
+    "name": "Whether taking B12 folic acid tablets",
     "uuid": "d93edddb-4024-46d7-a988-d62c5a397fa9",
     "dataType": "Coded",
     "answers": [
@@ -108,7 +108,7 @@
     ]
   },
   {
-    "name": "Do you know your HB?",
+    "name": "Whether you know your HB",
     "uuid": "dc6e287c-a83c-43bd-a0f5-3604ce348249",
     "dataType": "Coded",
     "answers": [
@@ -121,7 +121,7 @@
     ]
   },
   {
-    "name": "Anemia video shown?",
+    "name": "Whether anemia video shown",
     "uuid": "2f2f6737-2d14-4c92-b225-8e45903ca7e9",
     "dataType": "Coded",
     "answers": [
@@ -134,7 +134,7 @@
     ]
   },
   {
-    "name": "Have you been referred?",
+    "name": "Whether referred to hospital",
     "uuid": "169ba77c-1007-4d90-836f-d44a83dcdc92",
     "dataType": "Coded",
     "answers": [
@@ -287,7 +287,7 @@
     ]
   },
   {
-    "name": "Is referral card given?",
+    "name": "Referral card given",
     "uuid": "bc7bfc68-28e1-4a3f-a944-f55ba27c88fb",
     "dataType": "Coded",
     "answers": [
@@ -433,6 +433,32 @@
       {
         "name": "Addiction (Self)",
         "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+      }
+    ]
+  },
+  {
+    "name": "Have difficulty in breathing",
+    "uuid": "bc1e3b8e-5ecf-4ac4-8058-9a1e228b0304",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Video shown",
+    "uuid": "3fe4051a-2166-4b14-bb63-5ff5ff6108d0",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "04bb1773-c353-44a1-a68c-9b448e07ff70"
+      },
+      {
+        "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]
   }

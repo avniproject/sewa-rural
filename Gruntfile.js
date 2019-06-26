@@ -51,7 +51,6 @@ module.exports = IDI.configure({
             "./adolescent/followups/chronicSicknessConcepts.json",
             "./adolescent/followups/menstrualDisorderConcepts.json",
             "./adolescent/followups/severeAnemiaConcepts.json",
-            "./adolescent/followups/moderateAnemiaConcepts.json",
             "./adolescent/followups/severeMalnutritionConcepts.json",
             "./adolescent/followups/addictionConcepts.json"
         ],

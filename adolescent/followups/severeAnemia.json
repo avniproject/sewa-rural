@@ -32,7 +32,7 @@
           "mandatory": true
         },
         {
-          "name": "Have you visited hospital?",
+          "name": "Whether visited hospital",
           "uuid": "7be60e15-df1c-4b99-9f25-3a597e64f69e",
           "keyValues": [],
           "type": "SingleSelect",
@@ -73,7 +73,7 @@
       "displayOrder": 2,
       "formElements": [
         {
-          "name": "Iron tablets consumed in last week?",
+          "name": "Iron tablets consumed in last week",
           "uuid": "17d6caa0-9de2-451f-a937-2fbf0797f5a6",
           "keyValues": [],
           "concept": {
@@ -105,7 +105,7 @@
           "mandatory": true
         },
         {
-          "name": "HB after 3 months of treatment?",
+          "name": "HB after 3 months of treatment",
           "uuid": "f324bbed-d62c-4c9e-9992-3da9399f55b0",
           "keyValues": [],
           "concept": {
@@ -115,7 +115,7 @@
           "mandatory": true
         },
         {
-          "name": "Taking B12 folic acid tablets?",
+          "name": "Whether taking B12 folic acid tablets",
           "uuid": "418300d8-1a78-4578-99f5-28709f644c51",
           "keyValues": [],
           "type": "SingleSelect",
@@ -156,7 +156,7 @@
           "mandatory": true
         },
         {
-          "name": "Do you know your HB?",
+          "name": "Whether you know your HB",
           "uuid": "c7c68ed4-7170-4535-b8ff-078ed08f3f69",
           "keyValues": [],
           "type": "SingleSelect",
@@ -189,7 +189,7 @@
           "mandatory": false
         },
         {
-          "name": "Anemia video shown?",
+          "name": "Whether anemia video shown",
           "uuid": "4a73fdc2-4f24-4504-948c-f1deb48bdf72",
           "keyValues": [],
           "type": "SingleSelect",

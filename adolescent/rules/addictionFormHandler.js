@@ -51,7 +51,7 @@ class AddictionVulnerabilityViewFilter {
         .latestValueInPreviousEncounters("Addiction Details").containsAnyAnswerConceptName("Alcohol", "Both");
    }
 
-   @WithName("Have you visited hospital?")
+   @WithName("Whether visited hospital")
    @WithStatusBuilder
    haveYouVisitedHospital([], statusBuilder) {
        statusBuilder.show().when.valueInEncounter("Is referred").containsAnyAnswerConceptName("Yes");
