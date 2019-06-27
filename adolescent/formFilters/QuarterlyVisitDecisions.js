@@ -25,7 +25,7 @@ export class QuarterlyVisitDecisionHandler {
             .or.when.valueInEncounter("able to do daily routine work during menstruation").containsAnswerConceptName("No")
             .or.when.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptNameOtherThan("Yes");
 
-        referralAdvice.addComplication("Addiction (Self)").when.valueInEncounter("Addiction Details").containsAnswerConceptNameOtherThan("None");
+        referralAdvice.addComplication("Addiction (Self)").when.valueInEncounter("Addiction Details").containsAnswerConceptName("Alcohol", "Tobacco", "Both");
     
         return referralAdvice.getComplications();
     }

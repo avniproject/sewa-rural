@@ -90,8 +90,8 @@ export default class QuarterlyVisitHandler {
     @WithStatusBuilder
     abc15([], statusBuilder) {
         statusBuilder.show().when.valueInEncounter("School going").containsAnswerConceptName("Yes")
-        .and.whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy
-        .or.when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem");
+         .and.whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy;
+         statusBuilder.show().when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem");
         return statusBuilder.build();
     }
 

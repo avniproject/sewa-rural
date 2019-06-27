@@ -437,6 +437,25 @@
     ]
   },
   {
+    "name": "Refer to hospital for",
+    "uuid": "0e620ea5-1a80-499f-9d07-b972a9130d60",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Sickle cell disease",
+        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66"
+      },
+      {
+        "name": "Menstrual disorders",
+        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
+      },
+      {
+        "name": "Addiction (Self)",
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+      }
+    ]
+  },
+  {
     "name": "Have difficulty in breathing",
     "uuid": "bc1e3b8e-5ecf-4ac4-8058-9a1e228b0304",
     "dataType": "Coded",
