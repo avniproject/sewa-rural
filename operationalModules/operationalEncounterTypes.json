@@ -3,35 +3,35 @@
   "operationalEncounterTypes": [
     {
       "uuid": "e95b3f1d-0ae6-4adf-a35b-ddfc2c56a7b6",
-      "name": "Sickle Cell Vulnerability",
+      "name": "Sickle Cell Followup",
       "encounterType": {
         "uuid": "964c0c61-698c-4ad9-8b82-7a157dc8f8bd"
       }
     },
     {
       "uuid": "0132a020-0796-403b-bbfe-060058b15999",
-      "name": "Chronic Sickness",
+      "name": "Chronic Sickness Followup",
       "encounterType": {
         "uuid": "9e3b24de-2f4d-416f-a5fc-eaa2a460989a"
       }
     },
     {
       "uuid": "fb484cca-6c07-4fa9-8aa6-16d4d1b97155",
-      "name": "Menstrual Disorder",
+      "name": "Menstrual Disorder Followup",
       "encounterType": {
         "uuid": "5e206e14-aad9-4b7c-9fb0-f25c12643696"
       }
     },
     {
       "uuid": "6a15532c-9fe9-46ec-abd2-b2478b4ee385",
-      "name": "Severe Anemia",
+      "name": "Severe Anemia Followup",
       "encounterType": {
         "uuid": "31d1dd8f-634c-41ee-8e47-7679b85b74af"
       }
     },
     {
       "uuid": "1e22fdc9-9d2d-4aff-adf6-a498d76e4d63",
-      "name": "Moderate Anemia",
+      "name": "Moderate Anemia Followup",
       "encounterType": {
         "uuid": "27d62c75-b61d-4cf8-a840-4a839388d51a"
       }
@@ -45,7 +45,7 @@
     },
     {
       "uuid": "38149159-4ce4-4fd7-9f3e-34feedbf2b6e",
-      "name": "Addiction Vulnerability",
+      "name": "Addiction Followup",
       "encounterType": {
         "uuid": "6ee0fcc7-bd02-4f87-9dd2-9bdbb952b89a"      }
     },
