@@ -139,7 +139,7 @@ class CommonSchedule {
 
     static scheduleMenstualDisorderFollowup(context, scheduleBuilder) {
         if (new RuleCondition(context).when
-            .valueInEncounter("Are you able to do daily routine work during menstruation?").is.yes
+            .valueInEncounter("Are you able to do daily routine work during menstruation?").is.no
             .or
             .valueInEncounter("Does she remain absent during menstruation?").is.yes
             .matches()

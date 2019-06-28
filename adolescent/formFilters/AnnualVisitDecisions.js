@@ -46,7 +46,7 @@ export class AnnualVisitDecisionHandler {
 
         referralAdvice.addComplication("Menstrual disorders").when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem")
             .or.when.valueInEncounter("able to do daily routine work during menstruation").containsAnswerConceptName("No")
-            .or.when.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptNameOtherThan("Yes");
+            .or.when.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptName("Yes");
 
         referralAdvice.addComplication("Additional Medical Problems").when.valueInEncounter("Is there any other condition you want to mention about him/her?").containsAnswerConceptNameOtherThan("No problem");
         referralAdvice.addComplication("Addiction (Self)").when.valueInEncounter("Addiction Details").containsAnswerConceptNameOtherThan("None");

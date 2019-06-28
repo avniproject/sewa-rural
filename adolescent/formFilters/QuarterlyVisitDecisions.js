@@ -17,23 +17,23 @@ export class QuarterlyVisitDecisionHandler {
             complicationsConcept: 'Refer to hospital for'
         });
 
-        if (!programEncounter) return referralAdvice.getComplications();
+        referralAdvice.addComplication("Sickle cell disease").when.latestValueInAllEncounters("Sickling Test Result").containsAnswerConceptName("Disease");
 
-        referralAdvice.addComplication("Sickle cell disease").when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Disease");
+        referralAdvice.addComplication("Menstrual disorders").when.latestValueInAllEncounters("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem")
+            .or.when.latestValueInAllEncounters("able to do daily routine work during menstruation").containsAnswerConceptName("No")
+            .or.when.latestValueInAllEncounters("Does she remain absent during menstruation?").containsAnswerConceptName("Yes");
 
-        referralAdvice.addComplication("Menstrual disorders").when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem")
-            .or.when.valueInEncounter("able to do daily routine work during menstruation").containsAnswerConceptName("No")
-            .or.when.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptNameOtherThan("Yes");
-
-        referralAdvice.addComplication("Addiction (Self)").when.valueInEncounter("Addiction Details").containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both");
+        referralAdvice.addComplication("Addiction (Self)").when.latestValueInAllEncounters("Addiction Details").containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both");
     
         return referralAdvice.getComplications();
     }
 
     static exec(programEncounter, decisions, context, today) {
         const recommendation = QuarterlyVisitDecisionHandler.referrals(programEncounter);
-        decisions['encounterDecisions'] = decisions['encounterDecisions'] || [];
-        decisions['encounterDecisions'] = decisions['encounterDecisions'].filter((d) => d.name !== recommendation.name).concat(recommendation);
+        // decisions['encounterDecisions'] = decisions['encounterDecisions'] || [];
+        // decisions['encounterDecisions'] = decisions['encounterDecisions'].filter((d) => d.name !== recommendation.name).concat(recommendation);
+       
+        decisions.encounterDecisions.push(recommendation);
         return decisions;
     }
 
