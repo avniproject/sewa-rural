@@ -146,7 +146,7 @@ class CommonSchedule {
         ) {
             scheduleBuilder.add({
                 name: "Menstrual Disorder Followup",
-                encounterType: "Menstrual Disorder",
+                encounterType: "Menstrual Disorder Followup",
                 earliestDate: getEarliestDate(context.programEncounter),
                 maxDate: getMaxDate(context.programEncounter)
             });
@@ -188,7 +188,7 @@ class CommonSchedule {
             .matches()) {
             scheduleBuilder.add({
                 name: "Chronic Sickness Followup",
-                encounterType: "Chronic Sickness",
+                encounterType: "Chronic Sickness Followup",
                 earliestDate: getEarliestDate(context.programEncounter),
                 maxDate: getMaxDate(context.programEncounter)
             });
@@ -202,7 +202,7 @@ class CommonSchedule {
             .matches()) {
             scheduleBuilder.add({
                 name: "Severe Anemia Followup",
-                encounterType: "Severe Anemia",
+                encounterType: "Severe Anemia Followup",
                 earliestDate: getEarliestDate(context.programEncounter),
                 maxDate: getMaxDate(context.programEncounter)
             });
@@ -215,8 +215,8 @@ class CommonSchedule {
             .and.valueInEncounter("Hb").is.lessThanOrEqualTo(10)
             .matches()) {
             scheduleBuilder.add({
-                name: "Moderate Anemia Followup ",
-                encounterType: "Moderate Anemia",
+                name: "Moderate Anemia Followup",
+                encounterType: "Moderate Anemia Followup",
                 earliestDate: getEarliestDate(context.programEncounter),
                 maxDate: getMaxDate(context.programEncounter)
             });
@@ -228,8 +228,8 @@ class CommonSchedule {
             .valueInEncounter("Addiction Details").containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both")
             .matches()) {
             scheduleBuilder.add({
-                name: "Addiction Vulnerability Followup",
-                encounterType: "Addiction Vulnerability",
+                name: "Addiction Followup",
+                encounterType: "Addiction Followup",
                 earliestDate: getEarliestDate(context.programEncounter),
                 maxDate: getMaxDate(context.programEncounter)
             });
@@ -239,8 +239,8 @@ class CommonSchedule {
     static scheduleSickleCellFollowup(context, scheduleBuilder) {
         if (new RuleCondition(context).when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Disease").matches()) {
             scheduleBuilder.add({
-                name: "Sickle Cell Vulnerability Followup",
-                encounterType: "Sickle Cell Vulnerability",
+                name: "Sickle Cell Followup",
+                encounterType: "Sickle Cell Followup",
                 earliestDate: getEarliestDate(context.programEncounter),
                 maxDate: getMaxDate(context.programEncounter)
             });
@@ -272,8 +272,6 @@ class AnnualVisitScheduleSR {
         CommonSchedule.scheduleMalnutritionFollowup(programEncounter, scheduleBuilder);
 
         CommonSchedule.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
-
-        CommonSchedule.scheduleAnnualVisit(scheduleBuilder);
 
         CommonSchedule.scheduleQuarterlyVisit(scheduleBuilder);
 
@@ -335,7 +333,7 @@ class ChronicSicknessFollowupScheduleSR {
         const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Chronic Sickness Followup",
-            encounterType: "Chronic Sickness",
+            encounterType: "Chronic Sickness Followup",
             earliestDate: nextVisitDate.toDate(),
             maxDate: nextVisitDate.add(15, "days").toDate()
         });
@@ -354,7 +352,7 @@ class MenstrualDisorderFollowupSR {
         const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Menstrual Disorder Followup",
-            encounterType: "Menstrual Disorder",
+            encounterType: "Menstrual Disorder Followup",
             earliestDate: nextVisitDate.toDate(),
             maxDate: nextVisitDate.add(15, "days").toDate()
         });
@@ -377,7 +375,7 @@ class SeverAnemiaFollowupSR {
             .matches()) {
             scheduleBuilder.add({
                 name: "Severe Anemia Followup",
-                encounterType: "Severe Anemia",
+                encounterType: "Severe Anemia Followup",
                 earliestDate: nextVisitDate.toDate(),
                 maxDate: nextVisitDate.add(15, "days").toDate()
             });
@@ -388,7 +386,7 @@ class SeverAnemiaFollowupSR {
             .matches()) {
             scheduleBuilder.add({
                 name: "Moderate Anemia Followup",
-                encounterType: "Moderate Anemia",
+                encounterType: "Moderate Anemia Followup",
                 earliestDate: nextVisitDate.toDate(),
                 maxDate: nextVisitDate.add(15, "days").toDate()
             });
@@ -409,7 +407,7 @@ class ModerateAnemiaFollowupSR {
         const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Moderate Anemia Followup",
-            encounterType: "Moderate Anemia",
+            encounterType: "Moderate Anemia Followup",
             earliestDate: nextVisitDate.toDate(),
             maxDate: nextVisitDate.add(15, "days").toDate()
         });
@@ -446,8 +444,8 @@ class AddictionVulnerabilityFollowupSR {
         });
         const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
-            name: "Addiction Vulnerability Followup",
-            encounterType: "Addiction Vulnerability",
+            name: "Addiction Followup",
+            encounterType: "Addiction Followup",
             earliestDate: nextVisitDate.toDate(),
             maxDate: nextVisitDate.add(15, "days").toDate()
         });
@@ -465,8 +463,8 @@ class SickleCellVulnerabilityFollowupSR {
         });
         const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
-            name: "Sickle Cell Vulnerability Followup",
-            encounterType: "Sickle Cell Vulnerability",
+            name: "Sickle Cell Followup",
+            encounterType: "Sickle Cell Followup",
             earliestDate: nextVisitDate.toDate(),
             maxDate: nextVisitDate.add(15, "days").toDate()
         });
