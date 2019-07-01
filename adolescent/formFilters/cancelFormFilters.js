@@ -16,3 +16,7 @@ class CancellationFormFilters {
         return FormElementsStatusHelper.getFormElementsStatusesWithoutDefaults(new CancellationFormFilters(), programEncounter, formElementGroup, today);
     }
 }
+
+export {
+    CancellationFormFilters
+}

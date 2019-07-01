@@ -13,5 +13,6 @@ module.exports = _.merge({},
     require('./adolescent/rules/addictionFormHandler'),
     require('./adolescent/decisions/adolescentProgramSummary'),
     require('./adolescent/formFilters/AnnualVisitDecisions'),
-    require('./adolescent/formFilters/QuarterlyVisitDecisions')
+    require('./adolescent/formFilters/QuarterlyVisitDecisions'),
+    require('./adolescent/formFilters/cancelFormFilters')
 );
