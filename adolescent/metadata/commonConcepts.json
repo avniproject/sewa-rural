@@ -309,21 +309,33 @@
     "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
   },
   {
+    "name": "Severely malnourished",
+    "uuid": "332a435b-069c-4283-a4f7-4310d7e458d7"
+  },
+  {
     "name": "Nutritional Status",
     "uuid": "b70b5401-1a1d-4901-8cc7-606c21913b4e",
     "dataType": "Coded",
     "answers": [
       {
-        "name": "Severe",
-        "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+        "name": "Severely malnourished",
+        "uuid": "332a435b-069c-4283-a4f7-4310d7e458d7"
       },
       {
-        "name": "Moderate",
-        "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+        "name": "Underweight",
+        "uuid": "41b2db08-99a4-428c-a908-641330858b8a"
       },
       {
         "name": "Normal",
         "uuid": "ba43b326-18a1-4f8d-ad04-29b0371461e0"
+      },
+      {
+        "name": "Overweight",
+        "uuid": "74481c32-e400-4103-b656-b4f52e517fdd"
+      },
+      {
+        "name": "Obese",
+        "uuid": "c7512031-62fb-4bbc-b793-7fde56d45883"
       }
     ]
   },

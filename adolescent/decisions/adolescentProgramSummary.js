@@ -1,9 +1,7 @@
 import {complicationsBuilder as ComplicationsBuilder, ProgramRule} from 'rules-config/rules';
 
 const has = 'containsAnyAnswerConceptName',
-    inEnrolment = 'valueInEnrolment',
-    latest = 'latestValueInAllEncounters',
-    inEntireEnrolment = 'valueInEntireEnrolment';
+    latest = 'latestValueInAllEncounters';
 
 @ProgramRule({
     name: "Adolescent program summary",
@@ -23,10 +21,11 @@ class AdolescentProgramSummary {
 
         const add = builder.addComplication.bind(builder);
 
-        //TODO: need to fix it as per the logic when sheet get updated
-        add("Severe").when[latest]("BMI").lessThan(14.5);
-        add("Moderate").when[latest]("BMI").greaterThan(14.5).and.when[latest]("BMI").lessThan(25);
-        add("Normal").when[latest]("BMI").greaterThan(25);
+        add("Severely malnourished").when[latest]("BMI").lessThan(14.5);
+        add("Underweight").when[latest]("BMI").greaterThanOrEqualTo(14.5).and.when[latest]("BMI").lessThanOrEqualTo(18.5);
+        add("Normal").when[latest]("BMI").greaterThanOrEqualTo(18.6).and.when[latest]("BMI").lessThanOrEqualTo(24.9);
+        add("Overweight").when[latest]("BMI").greaterThanOrEqualTo(25).and.when[latest]("BMI").lessThanOrEqualTo(29.9);
+        add("Obese").when[latest]("BMI").greaterThanOrEqualTo(30);
 
         const complications = builder.getComplications();
         complications.abnormal = true;
