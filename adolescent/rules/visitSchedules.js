@@ -13,80 +13,93 @@ const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9
 const AddictionVulnerabilityFollowup = RuleFactory("8aec0b76-79ae-4e47-9375-ed9db3739997", "VisitSchedule");
 const SickleCellVulnerabilityFollowup = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "VisitSchedule");
 
-const getEarliestDate = (programEncounter) => _.isNil(programEncounter.earliestVisitDateTime)
-    ? moment()
-        .add(1, "month")
-        .startOf("day")
-        .toDate()
-    : moment(programEncounter.earliestVisitDateTime)
-        .add(1, "month")
-        .startOf("day")
-        .toDate();
+const getEarliestDate = programEncounter =>
+    _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment()
+              .add(1, "month")
+              .startOf("day")
+              .toDate()
+        : moment(programEncounter.earliestVisitDateTime)
+              .add(1, "month")
+              .startOf("day")
+              .toDate();
 
-const getMaxDate = (programEncounter) => moment(getEarliestDate(programEncounter))
-    .add(15, "days")
-    .endOf("day")
-    .toDate();
+const getMaxDate = programEncounter =>
+    moment(getEarliestDate(programEncounter))
+        .add(15, "days")
+        .endOf("day")
+        .toDate();
 
 const addDropoutHomeVisits = (programEncounter, scheduleBuilder) => {
     const dateTimeToUse = programEncounter.encounterDateTime;
     const enrolment = programEncounter.programEnrolment;
     const scheduledDropoutVisit = enrolment.scheduledEncountersOfType("Dropout Home Visit");
     if (!_.isEmpty(scheduledDropoutVisit)) return;
-    scheduleBuilder.add({
+    scheduleBuilder
+        .add({
             name: "Dropout Home Visit",
             encounterType: "Dropout Home Visit",
             earliestDate: dateTimeToUse,
             maxDate: lib.C.addDays(dateTimeToUse, 15)
-        }
-    ).when.valueInEncounter("School going").containsAnswerConceptName("Dropped Out");
+        })
+        .when.valueInEncounter("School going")
+        .containsAnswerConceptName("Dropped Out");
 };
 
 const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
     const dateTimeToUse = programEncounter.encounterDateTime;
 
-    scheduleBuilder.add({
+    scheduleBuilder
+        .add({
             name: "Dropout Followup Visit",
             encounterType: "Dropout Followup Visit",
             earliestDate: lib.C.addDays(dateTimeToUse, 7),
             maxDate: lib.C.addDays(dateTimeToUse, 17)
-        }
-    ).whenItem(programEncounter.encounterType.name).equals("Dropout Home Visit")
+        })
+        .whenItem(programEncounter.encounterType.name)
+        .equals("Dropout Home Visit")
         .and.whenItem(
-        programEncounter
-            .programEnrolment
-            .getEncounters(true)
-            .filter((encounter) => encounter.encounterType.name === "Dropout Followup Visit")
-            .length
-    ).lessThanOrEqualTo(5);
+            programEncounter.programEnrolment
+                .getEncounters(true)
+                .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
+        )
+        .lessThanOrEqualTo(5);
 
-    scheduleBuilder.add({
+    scheduleBuilder
+        .add({
             name: "Dropout Followup Visit",
             encounterType: "Dropout Followup Visit",
             earliestDate: lib.C.addDays(dateTimeToUse, 7),
             maxDate: lib.C.addDays(dateTimeToUse, 17)
-        }
-    ).when.valueInEncounter("Have you started going to school once again").containsAnswerConceptName("No")
+        })
+        .when.valueInEncounter("Have you started going to school once again")
+        .containsAnswerConceptName("No")
         .and.whenItem(
-        programEncounter
-            .programEnrolment
-            .getEncounters(true)
-            .filter((encounter) => encounter.encounterType.name === "Dropout Followup Visit")
-            .length
-    ).lessThanOrEqualTo(5);
+            programEncounter.programEnrolment
+                .getEncounters(true)
+                .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
+        )
+        .lessThanOrEqualTo(5);
 
-    let schoolRestartDate = moment(programEncounter.encounterDateTime).month(5).date(1).hour(0).minute(0).second(0);
-    schoolRestartDate = schoolRestartDate < moment(programEncounter.encounterDateTime) ? schoolRestartDate.add(12, "months").toDate()
-        : schoolRestartDate.toDate();
-    scheduleBuilder.add({
+    let schoolRestartDate = moment(programEncounter.encounterDateTime)
+        .month(5)
+        .date(1)
+        .hour(0)
+        .minute(0)
+        .second(0);
+    schoolRestartDate =
+        schoolRestartDate < moment(programEncounter.encounterDateTime)
+            ? schoolRestartDate.add(12, "months").toDate()
+            : schoolRestartDate.toDate();
+    scheduleBuilder
+        .add({
             name: "Dropout Followup Visit",
             encounterType: "Dropout Followup Visit",
             earliestDate: schoolRestartDate,
             maxDate: lib.C.addDays(schoolRestartDate, 15)
-        }
-    ).when.valueInEncounter("Have you started going to school once again")
+        })
+        .when.valueInEncounter("Have you started going to school once again")
         .containsAnswerConceptName("Yes, but could not attend");
-
 };
 
 const getNextScheduledVisits = function(programEncounter) {
@@ -111,7 +124,12 @@ class DropoutVisitScheduleHandler {
     }
 }
 
-@DropoutFollowupVisitSchedule("64ae053e-97f4-4fc3-878d-81c3545136a7", "Dropout Followup Visit Schedule Not Default", 1.0, {})
+@DropoutFollowupVisitSchedule(
+    "64ae053e-97f4-4fc3-878d-81c3545136a7",
+    "Dropout Followup Visit Schedule Not Default",
+    1.0,
+    {}
+)
 class DropoutFollowupVisitScheduleHandler {
     static exec(programEncounter, schedule, visitScheduleConfig) {
         console.log(`DropoutFollowupVisitScheduleHandler is invoked`);
@@ -121,9 +139,19 @@ class DropoutFollowupVisitScheduleHandler {
 
 class CommonSchedule {
     static scheduleMalnutritionFollowup(programEncounter, scheduleBuilder) {
-        const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment("Height", programEncounter);
-        const weightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment("Weight", programEncounter);
-        const isUnderweight = heightObs && weightObs && lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 14.5 || false;
+        const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment(
+            "Height",
+            programEncounter
+        );
+        const weightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment(
+            "Weight",
+            programEncounter
+        );
+        const isUnderweight =
+            (heightObs &&
+                weightObs &&
+                lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 14.5) ||
+            false;
 
         if (isUnderweight) {
             let earliestDate = getEarliestDate(programEncounter);
@@ -138,11 +166,11 @@ class CommonSchedule {
     }
 
     static scheduleMenstualDisorderFollowup(context, scheduleBuilder) {
-        if (new RuleCondition(context).when
-            .valueInEncounter("Are you able to do daily routine work during menstruation?").is.no
-            .or
-            .valueInEncounter("Does she remain absent during menstruation?").is.yes
-            .matches()
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("Are you able to do daily routine work during menstruation?")
+                .is.no.or.valueInEncounter("Does she remain absent during menstruation?")
+                .is.yes.matches()
         ) {
             scheduleBuilder.add({
                 name: "Menstrual Disorder Followup",
@@ -163,7 +191,10 @@ class CommonSchedule {
             name: "Annual Visit",
             encounterType: "Annual Visit",
             earliestDate: earliestDate.toDate(),
-            maxDate: moment(earliestDate).add(1, "month").endOf("day").toDate()
+            maxDate: moment(earliestDate)
+                .add(1, "month")
+                .endOf("day")
+                .toDate()
         });
     }
 
@@ -177,15 +208,19 @@ class CommonSchedule {
             name: "Quarterly Visit",
             encounterType: "Quarterly Visit",
             earliestDate: quarterlyVisitEarliestDate.toDate(),
-            maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
+            maxDate: moment(quarterlyVisitEarliestDate)
+                .add(1, "month")
+                .toDate()
         });
     }
 
     static scheduleChronicSicknessFollowup(context, scheduleBuilder) {
-        if (new RuleCondition(context).when
-            .valueInEncounter("Is there any other condition you want to mention about him/her?")
-            .containsAnswerConceptNameOtherThan("No problem")
-            .matches()) {
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("Is there any other condition you want to mention about him/her?")
+                .containsAnswerConceptNameOtherThan("No problem")
+                .matches()
+        ) {
             scheduleBuilder.add({
                 name: "Chronic Sickness Followup",
                 encounterType: "Chronic Sickness Followup",
@@ -196,10 +231,12 @@ class CommonSchedule {
     }
 
     static scheduleSevereAnemiaFollowup(context, scheduleBuilder) {
-        if (new RuleCondition(context).when
-            .valueInEncounter("Hb")
-            .is.lessThanOrEqualTo(7)
-            .matches()) {
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("Hb")
+                .is.lessThanOrEqualTo(7)
+                .matches()
+        ) {
             scheduleBuilder.add({
                 name: "Severe Anemia Followup",
                 encounterType: "Severe Anemia Followup",
@@ -210,10 +247,14 @@ class CommonSchedule {
     }
 
     static scheduleModerateAnemiaFollowup(context, scheduleBuilder) {
-        if (new RuleCondition(context).when
-            .valueInEncounter("Hb").is.greaterThanOrEqualTo(7.1)
-            .and.valueInEncounter("Hb").is.lessThanOrEqualTo(10)
-            .matches()) {
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("Hb")
+                .is.greaterThanOrEqualTo(7.1)
+                .and.valueInEncounter("Hb")
+                .is.lessThanOrEqualTo(10)
+                .matches()
+        ) {
             scheduleBuilder.add({
                 name: "Moderate Anemia Followup",
                 encounterType: "Moderate Anemia Followup",
@@ -224,9 +265,12 @@ class CommonSchedule {
     }
 
     static scheduleAddictionFollowup(context, scheduleBuilder) {
-        if (new RuleCondition(context).when
-            .valueInEncounter("Addiction Details").containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both")
-            .matches()) {
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("Addiction Details")
+                .containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both")
+                .matches()
+        ) {
             scheduleBuilder.add({
                 name: "Addiction Followup",
                 encounterType: "Addiction Followup",
@@ -237,7 +281,12 @@ class CommonSchedule {
     }
 
     static scheduleSickleCellFollowup(context, scheduleBuilder) {
-        if (new RuleCondition(context).when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Disease").matches()) {
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("Sickling Test Result")
+                .containsAnswerConceptName("Disease")
+                .matches()
+        ) {
             scheduleBuilder.add({
                 name: "Sickle Cell Followup",
                 encounterType: "Sickle Cell Followup",
@@ -247,7 +296,6 @@ class CommonSchedule {
         }
     }
 }
-
 
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
 class AnnualVisitScheduleSR {
@@ -278,7 +326,6 @@ class AnnualVisitScheduleSR {
         addDropoutHomeVisits(programEncounter, scheduleBuilder);
         addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
 
-
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
@@ -294,9 +341,9 @@ class QuarterlyVisitScheduleSR {
         const scheduleBuilder = new VisitScheduleBuilder(context);
         const currentMonth = moment().format("MMMM");
         const visitTable = {
-            "October": {"nextMonth": "January", "incrementInYear": 1},
-            "January": {"nextMonth": "May", "incrementInYear": 0},
-            "May": {"nextMonth": "October", "incrementInYear": 0}
+            October: {nextMonth: "January", incrementInYear: 1},
+            January: {nextMonth: "May", incrementInYear: 0},
+            May: {nextMonth: "October", incrementInYear: 0}
         };
 
         if (visitTable[currentMonth]) {
@@ -309,7 +356,9 @@ class QuarterlyVisitScheduleSR {
                 name: "Quarterly Visit",
                 encounterType: "Quarterly Visit",
                 earliestDate: quarterlyVisitEarliestDate.toDate(),
-                maxDate: moment(quarterlyVisitEarliestDate).add(1, "month").toDate()
+                maxDate: moment(quarterlyVisitEarliestDate)
+                    .add(1, "month")
+                    .toDate()
             });
         }
         CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
@@ -330,7 +379,9 @@ class ChronicSicknessFollowupScheduleSR {
             programEncounter: programEncounter,
             programEnrolment: programEnrolment
         });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Chronic Sickness Followup",
             encounterType: "Chronic Sickness Followup",
@@ -349,7 +400,9 @@ class MenstrualDisorderFollowupSR {
             programEncounter: programEncounter,
             programEnrolment: programEnrolment
         });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Menstrual Disorder Followup",
             encounterType: "Menstrual Disorder Followup",
@@ -368,11 +421,15 @@ class SeverAnemiaFollowupSR {
             programEnrolment: programEncounter.programEnrolment
         };
         const scheduleBuilder = new VisitScheduleBuilder(context);
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-        if (new RuleCondition(context).when
-            .valueInEncounter("HB after 3 months of treatment")
-            .is.lessThanOrEqualTo(7)
-            .matches()) {
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("HB after 3 months of treatment")
+                .is.lessThanOrEqualTo(7)
+                .matches()
+        ) {
             scheduleBuilder.add({
                 name: "Severe Anemia Followup",
                 encounterType: "Severe Anemia Followup",
@@ -380,10 +437,14 @@ class SeverAnemiaFollowupSR {
                 maxDate: nextVisitDate.add(15, "days").toDate()
             });
         }
-        if (new RuleCondition(context).when
-            .valueInEncounter("HB after 3 months of treatment").is.greaterThanOrEqualTo(7.1)
-            .and.valueInEncounter("HB after 3 months of treatment").is.lessThanOrEqualTo(10)
-            .matches()) {
+        if (
+            new RuleCondition(context).when
+                .valueInEncounter("HB after 3 months of treatment")
+                .is.greaterThanOrEqualTo(7.1)
+                .and.valueInEncounter("HB after 3 months of treatment")
+                .is.lessThanOrEqualTo(10)
+                .matches()
+        ) {
             scheduleBuilder.add({
                 name: "Moderate Anemia Followup",
                 encounterType: "Moderate Anemia Followup",
@@ -404,7 +465,9 @@ class ModerateAnemiaFollowupSR {
             programEncounter: programEncounter,
             programEnrolment: programEnrolment
         });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Moderate Anemia Followup",
             encounterType: "Moderate Anemia Followup",
@@ -423,7 +486,9 @@ class SeverMalnutritionFollowupSR {
             programEncounter: programEncounter,
             programEnrolment: programEnrolment
         });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Severe Malnutrition Followup",
             encounterType: "Severe Malnutrition Followup",
@@ -442,7 +507,9 @@ class AddictionVulnerabilityFollowupSR {
             programEncounter: programEncounter,
             programEnrolment: programEnrolment
         });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Addiction Followup",
             encounterType: "Addiction Followup",
@@ -461,7 +528,9 @@ class SickleCellVulnerabilityFollowupSR {
             programEncounter: programEncounter,
             programEnrolment: programEnrolment
         });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime) ? moment().add(1, "month") : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
         scheduleBuilder.add({
             name: "Sickle Cell Followup",
             encounterType: "Sickle Cell Followup",
