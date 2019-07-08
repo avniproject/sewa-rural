@@ -9,7 +9,7 @@
   "license": "AGPL-3.0",
   "scripts": {},
   "dependencies": {
-    "openchs-idi": "github:openchs/openchs-idi#e1582800c59811c02e9f4519498dd053dffc4a53",
+    "openchs-idi": "github:openchs/openchs-idi#80c64c4abd870c58835faaa494c0cb646dec71c5",
     "rules-config": "github:openchs/rules-config#c83e1e47f1618c56c5839de6708915d76db32056",
     "webpack": "^4.12.0"
   }
