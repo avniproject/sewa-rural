@@ -13,16 +13,7 @@ const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9
 const AddictionVulnerabilityFollowup = RuleFactory("8aec0b76-79ae-4e47-9375-ed9db3739997", "VisitSchedule");
 const SickleCellVulnerabilityFollowup = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "VisitSchedule");
 
-const getEarliestDate = programEncounter =>
-    _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment()
-              .add(1, "month")
-              .startOf("day")
-              .toDate()
-        : moment(programEncounter.earliestVisitDateTime)
-              .add(1, "month")
-              .startOf("day")
-              .toDate();
+const getEarliestDate = programEncounter => moment().startOf("day").toDate();
 
 const getMaxDate = programEncounter =>
     moment(getEarliestDate(programEncounter))
