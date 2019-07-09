@@ -91,7 +91,8 @@
             "uuid": "a2e181c3-0827-4da2-9121-a59386449823"
           },
           "displayOrder": 3,
-          "mandatory": true
+          "mandatory": true,
+          "voided": "true"
         },
         {
           "name": "Have your symptoms relieved?",

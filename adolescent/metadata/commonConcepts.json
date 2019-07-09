@@ -227,6 +227,12 @@
     ]
   },
   {
+    "name": "Other sickness in last 1 month",
+    "uuid": "c401a858-2268-4ef8-8d3b-09909afdd562",
+    "dataType": "Text",
+    "abnormal": true
+  },
+  {
     "name": "Sickness in last 3 month",
     "uuid": "49b70138-ea65-45ee-8f3f-676bb8a1f8d3",
     "dataType": "Coded",

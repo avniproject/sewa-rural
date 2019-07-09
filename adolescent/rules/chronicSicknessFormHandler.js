@@ -23,7 +23,7 @@ class ChronicSicknessViewFilterSR{
     @WithName("Whether visited hospital")
     @WithStatusBuilder
     abc1([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Know what the problem is").is.yes;
+        statusBuilder.show().when.valueInEncounter("Whether referred to hospital").is.yes;
     }
 
     @WithName("Are you taking treatment regularly?")

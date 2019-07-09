@@ -33,6 +33,13 @@ export default class {
         return statusBuilder.build();
     }
 
+    nameOfSchool(programEncounter, formElement) {
+        let statusBuilder = this._getStatusBuilder(programEncounter, formElement);
+        statusBuilder.show()
+            .when.valueInEncounter("Are you ready for re-admission to school").is.yes
+        return statusBuilder.build();
+    }
+
     _getStatusBuilder(programEncounter, formElement) {
         return new FormElementStatusBuilder({
             programEncounter: programEncounter,

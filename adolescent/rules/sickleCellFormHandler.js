@@ -24,7 +24,7 @@ class SickleCellFollowupViewFilterHandlerSR {
         statusBuilder.show().when.valueInEncounter("Whether referred to hospital").is.yes;
     }
 
-    @WithName("Do you have FA tablets?")
+    @WithName("Are you taking it regularly?")
     @WithStatusBuilder
     areYouTakingItRegularly([programEncounter], statusBuilder) {
         statusBuilder.show().when.valueInEncounter("Have FA Tablets").is.yes;

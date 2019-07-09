@@ -233,6 +233,17 @@
           },
           "mandatory": true,
           "displayOrder": 9
+        },
+        {
+          "name": "Iron tablets consumed in last month",
+          "uuid": "bc8d3e8e-fdeb-451b-a03a-60740d5035f7",
+          "keyValues": [],
+          "concept": {
+            "uuid": "56358db1-8d55-4fbf-89c5-fde97c819c2c",
+            "name": "Iron tablets consumed in last month"
+          },
+          "mandatory": true,
+          "displayOrder": 10
         }
       ]
     },
@@ -588,6 +599,16 @@
           "mandatory": true
         },
         {
+          "name": "Other conditions (please specify)",
+          "uuid": "dfa38674-7631-4d83-922b-00697e1ea976",
+          "concept": {
+            "uuid": "a9258172-949c-49bd-bbb3-ac9607150ab4",
+            "name": "Other conditions mentioned"
+          },
+          "displayOrder": 1.5,
+          "mandatory": true
+        },
+        {
           "name": "Sickness in last 1 month",
           "uuid": "a4e9cde1-4a6c-428b-af54-27805765ceb9",
           "keyValues": [],
@@ -597,6 +618,16 @@
             "name": "Sickness in last 1 month"
           },
           "displayOrder": 2,
+          "mandatory": true
+        },
+        {
+          "name": "Other sickness (please specify)",
+          "uuid": "345d840b-5712-4d65-b84c-41e19a84e549",
+          "concept": {
+            "uuid": "c401a858-2268-4ef8-8d3b-09909afdd562",
+            "name": "Other sickness in last 1 month"
+          },
+          "displayOrder": 2.5,
           "mandatory": true
         },
         {

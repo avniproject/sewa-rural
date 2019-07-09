@@ -194,4 +194,31 @@ export default class AnnualVisitHandler {
         return statusBuilder.build();
     }
 
+    @WithName("Other conditions (please specify)")
+    @WithStatusBuilder
+    abc21([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Is there any other condition you want to mention about him/her?")
+            .containsAnswerConceptName("Other");
+
+        return statusBuilder.build();
+    }
+
+    @WithName("Other sickness (please specify)")
+    @WithStatusBuilder
+    abc22([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Sickness in last 1 month")
+            .containsAnswerConceptName("Other");
+
+        return statusBuilder.build();
+    }
+
+    @WithName("Iron tablets consumed in last month")
+    @WithStatusBuilder
+    abc33([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Iron tablets received").containsAnswerConceptName("Yes");
+        return statusBuilder.build();
+    }
+
 }
