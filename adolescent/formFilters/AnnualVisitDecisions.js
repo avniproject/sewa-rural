@@ -49,7 +49,7 @@ export class AnnualVisitDecisionHandler {
             .or.when.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptName("Yes");
 
         referralAdvice.addComplication("Additional Medical Problems").when.valueInEncounter("Is there any other condition you want to mention about him/her?").containsAnswerConceptNameOtherThan("No problem");
-        referralAdvice.addComplication("Addiction (Self)").when.valueInEncounter("Addiction Details").containsAnswerConceptNameOtherThan("None");
+        referralAdvice.addComplication("Addiction (Self)").when.valueInEncounter("Addiction Details").containsAnswerConceptNameOtherThan("No Addiction");
 
         referralAdvice.addComplication("Sexual Problems").when.valueInEncounter("Burning Micturition").containsAnswerConceptName("Yes")
             .or.when.valueInEncounter("Ulcer over genitalia").containsAnswerConceptName("Yes")

@@ -98,56 +98,56 @@ export default class AnnualVisitHandler {
     @WithName("Menstruation started")
     @WithStatusBuilder
     abc9([programEncounter], statusBuilder) {
-        statusBuilder.show().whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy;
+        statusBuilder.show().when.female;
         return statusBuilder.build();
     }
 
     @WithName("MHM Kit received?")
     @WithStatusBuilder
     abc91([programEncounter], statusBuilder) {
-        statusBuilder.show().whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy;
+        statusBuilder.show().when.female;
         return statusBuilder.build();
     }
 
     @WithName("If Yes, Age at Menarche")
     @WithStatusBuilder
     abc10([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female.and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
     @WithName("Absorbent material used")
     @WithStatusBuilder
     abc11([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female.and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
     @WithName("Menstrual disorders")
     @WithStatusBuilder
     abc12([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female.and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
     @WithName("Are you able to do daily routine work during menstruation?")
     @WithStatusBuilder
     abc13([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female.and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
     @WithName("Any treatment taken")
     @WithStatusBuilder
     abc14([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem");
+        statusBuilder.show().when.female.and.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem");
         return statusBuilder.build();
     }
 
     @WithName("Does she remain absent during menstruation?")
     @WithStatusBuilder
     abc15([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("School going").containsAnswerConceptName("Yes").or
+        statusBuilder.show().when.female.and.valueInEncounter("School going").containsAnswerConceptName("Yes").and
             .when.valueInEncounter("Menstrual disorders").containsAnswerConceptNameOtherThan("No problem");
         return statusBuilder.build();
     }
@@ -155,21 +155,21 @@ export default class AnnualVisitHandler {
     @WithName("Reason for remaining absent during menstruation")
     @WithStatusBuilder
     abc16([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female.and.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
     @WithName("If yes, how many days?")
     @WithStatusBuilder
     abc161([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female.and.valueInEncounter("Does she remain absent during menstruation?").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
     @WithName("MHM Kit used?")
     @WithStatusBuilder
     abc17([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("MHM Kit received").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female.and.valueInEncounter("MHM Kit received").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
