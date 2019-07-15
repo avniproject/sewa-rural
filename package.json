@@ -4,12 +4,12 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/OpenCHS/calcutta-kids.git"
+    "url": "https://github.com/OpenCHS/sewa-rural.git"
   },
   "license": "AGPL-3.0",
   "scripts": {},
   "dependencies": {
-    "openchs-idi": "github:openchs/openchs-idi#80c64c4abd870c58835faaa494c0cb646dec71c5",
+    "openchs-idi": "github:openchs/openchs-idi#6f1c7d8cabe9acc7e04ed6dd171e9c1ed629ae99",
     "rules-config": "github:openchs/rules-config#c83e1e47f1618c56c5839de6708915d76db32056",
     "webpack": "^4.12.0"
   },
