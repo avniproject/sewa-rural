@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {referralDecisions} from '../../health_modules/adolescent/referralDecision';
+import {referralDecisions} from "../../health_modules/adolescent/referralDecision";
 import enrolmentForm from "../../health_modules/adolescent/metadata/adolescentEnrolment.json";
 import program from "../../health_modules/adolescent/metadata/adolescentProgram.json";
 import adolescentConcepts from "../../health_modules/adolescent/metadata/adolescentConcepts.json";
@@ -10,9 +10,8 @@ import ProgramFactory from "openchs-models/test/ref/ProgramFactory";
 import EntityFactory from "openchs-models/test/EntityFactory";
 import Gender from "openchs-models/src/Gender";
 import EncounterFiller from "openchs-models/test/ref/EncounterFiller";
-import C from '../../health_modules/common';
+import C from "../../health_modules/common";
 import moment from "moment";
-
 
 describe("Referral Decision Test", () => {
     let programData;
@@ -74,11 +73,21 @@ describe("Referral Decision Test", () => {
         individual.gender = Gender.create("Male");
         let enrolment = EntityFactory.createEnrolment({individual: individual, program: programData});
 
-        let previousEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-12-25").toDate())
+        let previousEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-12-25").toDate()
+        )
             .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina"])
             .build();
 
-        let currentEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1996-12-25", "YYYY-MM-DD").toDate())
+        let currentEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1996-12-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Is there any physical defect?", "No")
             .forSingleCoded("Is there a swelling at lower back?", "No")
             .forSingleCoded("Is there Cleft lip/Cleft palate?", "No")
@@ -121,11 +130,21 @@ describe("Referral Decision Test", () => {
         individual.gender = Gender.create("Male");
         let enrolment = EntityFactory.createEnrolment({individual: individual, program: programData});
 
-        let previousEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-12-25", "YYYY-MM-DD").toDate())
+        let previousEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-12-25", "YYYY-MM-DD").toDate()
+        )
             .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina"])
             .build();
 
-        let currentEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1996-12-25", "YYYY-MM-DD").toDate())
+        let currentEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1996-12-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Is there any physical defect?", "No")
             .forSingleCoded("Is there a swelling at lower back?", "No")
             .forSingleCoded("Is there Cleft lip/Cleft palate?", "No")
@@ -168,11 +187,21 @@ describe("Referral Decision Test", () => {
         individual.gender = Gender.create("Male");
         let enrolment = EntityFactory.createEnrolment({individual: individual, program: programData});
 
-        let previousEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-12-25", "YYYY-MM-DD").toDate())
+        let previousEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-12-25", "YYYY-MM-DD").toDate()
+        )
             .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina"])
             .build();
 
-        let currentEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1996-12-25", "YYYY-MM-DD").toDate())
+        let currentEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1996-12-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Is there any physical defect?", "No")
             .forSingleCoded("Is there a swelling at lower back?", "No")
             .forSingleCoded("Is there Cleft lip/Cleft palate?", "No")
@@ -216,11 +245,21 @@ describe("Referral Decision Test", () => {
         individual.gender = Gender.create("Male");
         let enrolment = EntityFactory.createEnrolment({individual: individual, program: programData});
 
-        let previousEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-12-25", "YYYY-MM-DD").toDate())
+        let previousEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-12-25", "YYYY-MM-DD").toDate()
+        )
             .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina"])
             .build();
 
-        let currentEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1996-12-25", "YYYY-MM-DD").toDate())
+        let currentEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1996-12-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Is there any physical defect?", "No")
             .forSingleCoded("Is there a swelling at lower back?", "No")
             .forSingleCoded("Is there Cleft lip/Cleft palate?", "No")
@@ -265,12 +304,22 @@ describe("Referral Decision Test", () => {
         individual.gender = Gender.create("Male");
         let enrolment = EntityFactory.createEnrolment({individual: individual, program: programData});
 
-        let previousEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-12-25", "YYYY-MM-DD").toDate())
+        let previousEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-12-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Sickling Test Result", "Disease")
             .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina"])
             .build();
 
-        let currentEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1996-12-25", "YYYY-MM-DD").toDate())
+        let currentEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1996-12-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Is there any physical defect?", "No")
             .forSingleCoded("Is there a swelling at lower back?", "No")
             .forSingleCoded("Is there Cleft lip/Cleft palate?", "No")
@@ -316,15 +365,30 @@ describe("Referral Decision Test", () => {
         individual.gender = Gender.create("Male");
         let enrolment = EntityFactory.createEnrolment({individual: individual, program: programData});
 
-        let previousEncounter1 = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-1-25", "YYYY-MM-DD").toDate())
+        let previousEncounter1 = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-1-25", "YYYY-MM-DD").toDate()
+        )
             .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina"])
             .build();
 
-        let previousEncounter2 = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-2-25", "YYYY-MM-DD").toDate())
+        let previousEncounter2 = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-2-25", "YYYY-MM-DD").toDate()
+        )
             .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina"])
             .build();
 
-        let currentEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-3-25", "YYYY-MM-DD").toDate())
+        let currentEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-3-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Is there any physical defect?", "No")
             .forSingleCoded("Is there a swelling at lower back?", "No")
             .forSingleCoded("Is there Cleft lip/Cleft palate?", "No")
@@ -365,15 +429,38 @@ describe("Referral Decision Test", () => {
         individual.gender = Gender.create("Male");
         let enrolment = EntityFactory.createEnrolment({individual: individual, program: programData});
 
-        let previousEncounter1 = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-1-25", "YYYY-MM-DD").toDate())
-            .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina", "Menstrual Disorder"])
+        let previousEncounter1 = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-1-25", "YYYY-MM-DD").toDate()
+        )
+            .forMultiCoded("Refer to hospital for", [
+                "Physical defect",
+                "Yellowish discharge from penis/vagina",
+                "Menstrual Disorder"
+            ])
             .build();
 
-        let previousEncounter2 = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-2-25", "YYYY-MM-DD").toDate())
-            .forMultiCoded("Refer to hospital for", ["Physical defect", "Yellowish discharge from penis/vagina", "Menstrual Disorder"])
+        let previousEncounter2 = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-2-25", "YYYY-MM-DD").toDate()
+        )
+            .forMultiCoded("Refer to hospital for", [
+                "Physical defect",
+                "Yellowish discharge from penis/vagina",
+                "Menstrual Disorder"
+            ])
             .build();
 
-        let currentEncounter = new EncounterFiller(programData, enrolment, "Annual Visit", moment("1995-3-25", "YYYY-MM-DD").toDate())
+        let currentEncounter = new EncounterFiller(
+            programData,
+            enrolment,
+            "Annual Visit",
+            moment("1995-3-25", "YYYY-MM-DD").toDate()
+        )
             .forSingleCoded("Is there any physical defect?", "No")
             .forSingleCoded("Is there a swelling at lower back?", "No")
             .forSingleCoded("Is there Cleft lip/Cleft palate?", "No")

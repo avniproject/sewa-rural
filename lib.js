@@ -10,4 +10,4 @@ export default {
     get calculations() {
         return ruleServiceLibraryInterfaceForSharingModules.motherCalculations;
     }
-}
+};

@@ -1,6 +1,6 @@
 import {FormElementsStatusHelper} from "rules-config/rules";
 import DropoutEncounterFormHandler from "../formFilters/DropoutEncounterFormHandler";
-import {RuleFactory} from 'rules-config/rules';
+import {RuleFactory} from "rules-config/rules";
 import AnnualVisitHandler from "../formFilters/AnnualVisitHandler";
 import QuarterlyVisitHandler from "../formFilters/QuarterlyVisitHandler";
 
@@ -10,9 +10,9 @@ const DropoutHomeViewFilters = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792
 const DropoutFollowUpViewFilters = RuleFactory("0c444bf3-54c3-41e4-8ca9-f0deb8760831", "ViewFilter");
 
 const encounterTypeHandlerMap = new Map([
-    ['Annual Visit', new AnnualVisitHandler()],
-    ['Quarterly Visit', new QuarterlyVisitHandler()],
-    ['Dropout Home Visit', new DropoutEncounterFormHandler()]
+    ["Annual Visit", new AnnualVisitHandler()],
+    ["Quarterly Visit", new QuarterlyVisitHandler()],
+    ["Dropout Home Visit", new DropoutEncounterFormHandler()]
 ]);
 
 const getFormElementsStatuses = (programEncounter, formElementGroup) => {

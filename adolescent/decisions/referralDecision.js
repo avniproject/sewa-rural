@@ -1,7 +1,6 @@
-import _ from 'lodash';
+import _ from "lodash";
 import {complicationsBuilder as ComplicationsBuilder} from "rules-config/rules";
 import RoutineEncounterHandler from "../formFilters/RoutineEncounterHandler";
-
 
 const conceptReferralMap = new Map([
     ["Is there any physical defect?", "Physical defect"],
@@ -25,40 +24,46 @@ const conceptReferralMap = new Map([
     ["Burning Micturition", "Burning micturition"],
     ["Ulcer over genitalia", "Ulcer over genitalia"],
     ["Yellowish discharge from Vagina / penis", "Yellowish discharge from penis/vagina"],
-    ["Does she remain absent during menstruation?", "Menstrual Disorder"],
+    ["Does she remain absent during menstruation?", "Menstrual Disorder"]
 ]);
-const REFERRAL_ADVICE_CONCEPT = 'Refer to hospital for';
+const REFERRAL_ADVICE_CONCEPT = "Refer to hospital for";
 
-const getReferredAdviceConcepts = (encounter) => {
-    const referredAdviceObs = _.defaultTo(encounter.findObservation(REFERRAL_ADVICE_CONCEPT),
-        {concept: {getAnswers: () => []}, getValue: () => []});
+const getReferredAdviceConcepts = encounter => {
+    const referredAdviceObs = _.defaultTo(encounter.findObservation(REFERRAL_ADVICE_CONCEPT), {
+        concept: {getAnswers: () => []},
+        getValue: () => []
+    });
     const answerConcepts = referredAdviceObs.concept.getAnswers().map(a => a.concept);
-    return referredAdviceObs.getValue()
-        .map((conceptUUID) => answerConcepts.find(ac => ac.uuid === conceptUUID));
+    return referredAdviceObs.getValue().map(conceptUUID => answerConcepts.find(ac => ac.uuid === conceptUUID));
 };
 
-const unsuccessfulReferral = (encounter) => (concept) => {
+const unsuccessfulReferral = encounter => concept => {
     let latestObs = encounter.findObservation("Visited hospital for");
     if (_.isNil(latestObs)) return true;
     return !latestObs.getValue().some(answer => concept.uuid === answer);
 };
 
-const existingReferralAdvice = (currentEncounter) => {
-    const lastRoutineEncounter =
-        currentEncounter.programEnrolment
-            .findLastEncounterOfType(currentEncounter,
-                RoutineEncounterHandler.visits.MONTHLY_OR_MIDLINE);
-    const secondLastRoutineEncounter =
-        _.defaultTo(currentEncounter.programEnrolment.findNthLastEncounterOfType(currentEncounter,
-            RoutineEncounterHandler.visits.MONTHLY_OR_MIDLINE, 1), {findObservation: _.noop});
+const existingReferralAdvice = currentEncounter => {
+    const lastRoutineEncounter = currentEncounter.programEnrolment.findLastEncounterOfType(
+        currentEncounter,
+        RoutineEncounterHandler.visits.MONTHLY_OR_MIDLINE
+    );
+    const secondLastRoutineEncounter = _.defaultTo(
+        currentEncounter.programEnrolment.findNthLastEncounterOfType(
+            currentEncounter,
+            RoutineEncounterHandler.visits.MONTHLY_OR_MIDLINE,
+            1
+        ),
+        {findObservation: _.noop}
+    );
 
     if (_.isNil(lastRoutineEncounter)) return [];
 
     const lastReferredConcepts = getReferredAdviceConcepts(lastRoutineEncounter);
     const secondLastReferredConcepts = getReferredAdviceConcepts(secondLastRoutineEncounter);
 
-    const remainingConcepts = _.differenceBy(lastReferredConcepts, secondLastReferredConcepts, (c) => c.uuid);
-    let menstrualDisorder = lastReferredConcepts.filter((c) => c.name === "Menstrual Disorder");
+    const remainingConcepts = _.differenceBy(lastReferredConcepts, secondLastReferredConcepts, c => c.uuid);
+    let menstrualDisorder = lastReferredConcepts.filter(c => c.name === "Menstrual Disorder");
     return menstrualDisorder.concat(remainingConcepts).filter(unsuccessfulReferral(currentEncounter));
 };
 
@@ -70,26 +75,36 @@ const referralDecisions = (existingDecisions, programEncounter) => {
         existingDecisions: allDecisions
     });
 
+    existingReferralAdvice(programEncounter).forEach(existingReferralComplication =>
+        complicationsBuilder.addComplication(existingReferralComplication.name)
+    );
 
-    existingReferralAdvice(programEncounter)
-        .forEach(existingReferralComplication =>
-            complicationsBuilder.addComplication(existingReferralComplication.name));
+    Array.from(conceptReferralMap.entries()).map(([concept, complication]) =>
+        complicationsBuilder
+            .addComplication(complication)
+            .when.valueInEncounter(concept)
+            .containsAnswerConceptName("Yes")
+    );
 
-    Array.from(conceptReferralMap.entries())
-        .map(([concept, complication]) => complicationsBuilder.addComplication(complication)
-            .when.valueInEncounter(concept).containsAnswerConceptName("Yes"));
-
-    complicationsBuilder.addComplication("Severe Anemia").when
-        .valueInEncounter("Hb").lessThan(7);
-    complicationsBuilder.addComplication("Severe malnourishment").when
-        .valueInEncounter("BMI").lessThanOrEqualTo(14.5);
-    complicationsBuilder.addComplication("Sickle Cell Anemia").when
-        .valueInLastEncounter("Sickling Test Result", RoutineEncounterHandler.visits.ANNUAL).containsAnyAnswerConceptName("Disease");
-    complicationsBuilder.addComplication("Self Addiction").when
-        .valueInEncounter("Addiction Details").containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both");
+    complicationsBuilder
+        .addComplication("Severe Anemia")
+        .when.valueInEncounter("Hb")
+        .lessThan(7);
+    complicationsBuilder
+        .addComplication("Severe malnourishment")
+        .when.valueInEncounter("BMI")
+        .lessThanOrEqualTo(14.5);
+    complicationsBuilder
+        .addComplication("Sickle Cell Anemia")
+        .when.valueInLastEncounter("Sickling Test Result", RoutineEncounterHandler.visits.ANNUAL)
+        .containsAnyAnswerConceptName("Disease");
+    complicationsBuilder
+        .addComplication("Self Addiction")
+        .when.valueInEncounter("Addiction Details")
+        .containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both");
 
     existingDecisions.encounterDecisions.push(complicationsBuilder.getComplications());
     return existingDecisions;
 };
 
-export {referralDecisions}
+export {referralDecisions};

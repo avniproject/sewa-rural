@@ -5,17 +5,21 @@ import {
     FormElementStatusBuilder,
     RuleFactory,
     StatusBuilderAnnotationFactory,
-    WithName,
-} from 'rules-config/rules';
+    WithName
+} from "rules-config/rules";
 
 const SickleCellViewFilter = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "ViewFilter");
-const WithStatusBuilder = StatusBuilderAnnotationFactory('programEncounter', 'formElement');
+const WithStatusBuilder = StatusBuilderAnnotationFactory("programEncounter", "formElement");
 
 @SickleCellViewFilter("39dd9bd1-63ae-44c7-9184-9bdaf261a8da", "Sickle Cell Followup View Filter", 100.0, {})
 class SickleCellFollowupViewFilterHandlerSR {
     static exec(programEncounter, formElementGroup, today) {
-        return FormElementsStatusHelper
-            .getFormElementsStatusesWithoutDefaults(new SickleCellFollowupViewFilterHandlerSR(), programEncounter, formElementGroup, today);
+        return FormElementsStatusHelper.getFormElementsStatusesWithoutDefaults(
+            new SickleCellFollowupViewFilterHandlerSR(),
+            programEncounter,
+            formElementGroup,
+            today
+        );
     }
 
     @WithName("Have you visited hospital?")
@@ -38,4 +42,3 @@ class SickleCellFollowupViewFilterHandlerSR {
 }
 
 module.exports = {SickleCellFollowupViewFilterHandlerSR};
-
