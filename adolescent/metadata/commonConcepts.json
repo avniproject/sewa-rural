@@ -315,6 +315,10 @@
     "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
   },
   {
+    "name": "Mild",
+    "uuid": "a576aaa4-228f-47ad-b6e9-8225fd15cf0e"
+  },
+  {
     "name": "Severely malnourished",
     "uuid": "332a435b-069c-4283-a4f7-4310d7e458d7"
   },
@@ -357,6 +361,14 @@
       {
         "name": "Moderate",
         "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+      },
+      {
+        "name": "Mild",
+        "uuid": "a576aaa4-228f-47ad-b6e9-8225fd15cf0e"
+      },
+      {
+        "name": "Normal",
+        "uuid": "ba43b326-18a1-4f8d-ad04-29b0371461e0"
       }
     ]
   },
@@ -496,6 +508,42 @@
       },
       {
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
+      }
+    ]
+  },
+  {
+    "name": "Adolescent Vulnerabilities",
+    "uuid": "2eb87840-160d-4ee0-bb4c-55dc00c8998a",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "c67d2c3a-c1c8-4cb7-b76e-b77e02541577",
+        "name": "Moderate Anemia",
+        "abnormal": false
+      },
+      {
+        "uuid": "1aff631c-e487-4202-a862-122b45168ac6",
+        "name": "Severe Anemia"
+      },
+      {
+        "uuid": "90a88989-6738-44f1-bc65-47fe56234739",
+        "name": "Severe malnourishment"
+      },
+      {
+        "name": "Addiction (Self)",
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+      },
+      {
+        "name": "Sickle cell disease",
+        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66"
+      },
+      {
+        "name": "Chronic Sickness",
+        "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
+      },
+      {
+        "name": "Menstrual disorders",
+        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
       }
     ]
   }
