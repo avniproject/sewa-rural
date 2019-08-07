@@ -60,6 +60,18 @@
           "mandatory": true
         },
         {
+          "name": "Specify Other",
+          "uuid": "81213a5c-b221-4274-867c-5e9f19023110",
+          "keyValues": [],
+          "concept": {
+            "name": "Other block name",
+            "uuid": "41a77034-d064-4d0b-894d-782fc1e69f37"
+          },
+          "displayOrder": 4.5,
+          "mandatory": true
+        },
+        
+        {
           "name": "Religion",
           "uuid": "ea53330d-7693-4ba9-91ab-007547a764d4",
           "keyValues": [],

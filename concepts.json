@@ -145,7 +145,16 @@
       {
         "name": "Garudeshwar",
         "uuid": "f4867ff0-ba0c-4a47-b806-96395f6066e1"
+      },
+      {
+        "name": "Other",
+        "uuid": "05ea583c-51d2-412d-ad00-06c432ffe538"
       }
     ]
+  },
+  {
+    "name": "Other block name",
+    "uuid": "41a77034-d064-4d0b-894d-782fc1e69f37",
+    "dataType": "Text"
   }
 ]

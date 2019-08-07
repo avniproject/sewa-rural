@@ -23,6 +23,12 @@ export class AnnualVisitDecisionHandler {
             .addComplication("Severe Anemia")
             .when.valueInEncounter("Hb")
             .is.lessThanOrEqualTo(7);
+
+        complicationsBuilder
+            .addComplication("test")
+            .when.valueInEncounter("Hb")
+            .is.lessThanOrEqualTo(7);
+
         complicationsBuilder
             .addComplication("Sickle cell disease")
             .when.valueInEncounter("Sickling Test Result")

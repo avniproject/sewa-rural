@@ -55,7 +55,9 @@ class AdolescentProgramSummary {
         });
 
         const add = builder.addComplication.bind(builder);
-
+        add("test")
+            .when[latest]("Hb")
+            .lessThanOrEqualTo(7);
         add("Severe")
             .when[latest]("Hb")
             .lessThanOrEqualTo(7);
