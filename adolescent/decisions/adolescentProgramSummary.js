@@ -1,4 +1,6 @@
 import {complicationsBuilder as ComplicationsBuilder, ProgramRule} from "rules-config/rules";
+import moment from 'moment';
+import _ from 'lodash';
 
 const has = "containsAnyAnswerConceptName",
     latest = "latestValueInAllEncounters";
@@ -105,6 +107,12 @@ class AdolescentProgramSummary {
         }
         this.pushToSummaries(AdolescentProgramSummary.getAnemiaStatus(programEnrolment), summaries, context);
         this.pushToSummaries(AdolescentProgramSummary.getOtherComplications(programEnrolment), summaries, context);
+        const hbValues = programEnrolment.getObservationsForConceptName('Hb');
+        if (!_.isEmpty(hbValues)) {
+            const value = hbValues.map(({encounterDateTime, obs}) => (`${moment(encounterDateTime).format("DD-MM-YYYY")}: ${obs}g/dL`))
+                .join(", ");
+            summaries.push({name: "HB values", value: value})
+        }
         return summaries;
     }
 

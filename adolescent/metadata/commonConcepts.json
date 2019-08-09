@@ -546,5 +546,10 @@
         "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
       }
     ]
+  },
+  {
+    "name": "HB values",
+    "uuid": "70b9eb05-6c45-4391-be0e-5f81256d8875",
+    "dataType": "NA"
   }
 ]

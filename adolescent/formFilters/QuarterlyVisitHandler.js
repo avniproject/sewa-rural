@@ -34,6 +34,16 @@ export default class QuarterlyVisitHandler {
         return statusBuilder.build();
     }
 
+    @WithName("Hemoglobin")
+    @WithStatusBuilder
+    abc6([programEncounter], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Hemoglobin Test")
+            .containsAnswerConceptName("Done");
+        return statusBuilder.build();
+    }
+
     @WithName("From Where?")
     @WithStatusBuilder
     abc8([], statusBuilder) {
