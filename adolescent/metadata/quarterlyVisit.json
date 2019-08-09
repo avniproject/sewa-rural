@@ -51,6 +51,32 @@
       "displayOrder": 2,
       "formElements": [
         {
+          "name": "Hemoglobin Test",
+          "uuid": "f98c9bb0-221c-493a-a419-7083efc2148b",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "c5d4acdc-86f5-4b6f-b700-ef85d89108dc",
+            "name": "Hemoglobin Test"
+          },
+          "mandatory": true,
+          "displayOrder": 0.5
+        },
+        {
+          "name": "Hemoglobin",
+          "uuid": "d55dd5e7-8859-4bbc-a2f9-79189e7447a9",
+          "keyValues": [],
+          "concept": {
+            "uuid": "f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b"
+          },
+          "displayOrder": 0.6,
+          "mandatory": true,
+          "validFormat": {
+            "regex": "^[0-9]{1,2}(\\.[0-9])??$",
+            "descriptionKey": "requiredFormatxxDotx"
+          }
+        },
+        {
           "name": "Sickling Test Status",
           "uuid": "269bfd93-8a48-43b8-a5e2-be263057ff8b",
           "keyValues": [],
