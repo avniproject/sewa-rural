@@ -47,6 +47,13 @@ class SeverMalnutritionViewFilterSR {
             false;
         return new FormElementStatus(formElement.uuid, isMalnourished);
     }
+
+    @WithName("Home Visit Done?")
+    homeVisitDone(programEncounter, formElement) {
+        const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;
+        return new FormElementStatus(formElement.uuid, registeredAddress !== 'Boarding');
+    }
+
 }
 
 module.exports = {SeverMalnutritionViewFilterSR};

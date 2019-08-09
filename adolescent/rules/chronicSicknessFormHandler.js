@@ -39,6 +39,13 @@ class ChronicSicknessViewFilterSR {
     abc3([programEncounter], statusBuilder) {
         statusBuilder.show().when.valueInEncounter("Whether condition cured").is.no;
     }
+
+    @WithName("Home Visit Done?")
+    homeVisitDone(programEncounter, formElement) {
+        const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;
+        return new FormElementStatus(formElement.uuid, registeredAddress !== 'Boarding');
+    }
+
 }
 
 module.exports = {ChronicSicknessViewFilterSR};

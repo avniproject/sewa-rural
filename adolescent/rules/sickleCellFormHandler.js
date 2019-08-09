@@ -39,6 +39,12 @@ class SickleCellFollowupViewFilterHandlerSR {
     whatDidYouDoForYourPain([programEncounter], statusBuilder) {
         statusBuilder.show().when.valueInEncounter("Suffered from any pain or problem in last one month").is.yes;
     }
+
+    @WithName("Home Visit Done?")
+    homeVisitDone(programEncounter, formElement) {
+        const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;
+        return new FormElementStatus(formElement.uuid, registeredAddress !== 'Boarding');
+    }
 }
 
 module.exports = {SickleCellFollowupViewFilterHandlerSR};

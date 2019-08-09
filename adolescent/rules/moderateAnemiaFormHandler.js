@@ -43,6 +43,12 @@ class ModerateAnemiaViewFilterHandlerSR {
             (sicklingTestResultObs && sicklingTestResultObs.getReadableValue() !== ("Negative" || "Trait")) || true
         );
     }
+
+    @WithName("Home Visit Done?")
+    homeVisitDone(programEncounter, formElement) {
+        const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;
+        return new FormElementStatus(formElement.uuid, registeredAddress !== 'Boarding');
+    }
 }
 
 @ModerateAnemiaValidations("976e614d-a85e-4aa6-829a-fe6fbc29befa", "Moderate Anemia Validations", 100.0)

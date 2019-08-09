@@ -61,6 +61,13 @@ class SevereAnemiaViewFilterHandlerSR {
             (sicklingTestResultObs && sicklingTestResultObs.getReadableValue() !== ("Negative" || "Trait")) || true
         );
     }
+
+    @WithName("Home Visit Done?")
+    homeVisitDone(programEncounter, formElement) {
+        const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;
+        return new FormElementStatus(formElement.uuid, registeredAddress !== 'Boarding');
+    }
+
 }
 
 @SevereAnemiaValidations("2e7149da-220d-4fa7-8dba-e7ce66f3240b", "Severe Anemia Validations", 100.0)
