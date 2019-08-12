@@ -1,3 +1,5 @@
+import {AnnualVisitDecisionHandler} from "./AnnualVisitDecisions";
+
 const _ = require("lodash");
 import {RuleFactory} from "rules-config/rules";
 import {complicationsBuilder as ComplicationsBuilder} from "rules-config";
@@ -39,7 +41,7 @@ export class QuarterlyVisitDecisionHandler {
         const recommendation = QuarterlyVisitDecisionHandler.referrals(programEncounter);
         // decisions['encounterDecisions'] = decisions['encounterDecisions'] || [];
         // decisions['encounterDecisions'] = decisions['encounterDecisions'].filter((d) => d.name !== recommendation.name).concat(recommendation);
-
+        decisions.encounterDecisions.push(AnnualVisitDecisionHandler.anemiaStatusDecisions(programEncounter));
         decisions.encounterDecisions.push(recommendation);
         return decisions;
     }
