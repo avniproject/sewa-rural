@@ -284,4 +284,18 @@ export default class AnnualVisitHandler {
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
+
+    @WithName("MenstrualDisorderCounselling for SR")
+    @WithStatusBuilder
+    xyz1([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        return statusBuilder.build();
+    }
+
+    @WithName("Counselling checklist for Sickle Cell Anemia(Disease)")
+    @WithStatusBuilder
+    xyz2([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Trait");
+        return statusBuilder.build();
+    }
 }
