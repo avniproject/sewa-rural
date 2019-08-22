@@ -288,7 +288,12 @@ export default class AnnualVisitHandler {
     @WithName("MenstrualDisorderCounselling for SR")
     @WithStatusBuilder
     xyz1([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder
+            .show()
+            .when
+            .female
+            .and.when.valueInEncounter("Menstrual disorders")
+            .containsAnswerConceptNameOtherThan("No problem");
         return statusBuilder.build();
     }
 
