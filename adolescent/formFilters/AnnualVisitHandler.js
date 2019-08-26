@@ -127,7 +127,8 @@ export default class AnnualVisitHandler {
     @WithName("MHM Kit received?")
     @WithStatusBuilder
     abc91([programEncounter], statusBuilder) {
-        statusBuilder.show().when.female;
+        statusBuilder.show().when.female
+            .and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 

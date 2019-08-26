@@ -121,6 +121,17 @@
           "mandatory": true
         },
         {
+          "name": "Iron tablets consumed in last 3 months",
+          "uuid": "153f17e3-8bc5-44b8-b334-8997fcff8d1e",
+          "keyValues": [],
+          "concept": {
+            "name": "Iron tablets consumed in last 3 months",
+            "uuid": "c238b921-749b-45f9-8fd5-6ffc3c14d96d"
+          },
+          "displayOrder": 4.5,
+          "mandatory": false
+        },
+        {
           "name": "Albendazole tablets received?",
           "uuid": "fd0ef8c1-e08c-4fca-b08d-0790a7153eea",
           "keyValues": [],

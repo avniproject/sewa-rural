@@ -54,6 +54,17 @@ export default class QuarterlyVisitHandler {
         return statusBuilder.build();
     }
 
+
+    @WithName("Iron tablets consumed in last 3 months")
+    @WithStatusBuilder
+    abc81([], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Iron tablets received")
+            .containsAnswerConceptName("Yes");
+        return statusBuilder.build();
+    }
+
     @WithName("Menstrutation started")
     @WithStatusBuilder
     abc9([], statusBuilder) {
@@ -65,8 +76,9 @@ export default class QuarterlyVisitHandler {
     @WithName("MHM Kit received?")
     @WithStatusBuilder
     abc91([], statusBuilder) {
-        statusBuilder.show().whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is
-            .truthy;
+        statusBuilder.show()
+            .whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy
+            .and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 

@@ -31,7 +31,6 @@
     "dataType": "Numeric",
     "unit": "days"
   },
-  
   {
     "name": "Whether counseling done",
     "uuid": "f44951a6-adc2-4983-947f-f8327ce05419",
@@ -551,5 +550,10 @@
     "name": "HB values",
     "uuid": "70b9eb05-6c45-4391-be0e-5f81256d8875",
     "dataType": "NA"
+  },
+  {
+    "name": "Iron tablets consumed in last 3 months",
+    "uuid": "c238b921-749b-45f9-8fd5-6ffc3c14d96d",
+    "dataType": "Numeric"
   }
 ]
