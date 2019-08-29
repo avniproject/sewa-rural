@@ -65,11 +65,12 @@ export default class QuarterlyVisitHandler {
         return statusBuilder.build();
     }
 
-    @WithName("Menstrutation started")
+    @WithName("Menstruation started")
     @WithStatusBuilder
     abc9([], statusBuilder) {
-        statusBuilder.show().whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is
-            .truthy;
+        statusBuilder.show().when.female
+            .and.when.latestValueInPreviousEncounters("Menstruation started").not.containsAnswerConceptName("Yes");
+
         return statusBuilder.build();
     }
 
@@ -78,7 +79,7 @@ export default class QuarterlyVisitHandler {
     abc91([], statusBuilder) {
         statusBuilder.show()
             .whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy
-            .and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+            .and.latestValueInAllEncounters("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
@@ -97,7 +98,7 @@ export default class QuarterlyVisitHandler {
     abc11([], statusBuilder) {
         statusBuilder
             .show()
-            .when.valueInEncounter("Menstruation started")
+            .when.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
@@ -107,7 +108,7 @@ export default class QuarterlyVisitHandler {
     abc12([], statusBuilder) {
         statusBuilder
             .show()
-            .when.valueInEncounter("Menstruation started")
+            .when.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
@@ -117,7 +118,7 @@ export default class QuarterlyVisitHandler {
     abc13([], statusBuilder) {
         statusBuilder
             .show()
-            .when.valueInEncounter("Menstruation started")
+            .when.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
@@ -197,7 +198,12 @@ export default class QuarterlyVisitHandler {
     @WithName("MenstrualDisorderCounselling for SR")
     @WithStatusBuilder
     xyz2([programEncounter], statusBuilder) {
-        statusBuilder.show().when.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder
+            .show()
+            .when
+            .female
+            .and.when.valueInEncounter("Menstrual disorders")
+            .containsAnswerConceptNameOtherThan("No problem");
         return statusBuilder.build();
     }
 }

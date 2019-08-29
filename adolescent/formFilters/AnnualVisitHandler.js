@@ -17,7 +17,7 @@ export default class AnnualVisitHandler {
     stayingWithWhom([programEncounter], statusBuilder) {
         statusBuilder.show()
             .when.addressType.not.equals("Boarding");
-        
+
         return statusBuilder.build();
     }
 
@@ -126,18 +126,27 @@ export default class AnnualVisitHandler {
         return statusBuilder.build();
     }
 
+    // @WithName("Menstruation started")
+    // @WithStatusBuilder
+    // abc9([programEncounter], statusBuilder) {
+    //     statusBuilder.show().when.female;
+    //     return statusBuilder.build();
+    // }
+
     @WithName("Menstruation started")
     @WithStatusBuilder
     abc9([programEncounter], statusBuilder) {
-        statusBuilder.show().when.female;
+        statusBuilder.show().when.female
+            .and.when.latestValueInPreviousEncounters("Menstruation started").not.containsAnswerConceptName("Yes");
+
         return statusBuilder.build();
     }
 
     @WithName("MHM Kit received?")
     @WithStatusBuilder
     abc91([programEncounter], statusBuilder) {
-        statusBuilder.show().when.female
-            .and.valueInEncounter("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder.show()
+            .when.latestValueInAllEncounters("Menstruation started").containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
 
@@ -146,7 +155,7 @@ export default class AnnualVisitHandler {
     abc10([programEncounter], statusBuilder) {
         statusBuilder
             .show()
-            .when.female.and.valueInEncounter("Menstruation started")
+            .when.valueInEncounter("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
@@ -156,7 +165,7 @@ export default class AnnualVisitHandler {
     abc11([programEncounter], statusBuilder) {
         statusBuilder
             .show()
-            .when.female.and.valueInEncounter("Menstruation started")
+            .when.female.and.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
@@ -166,7 +175,7 @@ export default class AnnualVisitHandler {
     abc12([programEncounter], statusBuilder) {
         statusBuilder
             .show()
-            .when.female.and.valueInEncounter("Menstruation started")
+            .when.female.and.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
@@ -176,7 +185,7 @@ export default class AnnualVisitHandler {
     abc13([programEncounter], statusBuilder) {
         statusBuilder
             .show()
-            .when.female.and.valueInEncounter("Menstruation started")
+            .when.female.and.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }

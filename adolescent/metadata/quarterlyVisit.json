@@ -141,7 +141,7 @@
           "displayOrder":5 ,
           "mandatory": true
         }
-        
+
       ]
     },
     {
@@ -152,7 +152,7 @@
       "formElements": [
 
         {
-          "name": "Menstrutation started",
+          "name": "Menstruation started",
           "uuid": "9f467b54-ca14-4098-9031-4fe25d647033",
           "keyValues": [],
           "concept": {
@@ -318,7 +318,7 @@
           },
           "displayOrder": 3,
           "mandatory": true
-        }    
+        }
       ]
     },
     {
@@ -350,7 +350,7 @@
           },
           "displayOrder": 2,
           "mandatory": true
-        }   
+        }
       ]
     },
     {
