@@ -11,8 +11,8 @@
     "prettify-project": "prettier --write \"**/*.js\""
   },
   "dependencies": {
-    "openchs-idi": "github:openchs/openchs-idi#6f1c7d8cabe9acc7e04ed6dd171e9c1ed629ae99",
-    "rules-config": "github:openchs/rules-config#c83e1e47f1618c56c5839de6708915d76db32056",
+    "openchs-idi": "github:openchs/openchs-idi#dacd0c2291ca4a77ecc4ffea6259577a51209889",
+    "rules-config": "github:openchs/rules-config#e2d7baccda66c8d18e0f9cb6fff3d14f746e2fa4",
     "webpack": "^4.12.0"
   },
   "devDependencies": {
