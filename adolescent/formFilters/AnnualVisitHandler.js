@@ -12,6 +12,15 @@ import {
 
 const WithStatusBuilder = StatusBuilderAnnotationFactory("programEncounter", "formElement");
 export default class AnnualVisitHandler {
+    @WithName("Staying with whom")
+    @WithStatusBuilder
+    stayingWithWhom([programEncounter], statusBuilder) {
+        statusBuilder.show()
+            .when.addressType.not.equals("Boarding");
+        
+        return statusBuilder.build();
+    }
+
     @WithName("Father's occupation")
     @WithStatusBuilder
     abc1([programEncounter], statusBuilder) {
