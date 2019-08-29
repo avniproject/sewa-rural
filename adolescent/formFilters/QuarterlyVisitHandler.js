@@ -77,9 +77,7 @@ export default class QuarterlyVisitHandler {
     @WithName("MHM Kit received?")
     @WithStatusBuilder
     abc91([], statusBuilder) {
-        statusBuilder.show()
-            .whenItem(statusBuilder.context.programEncounter.programEnrolment.individual.isFemale()).is.truthy
-            .and.latestValueInAllEncounters("Menstruation started").containsAnswerConceptName("Yes");
+        statusBuilder.show().when.female;
         return statusBuilder.build();
     }
 
@@ -174,6 +172,8 @@ export default class QuarterlyVisitHandler {
         statusBuilder
             .show()
             .when.valueInEncounter("MHM Kit received")
+            .containsAnswerConceptName("Yes")
+            .and.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
