@@ -126,13 +126,6 @@ export default class AnnualVisitHandler {
         return statusBuilder.build();
     }
 
-    // @WithName("Menstruation started")
-    // @WithStatusBuilder
-    // abc9([programEncounter], statusBuilder) {
-    //     statusBuilder.show().when.female;
-    //     return statusBuilder.build();
-    // }
-
     @WithName("Menstruation started")
     @WithStatusBuilder
     abc9([programEncounter], statusBuilder) {
