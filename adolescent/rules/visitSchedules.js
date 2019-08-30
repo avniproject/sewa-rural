@@ -259,10 +259,18 @@ class CommonSchedule {
 
     static scheduleNextRegularVisit({programEncounter}, scheduleBuilder) {
         const visitTable = {
-            October: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
-            January: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
+            February: { nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit" },
+            March: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
+            April: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
             May: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
+            June: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
             July: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+            August: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+            September: { nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit" },
+            October: { nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit" },
+            November: { nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit" },
+            December: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
+            January: { nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit" },
         };
         const currentMonth = moment(programEncounter.earliestVisitDateTime).format("MMMM");
         const nextVisit = visitTable[currentMonth];

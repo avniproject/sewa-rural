@@ -57,7 +57,7 @@ describe('Visit schedules. ', () => {
     });
 
     describe('After an annual visit', () => {
-        it('a quarterly visit is scheduled', () => {
+        it('a quarterly visit is scheduled if it happens in July', () => {
             global.ruleServiceLibraryInterfaceForSharingModules = {
                 common: {
                     addDays: (date) => new Date(date)
@@ -73,6 +73,24 @@ describe('Visit schedules. ', () => {
             const visitSchedules = AnnualVisitScheduleSR.exec(programEncounter);
 
             const quarterlyVisitSchedule = visitSchedules.find((schedule) => schedule.encounterType === 'Quarterly Visit');
+            expect(quarterlyVisitSchedule).toBeDefined();
+        });
+        it('another annual visit is scheduled if it happens in June', () => {
+            global.ruleServiceLibraryInterfaceForSharingModules = {
+                common: {
+                    addDays: (date) => new Date(date)
+                }
+            };
+            const programEnrolment = ProgramEnrolment.createEmptyInstance();
+            const programEncounter = ProgramEncounter.createEmptyInstance();
+            programEncounter.earliestVisitDateTime = new Date(2019, 5, 1);
+            programEncounter.encounterType = EncounterType.create('Annual Visit');
+            programEnrolment.addEncounter(programEncounter);
+            programEncounter.programEnrolment = programEnrolment;
+
+            const visitSchedules = AnnualVisitScheduleSR.exec(programEncounter);
+
+            const quarterlyVisitSchedule = visitSchedules.find((schedule) => schedule.encounterType === 'Annual Visit');
             expect(quarterlyVisitSchedule).toBeDefined();
         });
     });
