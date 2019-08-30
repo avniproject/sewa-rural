@@ -53,10 +53,10 @@ const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
         .whenItem(programEncounter.encounterType.name)
         .equals("Dropout Home Visit")
         .and.whenItem(
-            programEncounter.programEnrolment
-                .getEncounters(true)
-                .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
-        )
+        programEncounter.programEnrolment
+            .getEncounters(true)
+            .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
+    )
         .lessThanOrEqualTo(5);
 
     scheduleBuilder
@@ -69,10 +69,10 @@ const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
         .when.valueInEncounter("Have you started going to school once again")
         .containsAnswerConceptName("No")
         .and.whenItem(
-            programEncounter.programEnrolment
-                .getEncounters(true)
-                .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
-        )
+        programEncounter.programEnrolment
+            .getEncounters(true)
+            .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
+    )
         .lessThanOrEqualTo(5);
 
     let schoolRestartDate = moment(programEncounter.encounterDateTime)
@@ -96,7 +96,7 @@ const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
         .containsAnswerConceptName("Yes, but could not attend");
 };
 
-const getNextScheduledVisits = function(programEncounter) {
+const getNextScheduledVisits = function (programEncounter) {
     const scheduleBuilder = new VisitScheduleBuilder({
         programEnrolment: programEncounter.programEnrolment,
         programEncounter: programEncounter
@@ -159,7 +159,7 @@ class CommonSchedule {
         }
     }
 
-    static scheduleMenstualDisorderFollowup(context, scheduleBuilder) {
+    static scheduleMenstrualDisorderFollowup(context, scheduleBuilder) {
         if (
             new RuleCondition(context).when
                 .valueInEncounter("Are you able to do daily routine work during menstruation?")
@@ -173,39 +173,6 @@ class CommonSchedule {
                 maxDate: getMaxDate(context.programEncounter)
             });
         }
-    }
-
-    static scheduleAnnualVisit(scheduleBuilder) {
-        let earliestDate = moment()
-            .date(1)
-            .month("July")
-            .year(moment().year() + 1)
-            .startOf("day");
-        scheduleBuilder.add({
-            name: "Annual Visit",
-            encounterType: "Annual Visit",
-            earliestDate: earliestDate.toDate(),
-            maxDate: moment(earliestDate)
-                .add(1, "month")
-                .endOf("day")
-                .toDate()
-        });
-    }
-
-    static scheduleQuarterlyVisit(scheduleBuilder) {
-        let quarterlyVisitEarliestDate = moment()
-            .date(1)
-            .month("October")
-            .year(moment().year())
-            .startOf("day");
-        scheduleBuilder.add({
-            name: "Quarterly Visit",
-            encounterType: "Quarterly Visit",
-            earliestDate: quarterlyVisitEarliestDate.toDate(),
-            maxDate: moment(quarterlyVisitEarliestDate)
-                .add(1, "month")
-                .toDate()
-        });
     }
 
     static scheduleChronicSicknessFollowup(context, scheduleBuilder) {
@@ -289,6 +256,34 @@ class CommonSchedule {
             });
         }
     }
+
+    static scheduleNextRegularVisit({programEncounter}, scheduleBuilder) {
+        const visitTable = {
+            October: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
+            January: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
+            May: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
+            July: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+        };
+        const currentMonth = moment(programEncounter.earliestVisitDateTime).format("MMMM");
+        const nextVisit = visitTable[currentMonth];
+
+        if (nextVisit) {
+            let quarterlyVisitEarliestDate = moment()
+                .date(1)
+                .month(nextVisit.nextMonth)
+                .year(moment().year() + nextVisit.incrementInYear)
+                .startOf("day");
+
+            scheduleBuilder.add({
+                name: nextVisit.visitType,
+                encounterType: nextVisit.visitType,
+                earliestDate: quarterlyVisitEarliestDate.toDate(),
+                maxDate: moment(quarterlyVisitEarliestDate)
+                    .add(1, "month")
+                    .toDate()
+            });
+        }
+    }
 }
 
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
@@ -313,9 +308,10 @@ class AnnualVisitScheduleSR {
 
         CommonSchedule.scheduleMalnutritionFollowup(programEncounter, scheduleBuilder);
 
-        CommonSchedule.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
+        CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
 
-        CommonSchedule.scheduleQuarterlyVisit(scheduleBuilder);
+        // CommonSchedule.scheduleQuarterlyVisit(scheduleBuilder);
+        CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
 
         addDropoutHomeVisits(programEncounter, scheduleBuilder);
         addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
@@ -333,30 +329,10 @@ class QuarterlyVisitScheduleSR {
             programEnrolment: programEnrolment
         };
         const scheduleBuilder = new VisitScheduleBuilder(context);
-        const currentMonth = moment().format("MMMM");
-        const visitTable = {
-            October: {nextMonth: "January", incrementInYear: 1},
-            January: {nextMonth: "May", incrementInYear: 0},
-            May: {nextMonth: "October", incrementInYear: 0}
-        };
 
-        if (visitTable[currentMonth]) {
-            let quarterlyVisitEarliestDate = moment()
-                .date(1)
-                .month(visitTable[currentMonth].nextMonth)
-                .year(moment().year() + visitTable[currentMonth].incrementInYear)
-                .startOf("day");
-            scheduleBuilder.add({
-                name: "Quarterly Visit",
-                encounterType: "Quarterly Visit",
-                earliestDate: quarterlyVisitEarliestDate.toDate(),
-                maxDate: moment(quarterlyVisitEarliestDate)
-                    .add(1, "month")
-                    .toDate()
-            });
-        }
+        CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
         CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
-        CommonSchedule.scheduleMenstualDisorderFollowup(context, scheduleBuilder);
+        CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
         CommonSchedule.scheduleAddictionFollowup(context, scheduleBuilder);
         addDropoutHomeVisits(programEncounter, scheduleBuilder);
         addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
@@ -546,5 +522,6 @@ export {
     AddictionVulnerabilityFollowupSR,
     SickleCellVulnerabilityFollowupSR,
     DropoutFollowupVisitScheduleHandler,
-    DropoutVisitScheduleHandler
+    DropoutVisitScheduleHandler,
+    CommonSchedule,
 };
