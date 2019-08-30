@@ -12,6 +12,7 @@ const ModerateAnemiaFollowup = RuleFactory("038e6819-2a41-44f5-8473-eda5eeb37806
 const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9a7f", "VisitSchedule");
 const AddictionVulnerabilityFollowup = RuleFactory("8aec0b76-79ae-4e47-9375-ed9db3739997", "VisitSchedule");
 const SickleCellVulnerabilityFollowup = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "VisitSchedule");
+const VisitRescheduleOnCancel = RuleFactory("c294aadf-94a6-4908-8d04-9cc4ce2b901c", "VisitSchedule");
 
 const getEarliestDate = programEncounter =>
     moment()
@@ -519,6 +520,21 @@ class SickleCellVulnerabilityFollowupSR {
     }
 }
 
+@VisitRescheduleOnCancel("90fc6da7-af26-45cc-b48f-6daf9e73c918", "Visit Reschedule on cancellation", 100.0)
+class VisitRescheduleOnCancelSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        console.log('I am being scheduled');
+        const scheduleBuilder = new VisitScheduleBuilder({
+            programEncounter: programEncounter,
+        });
+        CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
+
+        const allUnique = scheduleBuilder.getAllUnique("encounterType");
+        console.log('i am eturning', allUnique);
+        return allUnique;
+    }
+}
+
 export {
     AnnualVisitScheduleSR,
     QuarterlyVisitScheduleSR,
@@ -532,4 +548,5 @@ export {
     DropoutFollowupVisitScheduleHandler,
     DropoutVisitScheduleHandler,
     CommonSchedule,
+    VisitRescheduleOnCancelSR,
 };
