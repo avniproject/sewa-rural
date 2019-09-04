@@ -280,7 +280,7 @@ class CommonSchedule {
             let quarterlyVisitEarliestDate = moment()
                 .date(1)
                 .month(nextVisit.nextMonth)
-                .year(moment().year() + nextVisit.incrementInYear)
+                .year(moment(programEncounter.earliestVisitDateTime).year() + nextVisit.incrementInYear)
                 .startOf("day");
 
             scheduleBuilder.add({

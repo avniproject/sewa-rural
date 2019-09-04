@@ -1,6 +1,7 @@
 import {ProgramEnrolment, ProgramEncounter, EncounterType} from 'openchs-models';
 import {AnnualVisitScheduleSR, CommonSchedule} from './visitSchedules';
 import {VisitScheduleBuilder} from "rules-config";
+import moment from 'moment';
 
 describe('Visit schedules. ', () => {
     describe('Regular visit schedules', () => {
@@ -40,7 +41,7 @@ describe('Visit schedules. ', () => {
 
         it('should schedule annual visit after a May Quarterly visit', () => {
             const programEncounter = ProgramEncounter.createEmptyInstance();
-            programEncounter.earliestVisitDateTime = new Date(2019, 4, 1);
+            programEncounter.earliestVisitDateTime = new Date(2018, 4, 1);
             programEncounter.encounterType = EncounterType.create('Quarterly Visit');
             const scheduleBuilder = new VisitScheduleBuilder({
                 programEncounter: programEncounter,
@@ -53,6 +54,8 @@ describe('Visit schedules. ', () => {
 
             const visit = schedule[0];
             expect(visit.encounterType).toBe('Annual Visit');
+            expect(moment(visit.earliestDate).year()).toBe(2018);
+
         });
     });
 
