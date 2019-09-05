@@ -83,11 +83,25 @@
     "comment": "Sickle Cell Vulnerability"
   },
   {
+    "uuid": "290ea69c-ac4c-473c-8541-f5020b3baa34",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "964c0c61-698c-4ad9-8b82-7a157dc8f8bd",
+    "comment": "-Sickle Cell Vulnerability-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
+  },
+  {
     "uuid": "4b8ed07a-f1bd-4227-8f1d-37ad2b32ae95",
     "formUUID": "dac9f78d-c0d5-48ff-ba0e-cb48106437b9",
     "encounterTypeUUID": "9e3b24de-2f4d-416f-a5fc-eaa2a460989a",
     "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
     "comment": "Chronic Sickness"
+  },
+  {
+    "uuid": "939f0236-6dca-4a89-b488-16bb1c5fe607",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "9e3b24de-2f4d-416f-a5fc-eaa2a460989a",
+    "comment": "-Chronic Sickness-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
   },
   {
     "uuid": "4d4b6d90-0dd8-43a5-84d3-bc09f0e794b3",
@@ -97,11 +111,25 @@
     "comment": "Menstrual Disorder"
   },
   {
+    "uuid": "aee9fe4e-353a-4773-9826-669ff9fda3fa",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "5e206e14-aad9-4b7c-9fb0-f25c12643696",
+    "comment": "-Menstrual Disorder-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
+  },
+  {
     "uuid": "339975a2-d2e6-408d-a8a9-82637500644a",
     "formUUID": "12cd243c-851c-4fd1-bc28-ab0b0141c76f",
     "encounterTypeUUID": "31d1dd8f-634c-41ee-8e47-7679b85b74af",
     "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
     "comment": "Severe Anemia"
+  },
+  {
+    "uuid": "6b8c5f6e-8bb9-4e17-bc3d-c9d6078d7c51",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "31d1dd8f-634c-41ee-8e47-7679b85b74af",
+    "comment": "-Severe Anemia-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
   },
   {
     "uuid": "f85d9c4f-9918-4583-b90b-55493644576c",
@@ -111,6 +139,13 @@
     "comment": "Moderate Anemia"
   },
   {
+    "uuid": "a0b42afd-665c-48c8-b639-a847001d74e0",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "27d62c75-b61d-4cf8-a840-4a839388d51a",
+    "comment": "-Moderate Anemia-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
+  },
+  {
     "uuid": "2ea25aeb-0e4c-4b40-963f-14dca8c96976",
     "formUUID": "f7b7d2ff-10eb-47a4-866b-b368969f9a7f",
     "encounterTypeUUID": "b66dd0cd-71cd-4262-8c80-ef3d3f2177f9",
@@ -118,10 +153,24 @@
     "comment": "Severe Malnutrition Followup"
   },
   {
+    "uuid": "000af1f2-1c2a-418b-a98c-8a38fbdd4057",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "b66dd0cd-71cd-4262-8c80-ef3d3f2177f9",
+    "comment": "-Severe Malnutrition Followup-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
+  },
+  {
     "uuid": "a5c4e044-7a75-427c-b465-b9c27afa0157",
     "formUUID": "8aec0b76-79ae-4e47-9375-ed9db3739997",
     "encounterTypeUUID": "6ee0fcc7-bd02-4f87-9dd2-9bdbb952b89a" ,
     "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
     "comment": "Addiction Vulnerability"
+  },
+  {
+    "uuid": "e1a7682a-9042-4005-9f39-65938fe2fcad",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "6ee0fcc7-bd02-4f87-9dd2-9bdbb952b89a",
+    "comment": "-Addiction Vulnerability-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
   }
 ]

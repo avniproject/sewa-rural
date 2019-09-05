@@ -13,9 +13,10 @@ const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9
 const AddictionVulnerabilityFollowup = RuleFactory("8aec0b76-79ae-4e47-9375-ed9db3739997", "VisitSchedule");
 const SickleCellVulnerabilityFollowup = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "VisitSchedule");
 const VisitRescheduleOnCancel = RuleFactory("c294aadf-94a6-4908-8d04-9cc4ce2b901c", "VisitSchedule");
+const hasExitedProgram = (programEncounter) => programEncounter.programEnrolment.programExitDateTime;
 
 const getEarliestDate = programEncounter =>
-    moment()
+    moment(programEncounter.earliestVisitDateTime)
         .startOf("day")
         .toDate();
 
@@ -30,51 +31,62 @@ const addDropoutHomeVisits = (programEncounter, scheduleBuilder) => {
     const enrolment = programEncounter.programEnrolment;
     const scheduledDropoutVisit = enrolment.scheduledEncountersOfType("Dropout Home Visit");
     if (!_.isEmpty(scheduledDropoutVisit)) return;
-    scheduleBuilder
-        .add({
-            name: "Dropout Home Visit",
-            encounterType: "Dropout Home Visit",
-            earliestDate: dateTimeToUse,
-            maxDate: lib.C.addDays(dateTimeToUse, 15)
-        })
+    const droppedOutCondition = new RuleCondition({programEncounter})
         .when.valueInEncounter("School going")
         .containsAnswerConceptName("Dropped Out");
+
+    if (droppedOutCondition.matches()) {
+        scheduleBuilder
+            .add({
+                name: "Dropout Home Visit",
+                encounterType: "Dropout Home Visit",
+                earliestDate: dateTimeToUse,
+                maxDate: lib.C.addDays(dateTimeToUse, 15)
+            });
+    }
 };
 
 const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
     const dateTimeToUse = programEncounter.encounterDateTime;
-
-    scheduleBuilder
-        .add({
-            name: "Dropout Followup Visit",
-            encounterType: "Dropout Followup Visit",
-            earliestDate: lib.C.addDays(dateTimeToUse, 7),
-            maxDate: lib.C.addDays(dateTimeToUse, 17)
-        })
-        .whenItem(programEncounter.encounterType.name)
+    const dropoutHomeVisitCondition = new RuleCondition({programEncounter}).whenItem(programEncounter.encounterType.name)
         .equals("Dropout Home Visit")
         .and.whenItem(
-        programEncounter.programEnrolment
-            .getEncounters(true)
-            .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
-    )
-        .lessThanOrEqualTo(5);
+            programEncounter.programEnrolment
+                .getEncounters(true)
+                .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
+        )
+        .lessThanOrEqualTo(5)
 
-    scheduleBuilder
-        .add({
-            name: "Dropout Followup Visit",
-            encounterType: "Dropout Followup Visit",
-            earliestDate: lib.C.addDays(dateTimeToUse, 7),
-            maxDate: lib.C.addDays(dateTimeToUse, 17)
-        })
+    if (dropoutHomeVisitCondition.matches()) {
+        scheduleBuilder
+            .add({
+                name: "Dropout Followup Visit",
+                encounterType: "Dropout Followup Visit",
+                earliestDate: lib.C.addDays(dateTimeToUse, 7),
+                maxDate: lib.C.addDays(dateTimeToUse, 17)
+            })
+    }
+
+    const notYetAttendedSchoolCondition = new RuleCondition({programEncounter})
         .when.valueInEncounter("Have you started going to school once again")
         .containsAnswerConceptName("No")
         .and.whenItem(
-        programEncounter.programEnrolment
-            .getEncounters(true)
-            .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
-    )
+            programEncounter.programEnrolment
+                .getEncounters(true)
+                .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
+        )
         .lessThanOrEqualTo(5);
+
+    if (notYetAttendedSchoolCondition.matches()) {
+        scheduleBuilder
+            .add({
+                name: "Dropout Followup Visit",
+                encounterType: "Dropout Followup Visit",
+                earliestDate: lib.C.addDays(dateTimeToUse, 7),
+                maxDate: lib.C.addDays(dateTimeToUse, 17)
+            });
+    }
+
 
     let schoolRestartDate = moment(programEncounter.encounterDateTime)
         .month(5)
@@ -86,15 +98,21 @@ const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
         schoolRestartDate < moment(programEncounter.encounterDateTime)
             ? schoolRestartDate.add(12, "months").toDate()
             : schoolRestartDate.toDate();
-    scheduleBuilder
-        .add({
-            name: "Dropout Followup Visit",
-            encounterType: "Dropout Followup Visit",
-            earliestDate: schoolRestartDate,
-            maxDate: lib.C.addDays(schoolRestartDate, 15)
-        })
+
+    const couldNotYetAttendSchoolCondition = new RuleCondition({programEncounter})
         .when.valueInEncounter("Have you started going to school once again")
         .containsAnswerConceptName("Yes, but could not attend");
+
+    if (couldNotYetAttendSchoolCondition.matches()) {
+        scheduleBuilder
+            .add({
+                name: "Dropout Followup Visit",
+                encounterType: "Dropout Followup Visit",
+                earliestDate: schoolRestartDate,
+                maxDate: lib.C.addDays(schoolRestartDate, 15)
+            });
+    }
+
 };
 
 const getNextScheduledVisits = function (programEncounter) {
@@ -127,7 +145,6 @@ class DropoutVisitScheduleHandler {
 )
 class DropoutFollowupVisitScheduleHandler {
     static exec(programEncounter, schedule, visitScheduleConfig) {
-        console.log(`DropoutFollowupVisitScheduleHandler is invoked`);
         return getNextScheduledVisits(programEncounter);
     }
 }
@@ -260,18 +277,18 @@ class CommonSchedule {
 
     static scheduleNextRegularVisit({programEncounter}, scheduleBuilder) {
         const visitTable = {
-            February: { nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit" },
+            February: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
             March: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
             April: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
             May: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
             June: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
             July: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
             August: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
-            September: { nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit" },
-            October: { nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit" },
-            November: { nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit" },
+            September: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+            October: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
+            November: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
             December: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
-            January: { nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit" },
+            January: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
         };
         const currentMonth = moment(programEncounter.earliestVisitDateTime).format("MMMM");
         const nextVisit = visitTable[currentMonth];
@@ -298,32 +315,21 @@ class CommonSchedule {
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
 class AnnualVisitScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        let context = {
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        };
+        let context = {programEncounter};
         const scheduleBuilder = new VisitScheduleBuilder(context);
 
-        CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
-
-        CommonSchedule.scheduleChronicSicknessFollowup(context, scheduleBuilder);
-
-        CommonSchedule.scheduleSevereAnemiaFollowup(context, scheduleBuilder);
-
-        CommonSchedule.scheduleModerateAnemiaFollowup(context, scheduleBuilder);
-
-        CommonSchedule.scheduleAddictionFollowup(context, scheduleBuilder);
-
-        CommonSchedule.scheduleMalnutritionFollowup(programEncounter, scheduleBuilder);
-
-        CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
-
-        // CommonSchedule.scheduleQuarterlyVisit(scheduleBuilder);
-        CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
-
-        addDropoutHomeVisits(programEncounter, scheduleBuilder);
-        addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
+        if (!hasExitedProgram(programEncounter)) {
+            CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleChronicSicknessFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleSevereAnemiaFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleModerateAnemiaFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleAddictionFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleMalnutritionFollowup(programEncounter, scheduleBuilder);
+            CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
+            addDropoutHomeVisits(programEncounter, scheduleBuilder);
+            addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
+        }
 
         return scheduleBuilder.getAllUnique("encounterType");
     }
@@ -332,190 +338,226 @@ class AnnualVisitScheduleSR {
 @QuarterlyVisitSchedule("ac928c59-d26d-4f74-9b5e-db506a44b4e0", "Quarterly Visit Schedule", 100.0)
 class QuarterlyVisitScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        let context = {
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        };
+        let context = {programEncounter};
         const scheduleBuilder = new VisitScheduleBuilder(context);
 
-        CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
-        CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
-        CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
-        CommonSchedule.scheduleAddictionFollowup(context, scheduleBuilder);
-        addDropoutHomeVisits(programEncounter, scheduleBuilder);
-        addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
+        if (!hasExitedProgram(programEncounter)) {
+            CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
+            CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleAddictionFollowup(context, scheduleBuilder);
+            addDropoutHomeVisits(programEncounter, scheduleBuilder);
+            addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
+        }
 
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
+
+const scheduleChronicSicknessFollowupSchedule = (context, scheduleBuilder) => {
+    const nextVisitDate = _.isNil(context.programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    scheduleBuilder.add({
+        name: "Chronic Sickness Followup",
+        encounterType: "Chronic Sickness Followup",
+        earliestDate: nextVisitDate.toDate(),
+        maxDate: nextVisitDate.add(15, "days").toDate()
+    });
+};
 
 @ChronicSicknessFollowup("625a709f-90b9-40f9-8483-b0c9790a4eba", "Chronic Sickness Followup", 100.0)
 class ChronicSicknessFollowupScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        const scheduleBuilder = new VisitScheduleBuilder({
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-            ? moment().add(1, "month")
-            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-        scheduleBuilder.add({
-            name: "Chronic Sickness Followup",
-            encounterType: "Chronic Sickness Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
-        });
+        const context = {programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+        if (!hasExitedProgram(programEncounter)) {
+            scheduleChronicSicknessFollowupSchedule(context, scheduleBuilder);
+        }
+
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
+
+const scheduleMenstrualDisorderFollowup = (context, scheduleBuilder) => {
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    scheduleBuilder.add({
+        name: "Menstrual Disorder Followup",
+        encounterType: "Menstrual Disorder Followup",
+        earliestDate: nextVisitDate.toDate(),
+        maxDate: nextVisitDate.add(15, "days").toDate()
+    });
+};
 
 @MenstrualDisorderFollowup("0dd989d4-027b-4b66-99d8-f91183981965", "Menstrual Disorder Followup", 100.0)
 class MenstrualDisorderFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        const scheduleBuilder = new VisitScheduleBuilder({
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-            ? moment().add(1, "month")
-            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        const context = {programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+
+        if (!hasExitedProgram(programEncounter)) {
+            scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
+        }
+
+        return scheduleBuilder.getAllUnique("encounterType");
+    }
+}
+
+const severeAnemiaFollowup = (context, scheduleBuilder) => {
+    const {programEncounter} = context;
+
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    if (
+        new RuleCondition(context).when
+            .valueInEncounter("HB after 3 months of treatment")
+            .is.lessThanOrEqualTo(7)
+            .matches()
+    ) {
         scheduleBuilder.add({
-            name: "Menstrual Disorder Followup",
-            encounterType: "Menstrual Disorder Followup",
+            name: "Severe Anemia Followup",
+            encounterType: "Severe Anemia Followup",
             earliestDate: nextVisitDate.toDate(),
             maxDate: nextVisitDate.add(15, "days").toDate()
         });
-        return scheduleBuilder.getAllUnique("encounterType");
     }
-}
-
-@SeverAnemiaFollowup("83098b53-fbfa-4acb-9bc8-7f1e38b9789b", "Sever Anemia Followup", 100.0)
-class SeverAnemiaFollowupSR {
-    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        let context = {
-            programEncounter: programEncounter,
-            programEnrolment: programEncounter.programEnrolment
-        };
-        const scheduleBuilder = new VisitScheduleBuilder(context);
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-            ? moment().add(1, "month")
-            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-        if (
-            new RuleCondition(context).when
-                .valueInEncounter("HB after 3 months of treatment")
-                .is.lessThanOrEqualTo(7)
-                .matches()
-        ) {
-            scheduleBuilder.add({
-                name: "Severe Anemia Followup",
-                encounterType: "Severe Anemia Followup",
-                earliestDate: nextVisitDate.toDate(),
-                maxDate: nextVisitDate.add(15, "days").toDate()
-            });
-        }
-        if (
-            new RuleCondition(context).when
-                .valueInEncounter("HB after 3 months of treatment")
-                .is.greaterThanOrEqualTo(7.1)
-                .and.valueInEncounter("HB after 3 months of treatment")
-                .is.lessThanOrEqualTo(10)
-                .matches()
-        ) {
-            scheduleBuilder.add({
-                name: "Moderate Anemia Followup",
-                encounterType: "Moderate Anemia Followup",
-                earliestDate: nextVisitDate.toDate(),
-                maxDate: nextVisitDate.add(15, "days").toDate()
-            });
-        }
-
-        return scheduleBuilder.getAllUnique("encounterType");
-    }
-}
-
-@ModerateAnemiaFollowup("5959b803-b098-44f7-9ca9-cf14fc7c7837", "Moderate Anemia Followup", 100.0)
-class ModerateAnemiaFollowupSR {
-    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        const scheduleBuilder = new VisitScheduleBuilder({
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-            ? moment().add(1, "month")
-            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    if (
+        new RuleCondition(context).when
+            .valueInEncounter("HB after 3 months of treatment")
+            .is.greaterThanOrEqualTo(7.1)
+            .and.valueInEncounter("HB after 3 months of treatment")
+            .is.lessThanOrEqualTo(10)
+            .matches()
+    ) {
         scheduleBuilder.add({
             name: "Moderate Anemia Followup",
             encounterType: "Moderate Anemia Followup",
             earliestDate: nextVisitDate.toDate(),
             maxDate: nextVisitDate.add(15, "days").toDate()
         });
+    }
+};
+
+@SeverAnemiaFollowup("83098b53-fbfa-4acb-9bc8-7f1e38b9789b", "Sever Anemia Followup", 100.0)
+class SeverAnemiaFollowupSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        let context = {programEncounter: programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+
+        if (!hasExitedProgram(programEncounter)) {
+            severeAnemiaFollowup(context, scheduleBuilder);
+        }
+
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
+
+const moderateAnemiaFollowup = (context, scheduleBuilder) => {
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    scheduleBuilder.add({
+        name: "Moderate Anemia Followup",
+        encounterType: "Moderate Anemia Followup",
+        earliestDate: nextVisitDate.toDate(),
+        maxDate: nextVisitDate.add(15, "days").toDate()
+    });
+
+};
+
+@ModerateAnemiaFollowup("5959b803-b098-44f7-9ca9-cf14fc7c7837", "Moderate Anemia Followup", 100.0)
+class ModerateAnemiaFollowupSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        const context = {programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+
+        if (!hasExitedProgram(programEncounter)) {
+            moderateAnemiaFollowup(context, scheduleBuilder);
+        }
+
+        return scheduleBuilder.getAllUnique("encounterType");
+    }
+}
+
+const severeMalnutritionFollowup = (context, scheduleBuilder) => {
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    scheduleBuilder.add({
+        name: "Severe Malnutrition Followup",
+        encounterType: "Severe Malnutrition Followup",
+        earliestDate: nextVisitDate.toDate(),
+        maxDate: nextVisitDate.add(15, "days").toDate()
+    });
+};
 
 @SeverMalnutritionFollowup("2bf7b5fd-adfe-49f1-b249-48482ef6e6e8", "Sever Malnutrition Followup", 100.0)
 class SeverMalnutritionFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        const scheduleBuilder = new VisitScheduleBuilder({
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-            ? moment().add(1, "month")
-            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-        scheduleBuilder.add({
-            name: "Severe Malnutrition Followup",
-            encounterType: "Severe Malnutrition Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
-        });
+        const context = {programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+
+        if (!hasExitedProgram(programEncounter)) {
+            severeMalnutritionFollowup(context, scheduleBuilder);
+        }
+
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
+
+const addictionVulnerabilityFollowup = (context, scheduleBuilder) => {
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+
+    scheduleBuilder.add({
+        name: "Addiction Followup",
+        encounterType: "Addiction Followup",
+        earliestDate: nextVisitDate.toDate(),
+        maxDate: nextVisitDate.add(15, "days").toDate()
+    });
+};
 
 @AddictionVulnerabilityFollowup("beca45b9-f037-4d3f-906d-5970018ce5bb", "Addiction Vulnerability Followup", 100.0)
 class AddictionVulnerabilityFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        const scheduleBuilder = new VisitScheduleBuilder({
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-            ? moment().add(1, "month")
-            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-        scheduleBuilder.add({
-            name: "Addiction Followup",
-            encounterType: "Addiction Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
-        });
+        const context = {programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+
+        if (!hasExitedProgram(programEncounter)) {
+            addictionVulnerabilityFollowup(context, scheduleBuilder);
+        }
+
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
 
+const sickleCellVulnerabilityFollowup = (context, scheduleBuilder) => {
+    const {programEncounter} = context;
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    scheduleBuilder.add({
+        name: "Sickle Cell Followup",
+        encounterType: "Sickle Cell Followup",
+        earliestDate: nextVisitDate.toDate(),
+        maxDate: nextVisitDate.add(15, "days").toDate()
+    });
+};
+
 @SickleCellVulnerabilityFollowup("d85c8fd0-a5bf-49f3-9eb2-b67ef7af9f5c", "Sickle Cell Vulnerability Followup", 100.0)
 class SickleCellVulnerabilityFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const programEnrolment = programEncounter.programEnrolment;
-        const scheduleBuilder = new VisitScheduleBuilder({
-            programEncounter: programEncounter,
-            programEnrolment: programEnrolment
-        });
-        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-            ? moment().add(1, "month")
-            : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-        scheduleBuilder.add({
-            name: "Sickle Cell Followup",
-            encounterType: "Sickle Cell Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
-        });
+        const context = {programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
+
+        if (!hasExitedProgram(programEncounter)) {
+            sickleCellVulnerabilityFollowup(context, scheduleBuilder);
+        }
+
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
@@ -523,15 +565,21 @@ class SickleCellVulnerabilityFollowupSR {
 @VisitRescheduleOnCancel("90fc6da7-af26-45cc-b48f-6daf9e73c918", "Visit Reschedule on cancellation", 100.0)
 class VisitRescheduleOnCancelSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        console.log('I am being scheduled');
-        const scheduleBuilder = new VisitScheduleBuilder({
-            programEncounter: programEncounter,
-        });
-        CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
+        const context = {programEncounter};
+        const scheduleBuilder = new VisitScheduleBuilder(context);
 
-        const allUnique = scheduleBuilder.getAllUnique("encounterType");
-        console.log('i am eturning', allUnique);
-        return allUnique;
+        if (!hasExitedProgram(programEncounter)) {
+            CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
+            sickleCellVulnerabilityFollowup(context, scheduleBuilder);
+            addictionVulnerabilityFollowup(context, scheduleBuilder);
+            severeMalnutritionFollowup(context, scheduleBuilder);
+            moderateAnemiaFollowup(context, scheduleBuilder);
+            severeAnemiaFollowup(context, scheduleBuilder);
+            scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
+            scheduleChronicSicknessFollowupSchedule(context, scheduleBuilder);
+        }
+
+        return scheduleBuilder.getAllUnique("encounterType");
     }
 }
 

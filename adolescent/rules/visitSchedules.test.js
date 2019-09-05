@@ -3,10 +3,19 @@ import {AnnualVisitScheduleSR, CommonSchedule} from './visitSchedules';
 import {VisitScheduleBuilder} from "rules-config";
 import moment from 'moment';
 
+const createProgramEncounter = () => {
+    const programEnrolment = ProgramEnrolment.createEmptyInstance();
+    const programEncounter = ProgramEncounter.createEmptyInstance();
+    programEnrolment.addEncounter(programEncounter);
+    programEncounter.programEnrolment = programEnrolment;
+    return programEncounter;
+};
+
 describe('Visit schedules. ', () => {
+
     describe('Regular visit schedules', () => {
         it('should schedule a quarterly visit after an annual visit', () => {
-            const programEncounter = ProgramEncounter.createEmptyInstance();
+            const programEncounter = createProgramEncounter();
             programEncounter.earliestVisitDateTime = new Date(2019, 6, 1);
             programEncounter.encounterType = EncounterType.create('Annual Visit');
             const scheduleBuilder = new VisitScheduleBuilder({
@@ -23,7 +32,7 @@ describe('Visit schedules. ', () => {
         });
 
         it('should schedule a quarterly visit after an October Quarterly visit', () => {
-            const programEncounter = ProgramEncounter.createEmptyInstance();
+            const programEncounter = createProgramEncounter();
             programEncounter.earliestVisitDateTime = new Date(2019, 9, 1);
             programEncounter.encounterType = EncounterType.create('Annual Visit');
             const scheduleBuilder = new VisitScheduleBuilder({
@@ -40,7 +49,7 @@ describe('Visit schedules. ', () => {
         });
 
         it('should schedule annual visit after a May Quarterly visit', () => {
-            const programEncounter = ProgramEncounter.createEmptyInstance();
+            const programEncounter = createProgramEncounter();
             programEncounter.earliestVisitDateTime = new Date(2018, 4, 1);
             programEncounter.encounterType = EncounterType.create('Quarterly Visit');
             const scheduleBuilder = new VisitScheduleBuilder({
@@ -57,6 +66,7 @@ describe('Visit schedules. ', () => {
             expect(moment(visit.earliestDate).year()).toBe(2018);
 
         });
+
     });
 
     describe('After an annual visit', () => {
@@ -66,12 +76,10 @@ describe('Visit schedules. ', () => {
                     addDays: (date) => new Date(date)
                 }
             };
-            const programEnrolment = ProgramEnrolment.createEmptyInstance();
-            const programEncounter = ProgramEncounter.createEmptyInstance();
+            const programEncounter = createProgramEncounter();
+
             programEncounter.earliestVisitDateTime = new Date(2019, 6, 1);
             programEncounter.encounterType = EncounterType.create('Quarterly Visit');
-            programEnrolment.addEncounter(programEncounter);
-            programEncounter.programEnrolment = programEnrolment;
 
             const visitSchedules = AnnualVisitScheduleSR.exec(programEncounter);
 
@@ -84,17 +92,26 @@ describe('Visit schedules. ', () => {
                     addDays: (date) => new Date(date)
                 }
             };
-            const programEnrolment = ProgramEnrolment.createEmptyInstance();
-            const programEncounter = ProgramEncounter.createEmptyInstance();
+            const programEncounter = createProgramEncounter();
+
             programEncounter.earliestVisitDateTime = new Date(2019, 5, 1);
             programEncounter.encounterType = EncounterType.create('Annual Visit');
-            programEnrolment.addEncounter(programEncounter);
-            programEncounter.programEnrolment = programEnrolment;
 
             const visitSchedules = AnnualVisitScheduleSR.exec(programEncounter);
 
             const quarterlyVisitSchedule = visitSchedules.find((schedule) => schedule.encounterType === 'Annual Visit');
             expect(quarterlyVisitSchedule).toBeDefined();
+        });
+        it('no visits are scheduled if individual has exited', () => {
+            const programEncounter = createProgramEncounter();
+
+            programEncounter.earliestVisitDateTime = new Date(2018, 4, 1);
+            programEncounter.encounterType = EncounterType.create('Quarterly Visit');
+            programEncounter.programEnrolment.programExitDateTime = new Date();
+
+            const schedule = AnnualVisitScheduleSR.exec(programEncounter);
+
+            expect(schedule.length).toBe(0);
         });
     });
 });

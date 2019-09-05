@@ -15,6 +15,7 @@ class ExitFilterHandler {
 @AdolscentEnrolmentVisitSchedule("9b1d79e4-fa15-406b-8410-1f46dc64613f", "Adolescent Enrolment Visit Schedule", 1.0, {})
 class AdolscentEnrolmentVisitScheduleHandler {
     static exec(enrolment, schedule, visitScheduleConfig) {
+        console.log('visit schedule invoked')
         const scheduleBuilder = new VisitScheduleBuilder({programEnrolment: enrolment});
         scheduleBuilder
             .add({
