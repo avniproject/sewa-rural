@@ -344,6 +344,8 @@ class QuarterlyVisitScheduleSR {
             CommonSchedule.scheduleSickleCellFollowup({programEncounter}, scheduleBuilder);
             CommonSchedule.scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
             CommonSchedule.scheduleAddictionFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleSevereAnemiaFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleModerateAnemiaFollowup({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
         }
@@ -352,8 +354,8 @@ class QuarterlyVisitScheduleSR {
     }
 }
 
-const scheduleChronicSicknessFollowupSchedule = (context, scheduleBuilder) => {
-    const nextVisitDate = _.isNil(context.programEncounter.earliestVisitDateTime)
+const scheduleChronicSicknessFollowupSchedule = ({programEncounter}, scheduleBuilder) => {
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
     scheduleBuilder.add({
@@ -376,7 +378,7 @@ class ChronicSicknessFollowupScheduleSR {
     }
 }
 
-const scheduleMenstrualDisorderFollowup = (context, scheduleBuilder) => {
+const scheduleMenstrualDisorderFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
@@ -449,7 +451,7 @@ class SeverAnemiaFollowupSR {
     }
 }
 
-const moderateAnemiaFollowup = (context, scheduleBuilder) => {
+const moderateAnemiaFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
@@ -475,7 +477,7 @@ class ModerateAnemiaFollowupSR {
     }
 }
 
-const severeMalnutritionFollowup = (context, scheduleBuilder) => {
+const severeMalnutritionFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
@@ -500,7 +502,7 @@ class SeverMalnutritionFollowupSR {
     }
 }
 
-const addictionVulnerabilityFollowup = (context, scheduleBuilder) => {
+const addictionVulnerabilityFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
