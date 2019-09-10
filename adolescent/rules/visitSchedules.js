@@ -315,18 +315,17 @@ class CommonSchedule {
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
 class AnnualVisitScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        let context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
-            CommonSchedule.scheduleChronicSicknessFollowup(context, scheduleBuilder);
-            CommonSchedule.scheduleSevereAnemiaFollowup(context, scheduleBuilder);
-            CommonSchedule.scheduleModerateAnemiaFollowup(context, scheduleBuilder);
-            CommonSchedule.scheduleAddictionFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleSickleCellFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleChronicSicknessFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleSevereAnemiaFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleModerateAnemiaFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleAddictionFollowup({programEncounter}, scheduleBuilder);
             CommonSchedule.scheduleMalnutritionFollowup(programEncounter, scheduleBuilder);
-            CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
-            CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
+            CommonSchedule.scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
         }
@@ -338,14 +337,13 @@ class AnnualVisitScheduleSR {
 @QuarterlyVisitSchedule("ac928c59-d26d-4f74-9b5e-db506a44b4e0", "Quarterly Visit Schedule", 100.0)
 class QuarterlyVisitScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        let context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
-            CommonSchedule.scheduleSickleCellFollowup(context, scheduleBuilder);
-            CommonSchedule.scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
-            CommonSchedule.scheduleAddictionFollowup(context, scheduleBuilder);
+            CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleSickleCellFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
+            CommonSchedule.scheduleAddictionFollowup({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
         }
@@ -369,10 +367,9 @@ const scheduleChronicSicknessFollowupSchedule = (context, scheduleBuilder) => {
 @ChronicSicknessFollowup("625a709f-90b9-40f9-8483-b0c9790a4eba", "Chronic Sickness Followup", 100.0)
 class ChronicSicknessFollowupScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
         if (!hasExitedProgram(programEncounter)) {
-            scheduleChronicSicknessFollowupSchedule(context, scheduleBuilder);
+            scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
@@ -394,25 +391,23 @@ const scheduleMenstrualDisorderFollowup = (context, scheduleBuilder) => {
 @MenstrualDisorderFollowup("0dd989d4-027b-4b66-99d8-f91183981965", "Menstrual Disorder Followup", 100.0)
 class MenstrualDisorderFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
+            scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
 
-const severeAnemiaFollowup = (context, scheduleBuilder) => {
-    const {programEncounter} = context;
+const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder) => {
 
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
     if (
-        new RuleCondition(context).when
+        new RuleCondition({programEncounter}).when
             .valueInEncounter("HB after 3 months of treatment")
             .is.lessThanOrEqualTo(7)
             .matches()
@@ -425,7 +420,7 @@ const severeAnemiaFollowup = (context, scheduleBuilder) => {
         });
     }
     if (
-        new RuleCondition(context).when
+        new RuleCondition({programEncounter}).when
             .valueInEncounter("HB after 3 months of treatment")
             .is.greaterThanOrEqualTo(7.1)
             .and.valueInEncounter("HB after 3 months of treatment")
@@ -444,11 +439,10 @@ const severeAnemiaFollowup = (context, scheduleBuilder) => {
 @SeverAnemiaFollowup("83098b53-fbfa-4acb-9bc8-7f1e38b9789b", "Sever Anemia Followup", 100.0)
 class SeverAnemiaFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        let context = {programEncounter: programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            severeAnemiaFollowup(context, scheduleBuilder);
+            severeAnemiaFollowup({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
@@ -471,11 +465,10 @@ const moderateAnemiaFollowup = (context, scheduleBuilder) => {
 @ModerateAnemiaFollowup("5959b803-b098-44f7-9ca9-cf14fc7c7837", "Moderate Anemia Followup", 100.0)
 class ModerateAnemiaFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            moderateAnemiaFollowup(context, scheduleBuilder);
+            moderateAnemiaFollowup({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
@@ -497,11 +490,10 @@ const severeMalnutritionFollowup = (context, scheduleBuilder) => {
 @SeverMalnutritionFollowup("2bf7b5fd-adfe-49f1-b249-48482ef6e6e8", "Sever Malnutrition Followup", 100.0)
 class SeverMalnutritionFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            severeMalnutritionFollowup(context, scheduleBuilder);
+            severeMalnutritionFollowup({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
@@ -524,19 +516,17 @@ const addictionVulnerabilityFollowup = (context, scheduleBuilder) => {
 @AddictionVulnerabilityFollowup("beca45b9-f037-4d3f-906d-5970018ce5bb", "Addiction Vulnerability Followup", 100.0)
 class AddictionVulnerabilityFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            addictionVulnerabilityFollowup(context, scheduleBuilder);
+            addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
     }
 }
 
-const sickleCellVulnerabilityFollowup = (context, scheduleBuilder) => {
-    const {programEncounter} = context;
+const sickleCellVulnerabilityFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
@@ -551,11 +541,10 @@ const sickleCellVulnerabilityFollowup = (context, scheduleBuilder) => {
 @SickleCellVulnerabilityFollowup("d85c8fd0-a5bf-49f3-9eb2-b67ef7af9f5c", "Sickle Cell Vulnerability Followup", 100.0)
 class SickleCellVulnerabilityFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            sickleCellVulnerabilityFollowup(context, scheduleBuilder);
+            sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
@@ -565,18 +554,17 @@ class SickleCellVulnerabilityFollowupSR {
 @VisitRescheduleOnCancel("90fc6da7-af26-45cc-b48f-6daf9e73c918", "Visit Reschedule on cancellation", 100.0)
 class VisitRescheduleOnCancelSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const context = {programEncounter};
-        const scheduleBuilder = new VisitScheduleBuilder(context);
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            CommonSchedule.scheduleNextRegularVisit(context, scheduleBuilder);
-            sickleCellVulnerabilityFollowup(context, scheduleBuilder);
-            addictionVulnerabilityFollowup(context, scheduleBuilder);
-            severeMalnutritionFollowup(context, scheduleBuilder);
-            moderateAnemiaFollowup(context, scheduleBuilder);
-            severeAnemiaFollowup(context, scheduleBuilder);
-            scheduleMenstrualDisorderFollowup(context, scheduleBuilder);
-            scheduleChronicSicknessFollowupSchedule(context, scheduleBuilder);
+            CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
+            sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder);
+            addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
+            severeMalnutritionFollowup({programEncounter}, scheduleBuilder);
+            moderateAnemiaFollowup({programEncounter}, scheduleBuilder);
+            severeAnemiaFollowup({programEncounter}, scheduleBuilder);
+            scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
+            scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
