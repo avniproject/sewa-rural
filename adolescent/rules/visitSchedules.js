@@ -26,11 +26,22 @@ const getMaxDate = programEncounter =>
         .endOf("day")
         .toDate();
 
-const addDropoutHomeVisits = (programEncounter, scheduleBuilder) => {
-    const dateTimeToUse = programEncounter.encounterDateTime;
+const addDropoutHomeVisits = (programEncounter, scheduleBuilder, cancelSchedule) => {
+    const dateTimeToUse = programEncounter.encounterDateTime || programEncounter.earliestVisitDateTime;
     const enrolment = programEncounter.programEnrolment;
     const scheduledDropoutVisit = enrolment.scheduledEncountersOfType("Dropout Home Visit");
     if (!_.isEmpty(scheduledDropoutVisit)) return;
+    if (cancelSchedule) {
+        scheduleBuilder
+            .add({
+                name: "Dropout Home Visit",
+                encounterType: "Dropout Home Visit",
+                earliestDate: dateTimeToUse,
+                maxDate: lib.C.addDays(dateTimeToUse, 15)
+            });
+        return;
+    }
+
     const droppedOutCondition = new RuleCondition({programEncounter})
         .when.valueInEncounter("School going")
         .containsAnswerConceptName("Dropped Out");
@@ -46,8 +57,20 @@ const addDropoutHomeVisits = (programEncounter, scheduleBuilder) => {
     }
 };
 
-const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
-    const dateTimeToUse = programEncounter.encounterDateTime;
+const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder, cancelSchedule) => {
+    const dateTimeToUse = programEncounter.encounterDateTime || programEncounter.earliestVisitDateTime;
+
+    if (cancelSchedule) {
+        scheduleBuilder
+            .add({
+                name: "Dropout Followup Visit",
+                encounterType: "Dropout Followup Visit",
+                earliestDate: lib.C.addDays(dateTimeToUse, 7),
+                maxDate: lib.C.addDays(dateTimeToUse, 17)
+            });
+        return;
+    }
+
     const dropoutHomeVisitCondition = new RuleCondition({programEncounter}).whenItem(programEncounter.encounterType.name)
         .equals("Dropout Home Visit")
         .and.whenItem(
@@ -55,7 +78,7 @@ const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
                 .getEncounters(true)
                 .filter(encounter => encounter.encounterType.name === "Dropout Followup Visit").length
         )
-        .lessThanOrEqualTo(5)
+        .lessThanOrEqualTo(5);
 
     if (dropoutHomeVisitCondition.matches()) {
         scheduleBuilder
@@ -64,7 +87,7 @@ const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder) => {
                 encounterType: "Dropout Followup Visit",
                 earliestDate: lib.C.addDays(dateTimeToUse, 7),
                 maxDate: lib.C.addDays(dateTimeToUse, 17)
-            })
+            });
     }
 
     const notYetAttendedSchoolCondition = new RuleCondition({programEncounter})
@@ -403,11 +426,21 @@ class MenstrualDisorderFollowupSR {
     }
 }
 
-const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder) => {
-
+const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+
+    if (cancelSchedule) {
+        scheduleBuilder.add({
+            name: "Severe Anemia Followup",
+            encounterType: "Severe Anemia Followup",
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
+        });
+        return;
+    }
+
     if (
         new RuleCondition({programEncounter}).when
             .valueInEncounter("HB after 3 months of treatment")
@@ -559,14 +592,39 @@ class VisitRescheduleOnCancelSR {
         const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
-            sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder);
-            addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
-            severeMalnutritionFollowup({programEncounter}, scheduleBuilder);
-            moderateAnemiaFollowup({programEncounter}, scheduleBuilder);
-            severeAnemiaFollowup({programEncounter}, scheduleBuilder);
-            scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
-            scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder);
+            switch(programEncounter.encounterType.name) {
+                case 'Addiction Followup':
+                    addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
+                    break;
+                case 'Severe Malnutrition Followup':
+                    severeMalnutritionFollowup({programEncounter}, scheduleBuilder);
+                    break;
+                case 'Moderate Anemia Followup':
+                    moderateAnemiaFollowup({programEncounter}, scheduleBuilder);
+                    break;
+                case 'Severe Anemia Followup':
+                    severeAnemiaFollowup({programEncounter}, scheduleBuilder, true);
+                    break;
+                case 'Menstrual Disorder Followup':
+                    scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
+                    break;
+                case 'Chronic Sickness Followup':
+                    scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder);
+                    break;
+                case 'Sickle Cell Followup':
+                    sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder);
+                    break;
+                case 'Dropout Followup Visit':
+                    addDropoutFollowUpVisits(programEncounter, scheduleBuilder, true);
+                    break;
+                case 'Dropout Home Visit':
+                    addDropoutHomeVisits(programEncounter, scheduleBuilder, true);
+                    break;
+                case 'Quarterly Visit':
+                case 'Annual Visit':
+                    CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
+                    break;
+            }
         }
 
         return scheduleBuilder.getAllUnique("encounterType");
