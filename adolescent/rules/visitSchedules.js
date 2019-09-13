@@ -147,7 +147,7 @@ const getNextScheduledVisits = function (programEncounter) {
     addDropoutHomeVisits(programEncounter, scheduleBuilder);
     addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
 
-    return scheduleBuilder.getAllUnique("encounterType");
+    return scheduleBuilder.getAllUnique("encounterType", true);
 };
 
 const DropoutVisitSchedule = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792", "VisitSchedule");
@@ -353,7 +353,7 @@ class AnnualVisitScheduleSR {
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique(scheduleBuilder, "encounterType", true);
     }
 }
 
@@ -373,7 +373,7 @@ class QuarterlyVisitScheduleSR {
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -397,7 +397,7 @@ class ChronicSicknessFollowupScheduleSR {
             scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -422,7 +422,7 @@ class MenstrualDisorderFollowupSR {
             scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -480,7 +480,7 @@ class SeverAnemiaFollowupSR {
             severeAnemiaFollowup({programEncounter}, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -506,7 +506,7 @@ class ModerateAnemiaFollowupSR {
             moderateAnemiaFollowup({programEncounter}, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -531,7 +531,7 @@ class SeverMalnutritionFollowupSR {
             severeMalnutritionFollowup({programEncounter}, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -557,7 +557,7 @@ class AddictionVulnerabilityFollowupSR {
             addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -582,7 +582,7 @@ class SickleCellVulnerabilityFollowupSR {
             sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder);
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
@@ -627,7 +627,7 @@ class VisitRescheduleOnCancelSR {
             }
         }
 
-        return scheduleBuilder.getAllUnique("encounterType");
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
