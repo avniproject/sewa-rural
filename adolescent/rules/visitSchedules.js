@@ -352,8 +352,7 @@ class AnnualVisitScheduleSR {
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
         }
-
-        return scheduleBuilder.getAllUnique(scheduleBuilder, "encounterType", true);
+        return scheduleBuilder.getAllUnique("encounterType", true);
     }
 }
 
