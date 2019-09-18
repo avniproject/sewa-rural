@@ -806,12 +806,12 @@
     },
     {
       "uuid": "d9487d9e-3e70-438c-8971-af25f64419ce",
-      "name": "Sickle Cell Anemia counselling",
-      "display": "Sickle Cell Anemia counselling",
+      "name": "Sickle cell trait counselling",
+      "display": "Sickle cell trait counselling",
       "displayOrder": 11,
       "formElements": [
         {
-          "name": "Counselling checklist for Sickle Cell Anemia(Disease)",
+          "name": "Counselling checklist for Sickle Cell Anemia(Trait)",
           "uuid": "d9c1005d-688e-4751-a1e0-251fc7cdc1f6",
           "keyValues": [],
           "type": "SingleSelect",

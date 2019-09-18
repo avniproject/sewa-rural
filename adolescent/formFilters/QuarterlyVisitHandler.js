@@ -188,7 +188,7 @@ export default class QuarterlyVisitHandler {
         return statusBuilder.build();
     }
 
-    @WithName("Counselling checklist for Sickle Cell Anemia(Disease)")
+    @WithName("Counselling checklist for Sickle Cell Anemia(Trait)")
     @WithStatusBuilder
     xyz1([programEncounter], statusBuilder){
         statusBuilder.show().when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Trait");
