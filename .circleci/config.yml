@@ -20,7 +20,7 @@ commands:
         paths:
         - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
-    - run: echo $SECRETS > ~/secrets.json
+    - run: echo $IMPL_DEPLOY_SECRETS > ~/secrets.json
     - run: echo << parameters.phrase >> | make deploy-<< parameters.to >>-all
 
 jobs:
@@ -88,6 +88,7 @@ workflows:
         requires:
         - test
     - STAGING_deploy:
+        context: global_context
         requires:
         - STAGING_approve
     - UAT_approve:
@@ -95,6 +96,7 @@ workflows:
         requires:
         - test
     - UAT_deploy:
+        context: global_context
         requires:
         - UAT_approve
     - PRERELEASE_approve:
@@ -102,6 +104,7 @@ workflows:
         requires:
         - test
     - PRERELEASE_deploy:
+        context: global_context
         requires:
         - PRERELEASE_approve
     - PROD_approve:
@@ -113,6 +116,7 @@ workflows:
         requires:
         - PROD_approve
     - PROD_deploy:
+        context: global_context
         requires:
         - PROD_DOUBLE_approve
 
