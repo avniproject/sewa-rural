@@ -1,0 +1,118 @@
+version: 2.1
+
+commands:
+  deploy:
+    description: Deployment
+    parameters:
+      to:
+        type: string
+      phrase:
+        type: string
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+    - run: sudo npm install -g grunt
+    - run: npm install
+    - save_cache:
+        paths:
+        - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+    - run: echo $SECRETS > ~/secrets.json
+    - run: echo << parameters.phrase >> | make deploy-<< parameters.to >>-all
+
+jobs:
+  test:
+    docker:
+    - image: circleci/node:8.5.0
+    working_directory: ~/sewa-rural
+    steps:
+    - run: sudo apt-get install make
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+    - run: npm install
+    - save_cache:
+        paths:
+        - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+    - run: npm test || echo 'done'
+
+  STAGING_deploy:
+    docker:
+    - image: circleci/node:8.5.0
+    working_directory: ~/sewa-rural
+    steps:
+    - deploy:
+        to: staging
+        phrase: STAG
+
+  UAT_deploy:
+    docker:
+    - image: circleci/node:8.5.0
+    working_directory: ~/sewa-rural
+    steps:
+    - deploy:
+        to: uat
+        phrase: UAT
+
+  PRERELEASE_deploy:
+    docker:
+    - image: circleci/node:8.5.0
+    working_directory: ~/sewa-rural
+    steps:
+    - deploy:
+        to: prerelease
+        phrase: PRER
+
+  PROD_deploy:
+    docker:
+    - image: circleci/node:8.5.0
+    working_directory: ~/sewa-rural
+    steps:
+    - deploy:
+        to: prod
+        phrase: PROD
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+    - test
+    - STAGING_approve:
+        type: approval
+        requires:
+        - test
+    - STAGING_deploy:
+        requires:
+        - STAGING_approve
+    - UAT_approve:
+        type: approval
+        requires:
+        - test
+    - UAT_deploy:
+        requires:
+        - UAT_approve
+    - PRERELEASE_approve:
+        type: approval
+        requires:
+        - test
+    - PRERELEASE_deploy:
+        requires:
+        - PRERELEASE_approve
+    - PROD_approve:
+        type: approval
+        requires:
+        - test
+    - PROD_DOUBLE_approve:
+        type: approval
+        requires:
+        - PROD_approve
+    - PROD_deploy:
+        requires:
+        - PROD_DOUBLE_approve
+
