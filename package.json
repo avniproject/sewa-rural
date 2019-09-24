@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "openchs-idi": "github:openchs/openchs-idi#950376ac50ad66b4d2559226bda1eea3ed8da3ed",
+    "openchs-idi": "github:openchs/openchs-idi#dacd0c2291ca4a77ecc4ffea6259577a51209889",
     "rules-config": "github:openchs/rules-config#24cc3d6fba5f7f4e8938f25a732f3594897232c1",
     "webpack": "^4.12.0"
   },

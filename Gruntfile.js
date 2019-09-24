@@ -61,12 +61,7 @@ module.exports = IDI.configure(
             },
             videos: ["./videos.json"],
             rules: ["./rules.js"],
-            organisationSql: [],
-            organisationConfig: ["organisationConfig.json"],
-            translations: [
-                "translations/en.json",
-                "translations/gu_IN.json",
-            ]
+            organisationSql: []
         }
     },
     rulesConfigInfra
