@@ -22,11 +22,9 @@ export default class QuarterlyVisitHandler {
     @WithName("Sickling Test Status")
     @WithStatusBuilder
     abc71([], statusBuilder) {
-        statusBuilder
-            .show()
-            .when.valueInEntireEnrolment("Sickling Test Status")
-            .not.defined.or.when.valueInEntireEnrolment("Sickling Test Status")
-            .containsAnswerConceptName("Not Done");
+        statusBuilder.show().when.valueInEncounter("Sickling Test Status").is.defined
+            .or.when.latestValueInPreviousEncounters("Sickling Test Status").is.notDefined
+            .or.when.valueInEntireEnrolment("Sickling Test Result").is.notDefined;
         return statusBuilder.build();
     }
 
