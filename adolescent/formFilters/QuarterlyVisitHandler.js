@@ -3,6 +3,12 @@ import {StatusBuilderAnnotationFactory, WithName} from "rules-config/rules";
 
 const WithStatusBuilder = StatusBuilderAnnotationFactory("programEncounter", "formElement");
 export default class QuarterlyVisitHandler {
+    @WithName("Are you present in the school?")
+    @WithStatusBuilder
+    abc0([], statusBuilder) {
+        statusBuilder.show().when.addressType.not.equals("Village");
+    }
+
     @WithName("If No, from how many days?")
     @WithStatusBuilder
     abc1([], statusBuilder) {
