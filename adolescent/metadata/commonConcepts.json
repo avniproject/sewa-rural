@@ -355,7 +355,8 @@
     "answers": [
       {
         "name": "Severe",
-        "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+        "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6",
+        "abnormal": true
       },
       {
         "name": "Moderate",
@@ -437,7 +438,8 @@
     "answers": [
       {
         "uuid": "1aff631c-e487-4202-a862-122b45168ac6",
-        "name": "Severe Anemia"
+        "name": "Severe Anemia",
+        "abnormal": true
       },
       {
         "name": "Sickle cell disease",
@@ -472,7 +474,8 @@
     "answers": [
       {
         "name": "Sickle cell disease",
-        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66"
+        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66",
+        "abnormal" : true
       },
       {
         "name": "Menstrual disorders",
@@ -480,7 +483,8 @@
       },
       {
         "name": "Addiction (Self)",
-        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e",
+        "abnormal" : true
       }
     ]
   },
