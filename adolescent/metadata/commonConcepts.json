@@ -307,11 +307,13 @@
   },
   {
     "name": "Severe",
-    "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6"
+    "uuid": "8d9b69e1-9efe-410f-8063-71767b6482f6",
+    "abnormal": true
   },
   {
     "name": "Moderate",
-    "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+    "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd",
+    "abnormal": true
   },
   {
     "name": "Mild",
@@ -319,7 +321,8 @@
   },
   {
     "name": "Severely malnourished",
-    "uuid": "332a435b-069c-4283-a4f7-4310d7e458d7"
+    "uuid": "332a435b-069c-4283-a4f7-4310d7e458d7",
+    "abnormal": true
   },
   {
     "name": "Nutritional Status",
@@ -328,11 +331,13 @@
     "answers": [
       {
         "name": "Severely malnourished",
-        "uuid": "332a435b-069c-4283-a4f7-4310d7e458d7"
+        "uuid": "332a435b-069c-4283-a4f7-4310d7e458d7",
+        "abnormal": true
       },
       {
         "name": "Underweight",
-        "uuid": "41b2db08-99a4-428c-a908-641330858b8a"
+        "uuid": "41b2db08-99a4-428c-a908-641330858b8a",
+        "abnormal": true
       },
       {
         "name": "Normal",
@@ -340,11 +345,13 @@
       },
       {
         "name": "Overweight",
-        "uuid": "74481c32-e400-4103-b656-b4f52e517fdd"
+        "uuid": "74481c32-e400-4103-b656-b4f52e517fdd",
+        "abnormal": true
       },
       {
         "name": "Obese",
-        "uuid": "c7512031-62fb-4bbc-b793-7fde56d45883"
+        "uuid": "c7512031-62fb-4bbc-b793-7fde56d45883",
+        "abnormal": true
       }
     ]
   },
@@ -360,11 +367,13 @@
       },
       {
         "name": "Moderate",
-        "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd"
+        "uuid": "5d04a0e1-548e-418b-bad3-3cb4ae184fdd",
+        "abnormal": true
       },
       {
         "name": "Mild",
-        "uuid": "a576aaa4-228f-47ad-b6e9-8225fd15cf0e"
+        "uuid": "a576aaa4-228f-47ad-b6e9-8225fd15cf0e",
+        "abnormal": true
       },
       {
         "name": "Normal",
@@ -374,15 +383,18 @@
   },
   {
     "name": "Menstrual absenteeism",
-    "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175"
+    "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175",
+    "abnormal": true
   },
   {
     "name": "Addiction (Self)",
-    "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+    "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e",
+    "abnormal": true
   },
   {
     "name": "Chronic Sickness",
-    "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
+    "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542",
+    "abnormal": true
   },
   {
     "name": "Other Vulnerabilities",
@@ -395,15 +407,18 @@
       },
       {
         "name": "Menstrual absenteeism",
-        "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175"
+        "uuid": "b13eb71b-f117-41c6-b8a0-88743ed64175",
+        "abnormal": true
       },
       {
         "name": "Addiction (Self)",
-        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e",
+        "abnormal": true
       },
       {
         "name": "Chronic Sickness",
-        "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
+        "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542",
+        "abnormal": true
       }
     ]
   },
@@ -429,7 +444,8 @@
   },
   {
     "name": "Sexual Problems",
-    "uuid": "aaa4b80c-2dc5-4acd-9def-46405870f46f"
+    "uuid": "aaa4b80c-2dc5-4acd-9def-46405870f46f",
+    "abnormal": true
   },
   {
     "name": "Refer to hospital immediately for",
@@ -443,27 +459,33 @@
       },
       {
         "name": "Sickle cell disease",
-        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66"
+        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66",
+        "abnormal": true
       },
       {
         "name": "Medical Problems",
-        "uuid": "ac87104b-9518-4670-992a-749eaaa22616"
+        "uuid": "ac87104b-9518-4670-992a-749eaaa22616",
+        "abnormal": true
       },
       {
         "name": "Additional Medical Problems",
-        "uuid": "d217989f-444f-4c02-8e65-da8268d4c193"
+        "uuid": "d217989f-444f-4c02-8e65-da8268d4c193",
+        "abnormal": true
       },
       {
         "name": "Sexual Problems",
-        "uuid": "aaa4b80c-2dc5-4acd-9def-46405870f46f"
+        "uuid": "aaa4b80c-2dc5-4acd-9def-46405870f46f",
+        "abnormal": true
       },
       {
         "name": "Menstrual disorders",
-        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
+        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4",
+        "abnormal": true
       },
       {
         "name": "Addiction (Self)",
-        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e",
+        "abnormal": true
       }
     ]
   },
@@ -479,7 +501,8 @@
       },
       {
         "name": "Menstrual disorders",
-        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
+        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4",
+        "abnormal": true
       },
       {
         "name": "Addiction (Self)",
@@ -526,27 +549,33 @@
       },
       {
         "uuid": "1aff631c-e487-4202-a862-122b45168ac6",
-        "name": "Severe Anemia"
+        "name": "Severe Anemia",
+        "abnormal": true
       },
       {
         "uuid": "90a88989-6738-44f1-bc65-47fe56234739",
-        "name": "Severe malnourishment"
+        "name": "Severe malnourishment",
+        "abnormal": true
       },
       {
         "name": "Addiction (Self)",
-        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e"
+        "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e",
+        "abnormal": true
       },
       {
         "name": "Sickle cell disease",
-        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66"
+        "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66",
+        "abnormal": true
       },
       {
         "name": "Chronic Sickness",
-        "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542"
+        "uuid": "67a48afe-2706-4c22-a7ba-5c27371c5542",
+        "abnormal": true
       },
       {
         "name": "Menstrual disorders",
-        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4"
+        "uuid": "0f87eac1-cf6a-4632-8af2-29a935451fe4",
+        "abnormal": true
       }
     ]
   },
