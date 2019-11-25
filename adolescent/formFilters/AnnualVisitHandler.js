@@ -61,6 +61,16 @@ export default class AnnualVisitHandler {
         return statusBuilder.build();
     }
 
+    @WithName("In which section he /she is studying?")
+    @WithStatusBuilder
+    abc41([programEncounter], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("School going")
+            .containsAnswerConceptName("Yes");
+        return statusBuilder.build();
+    }
+
     @WithName("Name of school")
     @WithStatusBuilder
     abc5([programEncounter], statusBuilder) {

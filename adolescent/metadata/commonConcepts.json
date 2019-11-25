@@ -475,7 +475,7 @@
       {
         "name": "Sickle cell disease",
         "uuid": "00ff88d0-d8bd-493b-98e2-fe60f6f9ce66",
-        "abnormal" : true
+        "abnormal": true
       },
       {
         "name": "Menstrual disorders",
@@ -484,7 +484,7 @@
       {
         "name": "Addiction (Self)",
         "uuid": "f03ac7c5-b520-4f59-8de7-add48d05d68e",
-        "abnormal" : true
+        "abnormal": true
       }
     ]
   },
@@ -559,5 +559,131 @@
     "name": "Iron tablets consumed in last 3 months",
     "uuid": "c238b921-749b-45f9-8fd5-6ffc3c14d96d",
     "dataType": "Numeric"
+  },
+  {
+    "uuid": "8d147ee4-da5d-4c96-91bb-74af076c3cfa",
+    "name": "College"
+  },
+  {
+    "uuid": "6ec2aa2b-44c8-4259-8f9d-a40e97812f48",
+    "name": "Any other vocational course"
+  },
+  {
+    "name": "Standard",
+    "uuid": "fda18675-59dc-4a69-82f7-4e137c274073",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "5",
+        "uuid": "98408506-1159-4245-ba94-5834be1ccd2e"
+      },
+      {
+        "name": "6",
+        "uuid": "e9ce8718-ef32-4870-b3cb-b5e733fc115a"
+      },
+      {
+        "name": "7",
+        "uuid": "aafae271-765c-4347-be3b-3fc1e00e63a1"
+      },
+      {
+        "name": "8",
+        "uuid": "d7443a73-80b7-4320-9c45-6558595be70a"
+      },
+      {
+        "name": "9",
+        "uuid": "29d29318-6b0c-4a2b-85e3-5392bd5a668f"
+      },
+      {
+        "name": "10",
+        "uuid": "7f0e1fbd-a1b9-4121-b630-dfec36a2dfd0"
+      },
+      {
+        "name": "11",
+        "uuid": "72165544-dcef-4322-a07d-242a6e7771e0"
+      },
+      {
+        "name": "12",
+        "uuid": "9b141130-a1c7-4e3b-bc95-5b9b157f7160"
+      },
+      {
+        "uuid": "8d147ee4-da5d-4c96-91bb-74af076c3cfa",
+        "name": "College"
+      },
+      {
+        "uuid": "6ec2aa2b-44c8-4259-8f9d-a40e97812f48",
+        "name": "Any other vocational course"
+      }
+    ]
+  },
+  {
+    "uuid": "f691191b-7ee6-4158-ac13-1e38005a14c4",
+    "name": "A"
+  },
+  {
+    "uuid": "92b4a5f5-1f82-4274-af56-d129484726cf",
+    "name": "B"
+  },
+  {
+    "uuid": "e785c84a-d4ab-46c2-84b9-4fa293e4a7bc",
+    "name": "C"
+  },
+  {
+    "uuid": "48609a30-af2a-4fc3-8e51-869e83af1205",
+    "name": "D"
+  },
+  {
+    "uuid": "b3c69530-f11f-4d98-8bd4-293e6e60edb4",
+    "name": "E"
+  },
+  {
+    "uuid": "37862269-cc88-4a0e-b14c-4c71540de0dc",
+    "name": "F"
+  },
+  {
+    "uuid": "d7b5d96e-1547-4745-884f-12f3bae066a1",
+    "name": "G"
+  },
+  {
+    "uuid": "414c016b-1497-400e-b903-d29e31e576be",
+    "name": "H"
+  },
+  {
+    "name": "Section",
+    "uuid": "916c080e-e494-4bc3-9626-fa0b2d7d7997",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "f691191b-7ee6-4158-ac13-1e38005a14c4",
+        "name": "A"
+      },
+      {
+        "uuid": "92b4a5f5-1f82-4274-af56-d129484726cf",
+        "name": "B"
+      },
+      {
+        "uuid": "e785c84a-d4ab-46c2-84b9-4fa293e4a7bc",
+        "name": "C"
+      },
+      {
+        "uuid": "48609a30-af2a-4fc3-8e51-869e83af1205",
+        "name": "D"
+      },
+      {
+        "uuid": "b3c69530-f11f-4d98-8bd4-293e6e60edb4",
+        "name": "E"
+      },
+      {
+        "uuid": "37862269-cc88-4a0e-b14c-4c71540de0dc",
+        "name": "F"
+      },
+      {
+        "uuid": "d7b5d96e-1547-4745-884f-12f3bae066a1",
+        "name": "G"
+      },
+      {
+        "uuid": "414c016b-1497-400e-b903-d29e31e576be",
+        "name": "H"
+      }
+    ]
   }
 ]
