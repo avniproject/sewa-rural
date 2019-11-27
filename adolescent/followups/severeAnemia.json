@@ -54,6 +54,16 @@
           "mandatory": true
         },
         {
+          "name": "Specify Other Treatment",
+          "uuid": "d78d6796-5d03-404f-9a0f-b6e1cfc30a6c",
+          "keyValues": [],
+          "concept": {
+            "uuid": "8b89af7d-c952-4c5c-b744-2b887f87c39b"
+          },
+          "displayOrder": 4.1,
+          "mandatory": true
+        },
+        {
           "name": "Do you get food from Anganwadi?",
           "uuid": "5ce9449f-fe21-456e-b5d2-b6f0574e8b56",
           "keyValues": [],
@@ -124,6 +134,17 @@
             "uuid": "d93edddb-4024-46d7-a988-d62c5a397fa9"
           },
           "displayOrder": 6,
+          "mandatory": true
+        },
+        {
+          "name": "How many tablets consumed in last month?",
+          "uuid": "6851abc3-ed93-4aca-9ffc-3447dd8e947a",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "a3d267ba-9d5e-49b5-aad2-8a7d50f8cfc7"
+          },
+          "displayOrder": 6.2,
           "mandatory": true
         }
       ]

@@ -170,6 +170,16 @@ export default class QuarterlyVisitHandler {
         return statusBuilder.build();
     }
 
+    @WithName("Other Sickness")
+    @WithStatusBuilder
+    abc19([], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Sickness in last 3 month")
+            .containsAnswerConceptName("Other");
+        return statusBuilder.build();
+    }
+
     @WithName("MHM Kit used?")
     @WithStatusBuilder
     abc17([], statusBuilder) {

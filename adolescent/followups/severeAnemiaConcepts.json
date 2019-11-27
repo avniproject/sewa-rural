@@ -124,5 +124,16 @@
         "uuid": "7cc32986-45f6-474e-93bc-9d015fff4415"
       }
     ]
+  },
+  {
+    "name": "How many tablets consumed in last month?",
+    "uuid": "a3d267ba-9d5e-49b5-aad2-8a7d50f8cfc7",
+    "dataType": "Numeric"
+  },
+  {
+    "name": "Specify Other Treatment",
+    "uuid": "8b89af7d-c952-4c5c-b744-2b887f87c39b",
+    "dataType": "Text"
   }
+
 ]

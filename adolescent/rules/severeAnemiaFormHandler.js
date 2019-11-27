@@ -62,11 +62,24 @@ class SevereAnemiaViewFilterHandlerSR {
         );
     }
 
+    @WithName("How many tablets consumed in last month?")
+    @WithStatusBuilder
+    abc12([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Whether taking B12 folic acid tablets").is.yes;
+    }
+    @WithName("Specify Other Treatment")
+    @WithStatusBuilder
+    abc13([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Treatment given")
+            .containsAnswerConceptName("Other")
+    }
+
     @WithName("Home Visit Done?")
     homeVisitDone(programEncounter, formElement) {
         const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;
         return new FormElementStatus(formElement.uuid, registeredAddress !== 'Boarding');
     }
+
 
 }
 

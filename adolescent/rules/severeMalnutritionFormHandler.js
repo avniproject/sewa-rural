@@ -29,6 +29,20 @@ class SeverMalnutritionViewFilterSR {
         statusBuilder.show().when.valueInEncounter("Whether referred to hospital").is.yes;
     }
 
+    @WithName("Specify Other?")
+    @WithStatusBuilder
+    abc17([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Suffering from any other medical problem")
+        .containsAnyAnswerConceptName("Other")
+    }
+    @WithName("please specify other")
+    @WithStatusBuilder
+    abc18([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Problems if your weight is less")
+        .containsAnyAnswerConceptName("Other")
+    }
+
+
     @WithName("Are you taking more food than previous, as you are malnourished?")
     abc2(programEncounter, formElement) {
         const annualVisitEncounters = programEncounter.programEnrolment.getEncountersOfType("Annual Visit");

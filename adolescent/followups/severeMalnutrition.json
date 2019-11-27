@@ -21,6 +21,16 @@
           "mandatory": true
         },
         {
+          "name": "Specify Other?",
+          "uuid": "bf793197-68d3-4e17-a344-167df87229e8",
+          "keyValues": [],
+          "concept": {
+            "uuid": "fd0e5ae8-83ec-40ed-8495-3e6a8f7a50a5"
+          },
+          "displayOrder": 1.2,
+          "mandatory": true
+        },
+        {
           "name": "Whether referred to hospital",
           "uuid": "a1a5745f-1b7a-4767-b576-653b70d7ccd2",
           "keyValues": [],
@@ -158,6 +168,16 @@
             "uuid": "72f70001-fc64-4371-8b88-2c20e4860ef1"
           },
           "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "please specify other",
+          "uuid": "d8586cf4-bc1e-4cfe-a58f-70cf2dbe523b",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b99cf74d-b166-4627-bf76-893a90db46e9"
+          },
+          "displayOrder": 3.1,
           "mandatory": true
         },
         {

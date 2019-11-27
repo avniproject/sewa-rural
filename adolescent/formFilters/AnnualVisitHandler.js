@@ -42,6 +42,7 @@ export default class AnnualVisitHandler {
     }
 
     @WithName("If school dropped out, After which standard left the school")
+    @WithName("In which year he/she has left the school")
     @WithStatusBuilder
     abc3([programEncounter], statusBuilder) {
         statusBuilder
@@ -62,6 +63,7 @@ export default class AnnualVisitHandler {
     }
 
     @WithName("In which section he /she is studying?")
+
     @WithStatusBuilder
     abc41([programEncounter], statusBuilder) {
         statusBuilder
@@ -70,6 +72,18 @@ export default class AnnualVisitHandler {
             .containsAnswerConceptName("Yes");
         return statusBuilder.build();
     }
+
+    @WithName("Specify other course")
+    @WithStatusBuilder
+    abc411([programEncounter], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Standard")
+            .containsAnswerConceptName("Any other vocational course");
+        return statusBuilder.build();
+    }
+
+
 
     @WithName("Name of school")
     @WithStatusBuilder
@@ -286,6 +300,28 @@ export default class AnnualVisitHandler {
 
         return statusBuilder.build();
     }
+    @WithName("Other Occupation")
+    @WithStatusBuilder
+    abc96([programEncounter], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Father's Occupation")
+            .containsAnswerConceptName("Other");
+
+        return statusBuilder.build();
+    }
+    @WithName("Other Occupations")
+    @WithStatusBuilder
+    abc97([programEncounter], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Mother's Occupation")
+            .containsAnswerConceptName("Other");
+
+        return statusBuilder.build();
+    }
+
+
 
     @WithName("Other sickness (please specify)")
     @WithStatusBuilder
@@ -294,7 +330,6 @@ export default class AnnualVisitHandler {
             .show()
             .when.valueInEncounter("Sickness in last 1 month")
             .containsAnswerConceptName("Other");
-
         return statusBuilder.build();
     }
 
@@ -326,4 +361,6 @@ export default class AnnualVisitHandler {
         statusBuilder.show().when.valueInEncounter("Sickling Test Result").containsAnswerConceptName("Trait");
         return statusBuilder.build();
     }
+
+
 }

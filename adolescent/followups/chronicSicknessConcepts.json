@@ -63,5 +63,36 @@
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]
+  },
+  {
+    "uuid": "0aa6dcfc-b348-4d7f-81a3-b6f5f7392a37",
+    "name": "Non curable condition"
+  },
+  {
+    "uuid": "504c5308-6098-4ae9-b687-be5b502f31b3",
+    "name": "Not taking treatment"
+  },
+  {
+    "uuid": "d56f0819-e76d-4b74-b02c-1789b19e59dd",
+    "name": "Not visited Hospital"
+  },
+  {
+    "name": "If not cured, what is the reason?",
+    "uuid": "f6f45dde-274c-452b-9d40-ee3993303ab6",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "uuid": "0aa6dcfc-b348-4d7f-81a3-b6f5f7392a37",
+        "name": "Non curable condition"
+      },
+      {
+        "uuid": "504c5308-6098-4ae9-b687-be5b502f31b3",
+        "name": "Not taking treatment"
+      },
+      {
+        "uuid": "d56f0819-e76d-4b74-b02c-1789b19e59dd",
+        "name": "Not visited Hospital"
+      }
+    ]
   }
 ]

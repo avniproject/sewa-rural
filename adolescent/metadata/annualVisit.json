@@ -34,6 +34,17 @@
           "mandatory": true
         },
         {
+          "name": "Other Occupation",
+          "uuid": "c7f514e9-d23b-4628-b68a-faddc3c34297",
+          "keyValues": [],
+          "concept": {
+            "uuid": "757156fd-91b9-4e2b-bd25-b97c779ff64a",
+            "name": "Other Occupation"
+          },
+          "displayOrder": 2.1,
+          "mandatory": true
+        },
+        {
           "name": "Mother's Occupation",
           "uuid": "ca5130da-84a2-4fc9-ae80-63950cd64bb5",
           "keyValues": [],
@@ -43,6 +54,17 @@
             "name": "Mother's Occupation"
           },
           "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "Other Occupations",
+          "uuid": "a965f479-ffe0-441b-8816-028ff5621a5f",
+          "keyValues": [],
+          "concept": {
+            "uuid": "dce53152-2e5e-442d-aa0d-9bdcd42859cb",
+            "name": "Other Occupations"
+          },
+          "displayOrder": 3.1,
           "mandatory": true
         },
         {
@@ -88,14 +110,36 @@
           "mandatory": true
         },
         {
+          "name": "In which year he/she has left the school",
+          "uuid": "724a7d33-194a-40ae-a136-84dc86e79d57",
+          "keyValues": [],
+          "concept": {
+            "uuid": "ab42a3c8-b0ea-4696-b62b-c6990af6cd76"
+          },
+          "displayOrder": 2.5,
+          "mandatory": true
+        },
+        {
           "name": "In which standard he/she is studying?",
           "uuid": "c6bab4f4-41e4-4d91-809f-d3896cbe1ab0",
           "keyValues": [],
           "type": "SingleSelect",
           "concept": {
-            "uuid": "fda18675-59dc-4a69-82f7-4e137c274073"
+            "uuid": "fda18675-59dc-4a69-82f7-4e137c274073",
+            "name": "In which standard he/she is studying?"
           },
           "displayOrder": 3,
+          "mandatory": true
+        },
+        {
+          "name": "Specify other course",
+          "uuid": "fd385bf4-e9a3-4ddd-b126-220468bbcd65",
+          "keyValues": [],
+          "concept": {
+            "uuid": "d834d8a0-cfde-4fbc-88b4-9db45743e686",
+            "name": "Specify other course"
+          },
+          "displayOrder": 3.2,
           "mandatory": true
         },
         {

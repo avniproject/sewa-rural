@@ -23,6 +23,7 @@ class AddictionVulnerabilityViewFilter {
     }
 
     @WithName("If tobacco, what is the type?")
+    @WithName("Since how many years are you addicted to tobacco?")
     @WithStatusBuilder
     iftobaccoWhatIsTheType([], statusBuilder) {
         statusBuilder

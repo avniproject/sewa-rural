@@ -40,11 +40,18 @@ class ChronicSicknessViewFilterSR {
         statusBuilder.show().when.valueInEncounter("Whether condition cured").is.no;
     }
 
+    @WithName("If not cured, what is the reason?")
+    @WithStatusBuilder
+    abc3551([], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Cured").is.no;
+    }
+
     @WithName("Home Visit Done?")
     homeVisitDone(programEncounter, formElement) {
         const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;
         return new FormElementStatus(formElement.uuid, registeredAddress !== 'Boarding');
     }
+
 
 }
 

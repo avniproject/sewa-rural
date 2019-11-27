@@ -22,6 +22,18 @@
           "mandatory": true
         },
         {
+          "name": "Since how many years are you addicted to tobacco?",
+          "uuid": "70f5538e-52a5-44f0-9336-450761f7431b",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "name": "Since how many years are you addicted to tobacco?",
+            "uuid": "1eb49af0-bab1-4cac-a466-e32ff289a294"
+          },
+          "displayOrder": 1.2,
+          "mandatory": true
+        },
+        {
           "name": "How many pouches do you consume per day?",
           "uuid": "6c726559-c2eb-4273-b24b-3888c01a1b32",
           "keyValues": [],

@@ -40,6 +40,20 @@ class SickleCellFollowupViewFilterHandlerSR {
         statusBuilder.show().when.valueInEncounter("Suffered from any pain or problem in last one month").is.yes;
     }
 
+    @WithName("Please specify Other?")
+    @WithStatusBuilder
+    pl1([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Action taken by yourself for your problem")
+            .containsAnswerConceptName("Other")
+    }
+
+ @WithName("Specify Other Symptoms")
+    @WithStatusBuilder
+    pl2([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("Symptoms of sickle cell disease")
+            .containsAnswerConceptName("Other")
+    }
+
     @WithName("Home Visit Done?")
     homeVisitDone(programEncounter, formElement) {
         const registeredAddress = programEncounter.programEnrolment.individual.lowestAddressLevel.type;

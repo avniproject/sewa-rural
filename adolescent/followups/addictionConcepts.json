@@ -163,5 +163,11 @@
         "uuid": "e7b50c78-3d90-484d-a224-9887887780dc"
       }
     ]
+  },
+  {
+    "name": "Since how many years are you addicted to tobacco?",
+    "uuid": "1eb49af0-bab1-4cac-a466-e32ff289a294",
+    "dataType": "Numeric"
   }
+
 ]

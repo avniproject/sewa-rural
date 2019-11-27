@@ -714,5 +714,33 @@
         "name": "H"
       }
     ]
+  },
+  {
+    "name": "Specify other course",
+    "uuid": "d834d8a0-cfde-4fbc-88b4-9db45743e686",
+    "dataType": "Text"
+  },
+  {
+    "name": "In which year he/she has left the school",
+    "uuid": "ab42a3c8-b0ea-4696-b62b-c6990af6cd76",
+    "dataType": "Date"
+  },
+  {
+    "name": "Other Sickness",
+    "uuid": "414d7d0a-dab0-4874-b6a9-64beeccb50ae",
+    "dataType": "Text"
+  },
+  {
+    "name": "Other Occupation",
+    "uuid": "757156fd-91b9-4e2b-bd25-b97c779ff64a",
+    "dataType": "Text"
+  },
+  {
+    "name": "Other Occupations",
+    "uuid": "dce53152-2e5e-442d-aa0d-9bdcd42859cb",
+    "dataType": "Text"
   }
+
+
+
 ]

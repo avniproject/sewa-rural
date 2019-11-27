@@ -129,6 +129,17 @@
           },
           "displayOrder": 4,
           "mandatory": true
+        },
+        {
+          "name": "If not cured, what is the reason?",
+          "uuid": "5b6c8a00-caea-4ca2-8358-0e11e401ebe1",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "f6f45dde-274c-452b-9d40-ee3993303ab6"
+          },
+          "displayOrder": 4.5,
+          "mandatory": true
         }
       ]
     }
