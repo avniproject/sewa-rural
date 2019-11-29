@@ -30,7 +30,7 @@
             "uuid": "fb3214f4-d040-40bc-bd38-883ad5e0cae7",
             "name": "Father's Occupation"
           },
-          "displayOrder": 2,
+          "displayOrder": 3,
           "mandatory": true
         },
         {
@@ -41,7 +41,7 @@
             "uuid": "757156fd-91b9-4e2b-bd25-b97c779ff64a",
             "name": "Other Occupation"
           },
-          "displayOrder": 2.1,
+          "displayOrder": 3.1,
           "mandatory": true
         },
         {
@@ -53,7 +53,7 @@
             "uuid": "dc9882a4-ceff-4dc9-b6fc-3e2ba7e9b197",
             "name": "Mother's Occupation"
           },
-          "displayOrder": 3,
+          "displayOrder": 4,
           "mandatory": true
         },
         {
@@ -64,7 +64,7 @@
             "uuid": "dce53152-2e5e-442d-aa0d-9bdcd42859cb",
             "name": "Other Occupations"
           },
-          "displayOrder": 3.1,
+          "displayOrder": 4.1,
           "mandatory": true
         },
         {
@@ -76,7 +76,7 @@
             "uuid": "eb47f6b7-1f64-4008-87f3-a781c7c342cd",
             "name": "Staying with"
           },
-          "displayOrder": 4,
+          "displayOrder": 6,
           "mandatory": true
         }
       ]
@@ -158,7 +158,7 @@
           "uuid": "1400a663-5fd2-446c-a77f-87fa1ab95b43",
           "keyValues": [],
           "mandatory": true,
-          "displayOrder": 4,
+          "displayOrder": 5,
           "concept": {
             "uuid": "bdb1eb17-a803-40e3-947d-d812d5def18d",
             "name": "Name of school"
