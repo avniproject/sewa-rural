@@ -117,7 +117,7 @@
             "name": "Ration Card"
           },
           "displayOrder": 9,
-          "mandatory": false
+          "mandatory": true
         },
         {
           "name": "Contact Number",
