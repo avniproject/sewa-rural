@@ -13,6 +13,7 @@ module.exports = _.merge(
     require("./adolescent/rules/severeMalnutritionFormHandler"),
     require("./adolescent/rules/registrationFormHandler"),
     require("./adolescent/rules/addictionFormHandler"),
+    require("./adolescent/formFilters/EndlineVisitHandler"),
     require("./adolescent/decisions/adolescentProgramSummary"),
     require("./adolescent/formFilters/AnnualVisitDecisions"),
     require("./adolescent/formFilters/QuarterlyVisitDecisions"),

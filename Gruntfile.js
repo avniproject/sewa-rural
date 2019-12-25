@@ -31,7 +31,8 @@ module.exports = IDI.configure(
                 "./adolescent/followups/moderateAnemia.json",
                 "./adolescent/followups/severeMalnutrition.json",
                 "./adolescent/followups/addiction.json",
-                "./adolescent/metadata/quarterlyVisit.json"
+                "./adolescent/metadata/quarterlyVisit.json",
+                "./adolescent/metadata/endlineVisit.json"
             ],
             formMappings: ["./formMappings.json"],
             formDeletions: ["./mother/enrolmentDeletions.json", "./adolescent/metadata/enrolmentDeletions.json"],
