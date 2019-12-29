@@ -179,7 +179,10 @@ create or replace view sr_individual_indicator_matrix as (
                     baseline_year,
                     2        visit_number,
                     b.gender gender,
-                    baseline_year + 1
+                    case
+                        when baseline_year = 2018
+                            then baseline_year + 2
+                        else baseline_year + 1 end
              from baseline_data b
                       left join program_enrolment enl on enl.individual_id = b.individual_id
                       left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -196,7 +199,10 @@ create or replace view sr_individual_indicator_matrix as (
                     baseline_year,
                     3        visit_number,
                     b.gender gender,
-                    baseline_year + 2
+                    case
+                        when baseline_year = 2018
+                            then baseline_year + 3
+                        else baseline_year + 2 end
              from baseline_data b
                       left join program_enrolment enl on enl.individual_id = b.individual_id
                       left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -213,7 +219,10 @@ create or replace view sr_individual_indicator_matrix as (
                     baseline_year,
                     4        visit_number,
                     b.gender gender,
-                    baseline_year + 3
+                    case
+                        when baseline_year = 2018
+                            then baseline_year + 4
+                        else baseline_year + 3 end
              from baseline_data b
                       left join program_enrolment enl on enl.individual_id = b.individual_id
                       left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -230,7 +239,10 @@ create or replace view sr_individual_indicator_matrix as (
                     baseline_year,
                     5        visit_number,
                     b.gender gender,
-                    baseline_year + 4
+                    case
+                        when baseline_year = 2018
+                            then baseline_year + 5
+                        else baseline_year + 4 end
              from baseline_data b
                       left join program_enrolment enl on enl.individual_id = b.individual_id
                       left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -247,7 +259,10 @@ create or replace view sr_individual_indicator_matrix as (
                     baseline_year,
                     6        visit_number,
                     b.gender gender,
-                    baseline_year + 5
+                    case
+                        when baseline_year = 2018
+                            then baseline_year + 6
+                        else baseline_year + 5 end
              from baseline_data b
                       left join program_enrolment enl on enl.individual_id = b.individual_id
                       left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -264,7 +279,10 @@ create or replace view sr_individual_indicator_matrix as (
                     baseline_year,
                     7        visit_number,
                     b.gender gender,
-                    baseline_year + 6
+                    case
+                        when baseline_year = 2018
+                            then baseline_year + 7
+                        else baseline_year + 6 end
              from baseline_data b
                       left join program_enrolment enl on enl.individual_id = b.individual_id
                       left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -281,7 +299,10 @@ create or replace view sr_individual_indicator_matrix as (
                     baseline_year,
                     8        visit_number,
                     b.gender gender,
-                    baseline_year + 7
+                    case
+                        when baseline_year = 2018
+                            then baseline_year + 8
+                        else baseline_year + 7 end
              from baseline_data b
                       left join program_enrolment enl on enl.individual_id = b.individual_id
                       left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -381,6 +402,20 @@ create or replace view sr_individual_indicator_matrix as (
              where b.hb NOTNULL
                AND b.hb >= 12
          ),
+         endline_for_baseline_missed(individual_id, gender, hb, hb_status, baseline_year, visit_number, baseline_status,
+                                     endline_year) as (
+             select e.individual_id,
+                    b.gender,
+                    e.hb,
+                    e.hb_status,
+                    b.baseline_year,
+                    e.visit_number,
+                    'Missed'::TEXT,
+                    e.endline_year
+             from baseline_data b
+                      join endline_data e on e.individual_id = b.individual_id
+             where b.hb ISNULL
+         ),
          all_events as (select *
                         from baseline_data
                         union all
@@ -394,7 +429,11 @@ create or replace view sr_individual_indicator_matrix as (
                         from endline_for_baseline_mild
                         union all
                         select *
-                        from endline_for_baseline_severe)
+                        from endline_for_baseline_severe
+                        union all
+                        select *
+                        from endline_for_baseline_missed
+         )
 
     select individual_id,
            jsonb_build_object(
@@ -440,7 +479,16 @@ create or replace view sr_individual_indicator_matrix as (
                    'baselineNormalEndlineNormal', hb NOTNULL AND hb >= 12 AND baseline_status = 'Normal',
                    'baselineNormalEndlineHBDone', hb_status = 'Done' AND baseline_status = 'Normal',
                    'baselineNormalEndlineHBNotDone', hb_status = 'Not Done' AND baseline_status = 'Normal',
-                   'baselineNormalEndlineMissingHB', hb ISNULL AND baseline_status = 'Normal'
+                   'baselineNormalEndlineMissingHB', hb ISNULL AND baseline_status = 'Normal',
+                   'baselineMissedEndlineSevere', hb NOTNULL AND hb <= 7 AND baseline_status = 'Missed',
+                   'baselineMissedEndlineModerate',
+                   hb NOTNULL AND hb BETWEEN 7.1 AND 10 AND baseline_status = 'Missed',
+                   'baselineMissedEndlineMild',
+                   hb NOTNULL AND hb BETWEEN 10.1 AND 11.9 AND baseline_status = 'Missed',
+                   'baselineMissedEndlineNormal', hb NOTNULL AND hb >= 12 AND baseline_status = 'Missed',
+                   'baselineMissedEndlineHBDone', hb_status = 'Done' AND baseline_status = 'Missed',
+                   'baselineMissedEndlineHBNotDone', hb_status = 'Not Done' AND baseline_status = 'Missed',
+                   'baselineMissedEndlineMissingHB', hb ISNULL AND baseline_status = 'Missed'
                ) as status_map,
            jsonb_build_object(
                    'hb', hb
