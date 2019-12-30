@@ -500,6 +500,485 @@ create or replace view sr_individual_indicator_matrix as (
     from all_events
 );
 
+
+------views and functions for Menstrual Hygiene Practices  reports
+create or replace view sr_individual_menstrual_hygiene_indicator_matrix as (
+    with partitioned_annual as (
+        SELECT i.id                                                                             individual_id,
+               row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time)           rank,
+               encounter_date_time,
+               multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca') material,
+               g.name                                                                           gender
+        from program_encounter enc
+                 join encounter_type enct on enc.encounter_type_id = enct.id
+                 join program_enrolment enl on enc.program_enrolment_id = enl.id
+                 join operational_program_view op ON op.program_id = enl.program_id
+                 join individual i on enl.individual_id = i.id
+                 join gender g on i.gender_id = g.id
+        WHERE op.program_name = 'Adolescent'
+          AND enct.name = 'Annual Visit'
+          AND enc.encounter_date_time NOTNULL
+          and enc.is_voided = false
+          and enl.program_exit_date_time ISNULL
+          and enl.is_voided = false
+          and i.is_voided = false
+    ),
+         baseline_data (individual_id, gender, material,baseline_year, visit_number, baseline_status,
+                        endline_year)
+             as (
+             select individual_id,
+                    gender,
+                    material,
+                    extract('year' from encounter_date_time),
+                    0,
+                    'null'::TEXT,
+                    0
+             from partitioned_annual
+             where rank = 1
+         ),
+         midline_partitioned as (
+             select enc.program_enrolment_id,
+                    enc.observations,
+                    encounter_date_time,
+                    row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
+             from program_encounter_view enc
+                      join program_enrolment enl on enc.program_enrolment_id = enl.id
+             where encounter_type_name = 'Midline Visit'
+               and enl.is_voided = false
+               and enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         midline_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    1        visit_number,
+                    b.gender gender,
+                    baseline_year + 1
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join midline_partitioned enc on enc.program_enrolment_id = enl.id
+                 and extract('year' from encounter_date_time) = baseline_year + 1
+                 and rank = 1
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_1_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    2        visit_number,
+                    b.gender gender,
+                    baseline_year + 1
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                 and enc.encounter_type_name = 'Endline Visit'
+                 and enc.is_voided = false
+                 and extract('year' from encounter_date_time) = baseline_year + 1
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_2_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    3        visit_number,
+                    b.gender gender,
+                    baseline_year + 2
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                 and enc.encounter_type_name = 'Endline Visit'
+                 and enc.is_voided = false
+                 and extract('year' from encounter_date_time) = baseline_year + 2
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_3_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    4        visit_number,
+                    b.gender gender,
+                    baseline_year + 3
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                 and enc.encounter_type_name = 'Endline Visit'
+                 and enc.is_voided = false
+                 and extract('year' from encounter_date_time) = baseline_year + 3
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_4_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    5        visit_number,
+                    b.gender gender,
+                    baseline_year + 4
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                 and enc.encounter_type_name = 'Endline Visit'
+                 and enc.is_voided = false
+                 and extract('year' from encounter_date_time) = baseline_year + 4
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_5_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    6        visit_number,
+                    b.gender gender,
+                    baseline_year + 5
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                 and enc.encounter_type_name = 'Endline Visit'
+                 and enc.is_voided = false
+                 and extract('year' from encounter_date_time) = baseline_year + 5
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_6_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    7        visit_number,
+                    b.gender gender,
+                    baseline_year + 6
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                 and enc.encounter_type_name = 'Endline Visit'
+                 and enc.is_voided = false
+                 and extract('year' from encounter_date_time) = baseline_year + 6
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_7_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             select b.individual_id,
+                    multi_select_coded(enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'),
+                    baseline_year,
+                    8        visit_number,
+                    b.gender gender,
+                    baseline_year + 7
+             from baseline_data b
+                      left join program_enrolment enl on enl.individual_id = b.individual_id
+                      left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                 and enc.encounter_type_name = 'Endline Visit'
+                 and enc.is_voided = false
+                 and extract('year' from encounter_date_time) = baseline_year + 7
+             where enl.program_exit_date_time ISNULL
+               and enl.is_voided = false
+         ),
+         endline_data
+             (individual_id, material, baseline_year, visit_number, gender, endline_year)
+             as
+             (select *
+              from midline_data
+              union all
+              select *
+              from endline_1_data
+              union all
+              select *
+              from endline_2_data
+              union all
+              select *
+              from endline_3_data
+              union all
+              select *
+              from endline_4_data
+              union all
+              select *
+              from endline_5_data
+              union all
+              select *
+              from endline_6_data
+              union all
+              select *
+              from endline_7_data
+             ),
+         endline_for_baseline_falalin
+             (individual_id, gender, material, baseline_year, visit_number, baseline_status, endline_year)
+             as
+             (select b.individual_id,
+                     b.gender,
+                     e.material,
+                     b.baseline_year,
+                     e.visit_number,
+                     'Falalin'::TEXT,
+                     e.endline_year
+              from baseline_data b
+                       join endline_data e on e.individual_id = b.individual_id
+              where b.material NOTNULL
+                AND b.material ='Falalin'
+             ),
+         endline_for_baseline_sanitary_pad(individual_id, gender, material, baseline_year, visit_number,
+                                       baseline_status, endline_year) as (
+             select e.individual_id,
+                    b.gender,
+                    e.material,
+                    b.baseline_year,
+                    e.visit_number,
+                    'Sanitary pad'::TEXT,
+                    e.endline_year
+             from baseline_data b
+                      join endline_data e on e.individual_id = b.individual_id
+             where b.material NOTNULL
+               AND b.material ='Sanitary pad'
+         ),
+         endline_for_baseline_old_cloth(individual_id, gender, material, baseline_year, visit_number, baseline_status,
+                                   endline_year)
+             as (
+             select e.individual_id,
+                    b.gender,
+                    e.material,
+                    b.baseline_year,
+                    e.visit_number,
+                    'Old cloth'::TEXT,
+                    e.endline_year
+             from baseline_data b
+                      join endline_data e on e.individual_id = b.individual_id
+             where b.material NOTNULL
+               AND b.material ='Old cloth'
+         ),
+         endline_for_baseline_kit_pad(individual_id, gender, material, baseline_year, visit_number, baseline_status,
+                                     endline_year)
+             as (
+             select e.individual_id,
+                    b.gender,
+                    e.material,
+                    b.baseline_year,
+                    e.visit_number,
+                    'Kit pad'::TEXT,
+                    e.endline_year
+             from baseline_data b
+                      join endline_data e on e.individual_id = b.individual_id
+             where b.material NOTNULL
+               AND b.material ='Kit pad'
+         ),
+         all_events as (select *
+                        from baseline_data
+                        union all
+                        select *
+                        from endline_for_baseline_kit_pad
+                        union all
+                        select *
+                        from endline_for_baseline_sanitary_pad
+                        union all
+                        select *
+                        from endline_for_baseline_old_cloth
+                        union all
+                        select *
+                        from endline_for_baseline_falalin)
+
+    select individual_id,
+           jsonb_build_object(
+                   'baselineFalalin', material NOTNULL AND material = 'Falalin'  AND baseline_status = 'null',
+                   'baselineSanitary', material NOTNULL AND material= 'Sanitary pad' AND baseline_status = 'null',
+                   'baselineOldCloth', material NOTNULL AND material= 'Old cloth'  AND baseline_status = 'null',
+                   'baselineKitPad', material NOTNULL and material = 'Kit pad' AND baseline_status = 'null',
+                   'baselineDataNotCapture', material isnull AND baseline_status = 'null',
+               --------------------
+                   'baselineFalalinEndlineFalalin', material NOTNULL AND material = 'Falalin' AND baseline_status = 'Falalin',
+                   'baselineFalalinEndlineSanitary', material NOTNULL AND material= 'Sanitary pad' AND baseline_status = 'Falalin',
+                   'baselineFalalinEndlineOldCloth',material NOTNULL AND material= 'Old cloth' AND baseline_status = 'Falalin',
+                   'baselineFalalinEndlineKitPad', material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Falalin',
+                   'baselineFalalinEndlineDataNotCapture', material ISNULL  AND baseline_status = 'Falalin',
+               -------------------
+                   'baselineSanitaryEndlineFalalin', material NOTNULL AND material= 'Falalin' AND baseline_status = 'Sanitary pad',
+                   'baselineSanitaryEndlineSanitary', material NOTNULL AND material= 'Sanitary pad' AND baseline_status = 'Sanitary pad',
+                   'baselineSanitaryEndlineOldCloth', material NOTNULL AND material= 'Old cloth' AND baseline_status = 'Sanitary pad',
+                   'baselineSanitaryEndlineKitPad', material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Sanitary pad',
+                   'baselineSanitaryEndlineDataNotCapture', material ISNULL AND baseline_status = 'Sanitary pad',
+               ------------------
+                   'baselineOldClothEndlineFalalin', material NOTNULL AND material= 'Falalin' AND baseline_status = 'Old cloth',
+                   'baselineOldClothEndlineSanitary',material NOTNULL AND material= 'Sanitary pad' AND baseline_status = 'Old cloth',
+                   'baselineOldClothEndlineOldCloth', material NOTNULL AND material= 'Old cloth' AND baseline_status = 'Old cloth',
+                   'baselineOldClothEndlineKitPad', material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Old cloth',
+                   'baselineOldClothEndlineDataNotCapture', material ISNULL AND baseline_status = 'Old cloth',
+               ------------------
+                   'baselineKitPadEndlineFalalin', material NOTNULL AND material= 'Falalin' AND baseline_status = 'Kit pad',
+                   'baselineKitPadEndlineSanitary', material NOTNULL AND material= 'Sanitary pad' AND baseline_status = 'Kit pad',
+                   'baselineKitPadEndlineOldCloth', material NOTNULL AND  material= 'Old cloth' AND baseline_status = 'Kit pad',
+                   'baselineKitPadEndlineKitPad', material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Kit pad',
+                   'baselineKitPadEndlineDataNotCapture', material ISNULL AND baseline_status = 'Kit pad'
+               ) as status_map,
+           jsonb_build_object(
+                   'material', material
+               ) as value_map,
+           gender,
+           baseline_year,
+           visit_number,
+           endline_year
+    from all_events
+);
+
+create or replace function sr_record_from_individual_menstrual_hygiene_indicator(status text, baseLineStatus text, transition text,
+                                                               transitionTo text,
+                                                               baselineYear int, lineListQuestionNumber int)
+    returns table
+            (
+                baseline_year       float,
+                baseline_status     text,
+                baseline            text,
+                baseline_ll         text,
+                transition_to       text,
+                endline_year1       text,
+                transition1         text,
+                year_1_ll           text,
+                endline_year2       text,
+                transition2         text,
+                year_2_ll           text,
+                endline_year3       text,
+                transition3         text,
+                year_3_ll           text,
+                endline_year4       text,
+                transition4         text,
+                year_4_ll           text,
+                endline_year5       text,
+                transition5         text,
+                year_5_ll           text,
+                endline_year6       text,
+                transition6         text,
+                year_6_ll           text,
+                endline_year7       text,
+                transition7         text,
+                year_7_ll           text
+            )
+as
+$body$
+with data as (select baseline_year                                                                        as baseline_year,
+                     $1                                                                                   as baseline_status,
+                     count(distinct s.individual_id) filter ( where visit_number = 0 )                    as baselined_individuals,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true)                                  as baseline,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=0&baseline_year=%s', $6,
+                            $2,
+                            $5)::TEXT                                                                     as baseline_ll,
+                     $4                                                                                   as transition_to,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND visit_number = 2))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_1,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 1) OR
+                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 1 else 2 end,
+                            $5)::TEXT                                                                     as endline_1_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 2) OR ($5 <> 2018 AND visit_number = 3))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_2,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 2) OR
+                                                                     ($5 <> 2018 AND visit_number = 3)) ) as transition_2,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 2 else 3 end,
+                            $5)::TEXT                                                                     as endline_2_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 3) OR ($5 <> 2018 AND visit_number = 4))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_3,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 3) OR
+                                                                     ($5 <> 2018 AND visit_number = 4)) ) as transition_3,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 3 else 4 end,
+                            $5)::TEXT                                                                     as endline_3_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 4) OR ($5 <> 2018 AND visit_number = 5))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_4,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 4) OR
+                                                                     ($5 <> 2018 AND visit_number = 5)) ) as transition_4,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 4 else 5 end,
+                            $5)::TEXT                                                                     as endline_4_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 5) OR ($5 <> 2018 AND visit_number = 6))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_5,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 5) OR
+                                                                     ($5 <> 2018 AND visit_number = 6)) ) as transition_5,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 5 else 6 end,
+                            $5)::TEXT                                                                     as endline_5_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 6) OR ($5 <> 2018 AND visit_number = 7))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_6,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 6) OR
+                                                                     ($5 <> 2018 AND visit_number = 7)) ) as transition_6,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 6 else 7 end,
+                            $5)::TEXT                                                                     as endline_6_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 7) OR ($5 <> 2018 AND visit_number = 8))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_7,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                     ($5 <> 2018 AND visit_number = 8)) ) as transition_7,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 7 else 8 end,
+                            $5)::TEXT                                                                     as endline_7_ll
+
+              from sr_individual_indicator_matrix s
+              where baseline_year = $5
+              group by baseline_year)
+select baseline_year,
+       baseline_status,
+       format('%s (%s%%)', baseline, trunc((baseline::DECIMAL * 100) / baselined_individuals, 2)),
+       baseline_ll,
+       transition_to,
+       endline_year_1,
+       format('%s (%s%%)', transition_1, trunc((transition_1::DECIMAL * 100) / baseline, 2)),
+       endline_1_ll,
+       endline_year_2,
+       format('%s (%s%%)', transition_2, trunc((transition_2::DECIMAL * 100) / baseline, 2)),
+       endline_2_ll,
+       endline_year_3,
+       format('%s (%s%%)', transition_3, trunc((transition_3::DECIMAL * 100) / baseline, 2)),
+       endline_3_ll,
+       endline_year_4,
+       format('%s (%s%%)', transition_4, trunc((transition_4::DECIMAL * 100) / baseline, 2)),
+       endline_4_ll,
+       endline_year_5,
+       format('%s (%s%%)', transition_5, trunc((transition_5::DECIMAL * 100) / baseline, 2)),
+       endline_5_ll,
+       endline_year_6,
+       format('%s (%s%%)', transition_6, trunc((transition_6::DECIMAL * 100) / baseline, 2)),
+       endline_6_ll,
+       endline_year_7,
+       format('%s (%s%%)', transition_7, trunc((transition_7::DECIMAL * 100) / baseline, 2)),
+       endline_7_ll
+from data d;
+$body$
+    language sql;
+
+
+
+
+
+
+
+
 create or replace function sr_record_from_individual_indicator(status text, baseLineStatus text, transition text,
                                                                transitionTo text,
                                                                baselineYear int, lineListQuestionNumber int)
