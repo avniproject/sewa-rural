@@ -46,7 +46,13 @@ const addDropoutHomeVisits = (programEncounter, scheduleBuilder, cancelSchedule)
         .when.valueInEncounter("School going")
         .containsAnswerConceptName("Dropped Out");
 
-    if (droppedOutCondition.matches()) {
+    const droppedOutDate = programEncounter.getObservationReadableValue("In which year he/she has left the school");
+    var c2 = 0;
+    if (!_.isNil(droppedOutDate)) {
+        c2 = moment().diff(droppedOutDate, 'year');
+    }
+
+    if (droppedOutCondition.matches() && c2 < 1) {
         scheduleBuilder
             .add({
                 name: "Dropout Home Visit",
@@ -591,7 +597,7 @@ class VisitRescheduleOnCancelSR {
         const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
         if (!hasExitedProgram(programEncounter)) {
-            switch(programEncounter.encounterType.name) {
+            switch (programEncounter.encounterType.name) {
                 case 'Addiction Followup':
                     addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
                     break;
