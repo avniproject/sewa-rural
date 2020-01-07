@@ -16,7 +16,7 @@ const VisitRescheduleOnCancel = RuleFactory("c294aadf-94a6-4908-8d04-9cc4ce2b901
 const hasExitedProgram = (programEncounter) => programEncounter.programEnrolment.programExitDateTime;
 
 const getEarliestDate = programEncounter =>
-    moment(programEncounter.earliestVisitDateTime)
+    moment(programEncounter.earliestVisitDateTime || programEncounter.encounterDateTime)
         .startOf("day")
         .toDate();
 
