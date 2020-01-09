@@ -13,6 +13,7 @@ const SeverMalnutritionFollowup = RuleFactory("f7b7d2ff-10eb-47a4-866b-b368969f9
 const AddictionVulnerabilityFollowup = RuleFactory("8aec0b76-79ae-4e47-9375-ed9db3739997", "VisitSchedule");
 const SickleCellVulnerabilityFollowup = RuleFactory("e728eab9-af8b-46ea-9d5f-f1a9f8727567", "VisitSchedule");
 const VisitRescheduleOnCancel = RuleFactory("c294aadf-94a6-4908-8d04-9cc4ce2b901c", "VisitSchedule");
+const EndlineVisitSchedule = RuleFactory("b9d58493-7d08-49c9-bdc7-f1864cb97819", "VisitSchedule");
 const hasExitedProgram = (programEncounter) => programEncounter.programEnrolment.programExitDateTime;
 
 const getEarliestDate = programEncounter =>
@@ -62,6 +63,65 @@ const addDropoutHomeVisits = (programEncounter, scheduleBuilder, cancelSchedule)
             });
     }
 };
+
+const addEndlineVisit = (programEncounter, scheduleBuilder, cancelSchedule) => {
+    const year = moment(programEncounter.encounterDateTime).year();
+
+    const earliest = moment()
+        .date(1)
+        .month(2)
+        .year(year + 1)
+        .startOf("months");
+
+    const maxDateOfVisit = moment(earliest).add(1, 'month');
+
+    scheduleBuilder
+        .add({
+            name: `Endline Visit ${year + 1}`,
+            encounterType: "Endline Visit",
+            earliestDate: earliest.toDate(),
+            maxDate: maxDateOfVisit.toDate()
+
+        });
+
+
+};
+const addEndlineVisitAnnual = (programEncounter, scheduleBuilder, cancelSchedule) => {
+    const year = moment(programEncounter.encounterDateTime).year();
+
+    const earliest = moment()
+        .date(1)
+        .month(2)
+        .year(year)
+        .startOf("months");
+
+    const maxDateOfVisit = moment(earliest).add(1, 'month');
+
+    scheduleBuilder
+        .add({
+            name: `Endline Visit ${year}`,
+            encounterType: "Endline Visit",
+            earliestDate: earliest.toDate(),
+            maxDate: maxDateOfVisit.toDate()
+
+        });
+
+
+};
+
+
+@EndlineVisitSchedule("e3178743-b08c-46b1-a166-b3c70e315dd8", "Endline Visit ", 100.0)
+class EndlineVisitScheduleSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
+
+        if (!hasExitedProgram(programEncounter)) {
+            addEndlineVisit({programEncounter}, scheduleBuilder);
+        }
+
+        return scheduleBuilder.getAllUnique("encounterType", true);
+    }
+}
 
 const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder, cancelSchedule) => {
     const dateTimeToUse = programEncounter.encounterDateTime || programEncounter.earliestVisitDateTime;
@@ -357,6 +417,7 @@ class AnnualVisitScheduleSR {
             CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
+            addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
         }
         return scheduleBuilder.getAllUnique("encounterType", true);
     }
@@ -376,6 +437,7 @@ class QuarterlyVisitScheduleSR {
             CommonSchedule.scheduleModerateAnemiaFollowup({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
+            addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType", true);
@@ -650,4 +712,5 @@ export {
     DropoutVisitScheduleHandler,
     CommonSchedule,
     VisitRescheduleOnCancelSR,
+    EndlineVisitScheduleSR,
 };

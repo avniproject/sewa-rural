@@ -970,7 +970,7 @@ with data as (select baseline_year                                              
                             case when $5 = 2018 then 7 else 8 end,
                             $5)::TEXT                                                                     as endline_7_ll
 
-              from sr_individual_indicator_matrix s
+              from sr_individual_menstrual_hygiene_indicator_matrix s
               where baseline_year = $5
               group by baseline_year)
 select baseline_year,
