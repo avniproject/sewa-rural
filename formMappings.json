@@ -179,5 +179,12 @@
     "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
     "encounterTypeUUID": "6ee0fcc7-bd02-4f87-9dd2-9bdbb952b89a",
     "comment": "-Addiction Vulnerability-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
+  },
+  {
+    "uuid": "b4bc15a4-2d9b-4cbe-a2ea-fc8cb1c72b04",
+    "formUUID": "c294aadf-94a6-4908-8d04-9cc4ce2b901c",
+    "programUUID": "215f4795-7d46-4617-95dd-52343f945a0f",
+    "encounterTypeUUID": "0f1d6394-1e1d-4722-95a7-892f8732e007",
+    "comment": "-Endline Form-Adolescent Program Encounter Cancellation Form-ProgramEncounterCancellation"
   }
 ]

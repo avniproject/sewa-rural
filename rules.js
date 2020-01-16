@@ -17,5 +17,6 @@ module.exports = _.merge(
     require("./adolescent/decisions/adolescentProgramSummary"),
     require("./adolescent/formFilters/AnnualVisitDecisions"),
     require("./adolescent/formFilters/QuarterlyVisitDecisions"),
-    require("./adolescent/formFilters/cancelFormFilters")
+    require("./adolescent/formFilters/cancelFormFilters"),
+    require("./adolescent/rules/eligibilityCheck")
 );

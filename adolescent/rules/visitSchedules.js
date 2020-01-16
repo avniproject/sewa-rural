@@ -86,42 +86,7 @@ const addEndlineVisit = (programEncounter, scheduleBuilder, cancelSchedule) => {
 
 
 };
-const addEndlineVisitAnnual = (programEncounter, scheduleBuilder, cancelSchedule) => {
-    const year = moment(programEncounter.encounterDateTime).year();
 
-    const earliest = moment()
-        .date(1)
-        .month(2)
-        .year(year)
-        .startOf("months");
-
-    const maxDateOfVisit = moment(earliest).add(1, 'month');
-
-    scheduleBuilder
-        .add({
-            name: `Endline Visit ${year}`,
-            encounterType: "Endline Visit",
-            earliestDate: earliest.toDate(),
-            maxDate: maxDateOfVisit.toDate()
-
-        });
-
-
-};
-
-
-@EndlineVisitSchedule("e3178743-b08c-46b1-a166-b3c70e315dd8", "Endline Visit ", 100.0)
-class EndlineVisitScheduleSR {
-    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
-        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
-
-        if (!hasExitedProgram(programEncounter)) {
-            addEndlineVisit({programEncounter}, scheduleBuilder);
-        }
-
-        return scheduleBuilder.getAllUnique("encounterType", true);
-    }
-}
 
 const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder, cancelSchedule) => {
     const dateTimeToUse = programEncounter.encounterDateTime || programEncounter.earliestVisitDateTime;
@@ -366,6 +331,40 @@ class CommonSchedule {
 
     static scheduleNextRegularVisit({programEncounter}, scheduleBuilder) {
         const visitTable = {
+
+            May: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
+            June: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
+            July: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+            August: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+            September: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+            October: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
+            November: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
+            December: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
+
+        };
+        const currentMonth = moment(programEncounter.earliestVisitDateTime).format("MMMM");
+        const nextVisit = visitTable[currentMonth];
+
+        if (nextVisit) {
+            let quarterlyVisitEarliestDate = moment()
+                .date(1)
+                .month(nextVisit.nextMonth)
+                .year(moment(programEncounter.earliestVisitDateTime).year() + nextVisit.incrementInYear)
+                .startOf("day");
+
+            scheduleBuilder.add({
+                name: nextVisit.visitType,
+                encounterType: nextVisit.visitType,
+                earliestDate: quarterlyVisitEarliestDate.toDate(),
+                maxDate: moment(quarterlyVisitEarliestDate)
+                    .add(1, "month")
+                    .toDate()
+            });
+        }
+    }
+
+    static scheduleNextRegularVisitFromEndline({programEncounter}, scheduleBuilder) {
+        const visitTable = {
             February: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
             March: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
             April: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
@@ -399,6 +398,33 @@ class CommonSchedule {
             });
         }
     }
+
+
+    static  addEndlineVisitAnnual = (programEncounter, scheduleBuilder, cancelSchedule) => {
+        const year = moment(programEncounter.encounterDateTime).year();
+
+        const earliest = moment()
+            .date(1)
+            .month(2)
+            .year(year)
+            .startOf("months");
+
+        const maxDateOfVisit = moment(earliest).add(1, 'month');
+        const currentMonth = moment().format('M');
+
+        if (currentMonth < 3) {
+            scheduleBuilder
+                .add({
+                    name: `Endline Visit ${year}`,
+                    encounterType: "Endline Visit",
+                    earliestDate: earliest.toDate(),
+                    maxDate: maxDateOfVisit.toDate()
+
+                });
+        }
+
+
+    };
 }
 
 @AnnualVisitSchedule("02c00bfd-2190-4d0a-8c1d-5d4596badc29", "Annual Visit Schedule", 100.0)
@@ -417,7 +443,7 @@ class AnnualVisitScheduleSR {
             CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
-            addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
+            CommonSchedule.addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
         }
         return scheduleBuilder.getAllUnique("encounterType", true);
     }
@@ -437,7 +463,7 @@ class QuarterlyVisitScheduleSR {
             CommonSchedule.scheduleModerateAnemiaFollowup({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
-            addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
+            CommonSchedule.addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType", true);
@@ -647,6 +673,19 @@ class SickleCellVulnerabilityFollowupSR {
 
         if (!hasExitedProgram(programEncounter)) {
             sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder);
+        }
+
+        return scheduleBuilder.getAllUnique("encounterType", true);
+    }
+}
+
+@EndlineVisitSchedule("e3178743-b08c-46b1-a166-b3c70e315dd8", "Endline Visit ", 100.0)
+class EndlineVisitScheduleSR {
+    static exec(programEncounter, visitSchedule = [], scheduleConfig) {
+        const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
+
+        if (!hasExitedProgram(programEncounter)) {
+            CommonSchedule.scheduleNextRegularVisitFromEndline({programEncounter}, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType", true);
