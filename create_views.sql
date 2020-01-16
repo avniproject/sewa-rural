@@ -513,6 +513,797 @@ select individual_id,
 from all_events
     );
 
+create or replace function sr_record_from_individual_indicator(status text, baseLineStatus text, transition text,
+                                                               transitionTo text,
+                                                               baselineYear int, lineListQuestionNumber int)
+    returns table
+            (
+                baseline_year       float,
+                baseline_status     text,
+                baseline_male       text,
+                baseline_female     text,
+                baseline            text,
+                baseline_ll         text,
+                transition_to       text,
+                endline_year1       text,
+                transition_1_male   text,
+                transition_1_female text,
+                transition1         text,
+                year_1_ll           text,
+                endline_year2       text,
+                transition_2_male   text,
+                transition_2_female text,
+                transition2         text,
+                year_2_ll           text,
+                endline_year3       text,
+                transition_3_male   text,
+                transition_3_female text,
+                transition3         text,
+                year_3_ll           text,
+                endline_year4       text,
+                transition_4_male   text,
+                transition_4_female text,
+                transition4         text,
+                year_4_ll           text,
+                endline_year5       text,
+                transition_5_male   text,
+                transition_5_female text,
+                transition5         text,
+                year_5_ll           text,
+                endline_year6       text,
+                transition_6_male   text,
+                transition_6_female text,
+                transition6         text,
+                year_6_ll           text,
+                endline_year7       text,
+                transition_7_male   text,
+                transition_7_female text,
+                transition7         text,
+                year_7_ll           text
+            )
+as
+$body$
+with data as (select baseline_year                                                                        as baseline_year,
+                     $1                                                                                   as baseline_status,
+                     count(distinct s.individual_id) filter ( where visit_number = 0 )                    as baselined_individuals,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true)                                  as baseline,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true and gender = 'Male')              as baseline_male,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true and gender = 'Female')            as baseline_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=0&baseline_year=%s', $6,
+                            $2,
+                            $5)::TEXT                                                                     as baseline_ll,
+                     $4                                                                                   as transition_to,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND visit_number = 2))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_1,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Male' and
+                                                                    (($5 = 2018 AND visit_number = 1) OR
+                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1_male,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Female' and
+                                                                    (($5 = 2018 AND visit_number = 1) OR
+                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 1 else 2 end,
+                            $5)::TEXT                                                                     as endline_1_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 2) OR ($5 <> 2018 AND visit_number = 3))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_2,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Male' and
+                                                                    (($5 = 2018 AND visit_number = 2) OR
+                                                                     ($5 <> 2018 AND visit_number = 3)) ) as transition_2_male,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Female' and
+                                                                    (($5 = 2018 AND visit_number = 2) OR
+                                                                     ($5 <> 2018 AND visit_number = 3)))  as transition_2_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 2 else 3 end,
+                            $5)::TEXT                                                                     as endline_2_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 3) OR ($5 <> 2018 AND visit_number = 4))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_3,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Male' and
+                                                                    (($5 = 2018 AND visit_number = 3) OR
+                                                                     ($5 <> 2018 AND visit_number = 4)) ) as transition_3_male,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Female' and
+                                                                    (($5 = 2018 AND visit_number = 3) OR
+                                                                     ($5 <> 2018 AND visit_number = 4)))  as transition_3_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 3 else 4 end,
+                            $5)::TEXT                                                                     as endline_3_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 4) OR ($5 <> 2018 AND visit_number = 5))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_4,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Male' and
+                                                                    (($5 = 2018 AND visit_number = 4) OR
+                                                                     ($5 <> 2018 AND visit_number = 5)) ) as transition_4_male,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Female' and
+                                                                    (($5 = 2018 AND visit_number = 4) OR
+                                                                     ($5 <> 2018 AND visit_number = 5)))  as transition_4_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 4 else 5 end,
+                            $5)::TEXT                                                                     as endline_4_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 5) OR ($5 <> 2018 AND visit_number = 6))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_5,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Male' and
+                                                                    (($5 = 2018 AND visit_number = 5) OR
+                                                                     ($5 <> 2018 AND visit_number = 6)) ) as transition_5_male,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Female' and
+                                                                    (($5 = 2018 AND visit_number = 5) OR
+                                                                     ($5 <> 2018 AND visit_number = 6)))  as transition_5_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 5 else 6 end,
+                            $5)::TEXT                                                                     as endline_5_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 6) OR ($5 <> 2018 AND visit_number = 7))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_6,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Male' and
+                                                                    (($5 = 2018 AND visit_number = 6) OR
+                                                                     ($5 <> 2018 AND visit_number = 7)) ) as transition_6_male,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Female' and
+                                                                    (($5 = 2018 AND visit_number = 6) OR
+                                                                     ($5 <> 2018 AND visit_number = 7)))  as transition_6_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 6 else 7 end,
+                            $5)::TEXT                                                                     as endline_6_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 7) OR ($5 <> 2018 AND visit_number = 8))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_7,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Male' and
+                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                     ($5 <> 2018 AND visit_number = 8)) ) as transition_7_male,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    gender = 'Female' and
+                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                     ($5 <> 2018 AND visit_number = 8)))  as transition_7_female,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 7 else 8 end,
+                            $5)::TEXT                                                                     as endline_7_ll
+
+              from sr_individual_indicator_matrix s
+              where baseline_year = $5
+              group by baseline_year)
+select baseline_year,
+       baseline_status,
+       format('%s (%s%%)', baseline_male, trunc((baseline_male::DECIMAL * 100) / baselined_individuals, 2)),
+       format('%s (%s%%)', baseline_female, trunc((baseline_female::DECIMAL * 100) / baselined_individuals, 2)),
+       format('%s (%s%%)', (baseline_male + baseline_female),
+              trunc(((baseline_male + baseline_female)::DECIMAL * 100) / baselined_individuals, 2)),
+       baseline_ll,
+       transition_to,
+       endline_year_1,
+       format('%s (%s%%)', transition_1_male, trunc((transition_1_male::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', transition_1_female, trunc((transition_1_female::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', (transition_1_female + transition_1_male),
+              trunc(((transition_1_female + transition_1_male)::DECIMAL * 100) / baseline, 2)),
+       endline_1_ll,
+       endline_year_2,
+       format('%s (%s%%)', transition_2_male, trunc((transition_2_male::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', transition_2_female, trunc((transition_2_female::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', (transition_2_female + transition_2_male),
+              trunc(((transition_2_female + transition_2_male)::DECIMAL * 100) / baseline, 2)),
+       endline_2_ll,
+       endline_year_3,
+       format('%s (%s%%)', transition_3_male, trunc((transition_3_male::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', transition_3_female, trunc((transition_3_female::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', (transition_3_female + transition_3_male),
+              trunc(((transition_3_female + transition_3_male)::DECIMAL * 100) / baseline, 2)),
+       endline_3_ll,
+       endline_year_4,
+       format('%s (%s%%)', transition_4_male, trunc((transition_4_male::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', transition_4_female, trunc((transition_4_female::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', (transition_4_female + transition_4_male),
+              trunc(((transition_4_female + transition_4_male)::DECIMAL * 100) / baseline, 2)),
+       endline_4_ll,
+       endline_year_5,
+       format('%s (%s%%)', transition_5_male, trunc((transition_5_male::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', transition_5_female, trunc((transition_5_female::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', (transition_5_female + transition_5_male),
+              trunc(((transition_5_female + transition_5_male)::DECIMAL * 100) / baseline, 2)),
+       endline_5_ll,
+       endline_year_6,
+       format('%s (%s%%)', transition_6_male, trunc((transition_6_male::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', transition_6_female, trunc((transition_6_female::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', (transition_6_female + transition_6_male),
+              trunc(((transition_6_female + transition_6_male)::DECIMAL * 100) / baseline, 2)),
+       endline_6_ll,
+       endline_year_7,
+       format('%s (%s%%)', transition_7_male, trunc((transition_7_male::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', transition_7_female, trunc((transition_7_female::DECIMAL * 100) / baseline, 2)),
+       format('%s (%s%%)', (transition_7_female + transition_7_male),
+              trunc(((transition_7_female + transition_7_male)::DECIMAL * 100) / baseline, 2)),
+       endline_7_ll
+from data d;
+$body$
+    language sql;
+
+-------------prevalence_substance_misuse_
+create or replace view sr_individual_prevalence_substance_misuse_indicator_matrix as
+(
+with partitioned_annual as (
+    SELECT i.id                                                                             individual_id,
+           row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time)           rank,
+           encounter_date_time,
+           single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8') addiction,
+           g.name                                                                           gender
+    from program_encounter enc
+             join encounter_type enct on enc.encounter_type_id = enct.id
+             join program_enrolment enl on enc.program_enrolment_id = enl.id
+             join operational_program_view op ON op.program_id = enl.program_id
+             join individual i on enl.individual_id = i.id
+             join gender g on i.gender_id = g.id
+    WHERE op.program_name = 'Adolescent'
+      AND enct.name = 'Annual Visit'
+      AND enc.encounter_date_time NOTNULL
+      and enc.is_voided = false
+      and enl.program_exit_date_time ISNULL
+      and enl.is_voided = false
+      and i.is_voided = false
+),
+     partitioned_addiction as (
+         SELECT i.id                                                                             individual_id,
+                row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time)           rank2,
+                encounter_date_time,
+                single_select_coded(enc.observations ->> '7593f241-b3c8-4b5c-8176-c9dfac3d4396') quitted
+         from program_encounter enc
+                  join encounter_type enct on enc.encounter_type_id = enct.id
+                  join program_enrolment enl on enc.program_enrolment_id = enl.id
+                  join operational_program_view op ON op.program_id = enl.program_id
+                  join individual i on enl.individual_id = i.id
+         WHERE op.program_name = 'Adolescent'
+           AND enct.name = 'Addiction Followup'
+           AND enc.encounter_date_time NOTNULL
+           and enc.is_voided = false
+           and enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+           and i.is_voided = false
+     ),
+     baseline_data (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status,
+                    endline_year)
+         as (
+         select pa.individual_id,
+                pa.gender,
+                addiction,
+                quitted,
+                extract('year' from pa.encounter_date_time),
+                0,
+                'null'::TEXT,
+                0
+         from partitioned_annual pa
+                  left join partitioned_addiction pad on pad.individual_id = pa.individual_id and pad.rank2 = 1
+         where pa.rank = 1
+     ),
+     midline_partitioned as (
+         select enc.program_enrolment_id,
+                enc.observations,
+                encounter_date_time,
+                row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
+         from program_encounter_view enc
+                  join program_enrolment enl on enc.program_enrolment_id = enl.id
+         where encounter_type_name = 'Midline Visit'
+           and enl.is_voided = false
+           and enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     midline_data(individual_id, addiction, baseline_year, visit_number, gender, endline_year) as (
+         select b.individual_id,
+
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                1               visit_number,
+                b.gender        gender,
+                baseline_year + 1
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join midline_partitioned enc on enc.program_enrolment_id = enl.id and rank = 1
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id and rank2 = 1
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_1_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+         select b.individual_id,
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                2               visit_number,
+                b.gender        gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 2
+                    else baseline_year + 1 end
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_name = 'Endline Visit'
+             and enc.is_voided = false
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
+
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_2_data(individual_id, addicted, quitted, visit_number, gender, endline_year) as (
+         select b.individual_id,
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                3               visit_number,
+                b.gender        gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 3
+                    else baseline_year + 2 end
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_name = 'Endline Visit'
+             and enc.is_voided = false
+             and extract('year' from enc.encounter_date_time) = baseline_year + 2
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_3_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+         select b.individual_id,
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                4               visit_number,
+                b.gender        gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 4
+                    else baseline_year + 3 end
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_name = 'Endline Visit'
+             and enc.is_voided = false
+             and extract('year' from enc.encounter_date_time) = baseline_year + 3
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_4_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+         select b.individual_id,
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                5               visit_number,
+                b.gender        gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 5
+                    else baseline_year + 4 end
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_name = 'Endline Visit'
+             and enc.is_voided = false
+             and extract('year' from enc.encounter_date_time) = baseline_year + 4
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_5_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+         select b.individual_id,
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                6               visit_number,
+                b.gender        gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 6
+                    else baseline_year + 5 end
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_name = 'Endline Visit'
+             and enc.is_voided = false
+             and extract('year' from enc.encounter_date_time) = baseline_year + 5
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_6_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+         select b.individual_id,
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                7               visit_number,
+                b.gender        gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 7
+                    else baseline_year + 6 end
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_name = 'Endline Visit'
+             and enc.is_voided = false
+             and extract('year' from enc.encounter_date_time) = baseline_year + 6
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_7_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+         select b.individual_id,
+                single_select_coded(enc.observations ->> '2ebca9be-3be3-4d11-ada0-187563ff04f8'),
+                enc2.quitted as quitted,
+                baseline_year,
+                8               visit_number,
+                b.gender        gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 8
+                    else baseline_year + 7 end
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_name = 'Endline Visit'
+             and enc.is_voided = false
+             and extract('year' from enc.encounter_date_time) = baseline_year + 7
+         where enl.program_exit_date_time ISNULL
+           and enl.is_voided = false
+     ),
+     endline_data
+         (individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year)
+         as
+         (select *
+          from midline_data
+          union all
+          select *
+          from endline_1_data
+          union all
+          select *
+          from endline_2_data
+          union all
+          select *
+          from endline_3_data
+          union all
+          select *
+          from endline_4_data
+          union all
+          select *
+          from endline_5_data
+          union all
+          select *
+          from endline_6_data
+          union all
+          select *
+          from endline_7_data
+         ),
+     endline_for_baseline_alcohol
+         (individual_id, gender, addiction, baseline_year, visit_number, baseline_status, endline_year)
+         as
+         (select b.individual_id,
+                 b.gender,
+                 e.addiction,
+                 e.quitted,
+                 b.baseline_year,
+                 e.visit_number,
+                 'Alcohol'::TEXT,
+                 e.endline_year
+          from baseline_data b
+                   join endline_data e on e.individual_id = b.individual_id
+          where b.addiction notnull
+            and b.addiction = 'Alcohol'
+         ),
+     endline_for_baseline_tobacco
+         (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year)
+         as
+         (select b.individual_id,
+                 b.gender,
+                 e.addiction,
+                 e.quitted,
+                 b.baseline_year,
+                 e.visit_number,
+                 'Tobacco'::TEXT,
+                 e.endline_year
+          from baseline_data b
+                   join endline_data e on e.individual_id = b.individual_id
+          where b.addiction notnull
+            and b.addiction = 'Tobacco'
+         ),
+     endline_for_baseline_both
+         (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year)
+         as
+         (select b.individual_id,
+                 b.gender,
+                 e.addiction,
+                 e.quitted,
+                 b.baseline_year,
+                 e.visit_number,
+                 'Both'::TEXT,
+                 e.endline_year
+          from baseline_data b
+                   join endline_data e on e.individual_id = b.individual_id
+          where b.addiction notnull
+            and b.addiction = 'Both'
+         ),
+
+     endline_for_baseline_noAddiction
+         (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year)
+         as
+         (select b.individual_id,
+                 b.gender,
+                 e.addiction,
+                 e.quitted,
+                 b.baseline_year,
+                 e.visit_number,
+                 'No Addiction'::TEXT,
+                 e.endline_year
+          from baseline_data b
+                   join endline_data e on e.individual_id = b.individual_id
+          where b.addiction notnull
+            and b.addiction = 'No Addiction'
+         ),
+     all_events as (select *
+                    from baseline_data
+                    union all
+                    select *
+                    from endline_for_baseline_alcohol
+                    union all
+                    select *
+                    from endline_for_baseline_tobacco
+                    union all
+                    select *
+                    from endline_for_baseline_both
+                    union all
+                    select *
+                    from endline_for_baseline_noAddiction
+     )
+
+select individual_id,
+       jsonb_build_object(
+               'baselineAlcohol', addiction NOTNULL AND addiction = 'Alcohol' AND baseline_status = 'null',
+               'baselineTobacco', addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'null',
+               'baselineBoth', addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'null',
+               'baselineNoAddiction', addiction NOTNULL AND addiction = 'No Addiction' AND baseline_status = 'null',
+
+           -------------------------------------
+               'baselineAlcoholEndlineAlcohol',
+               addiction NOTNULL AND addiction = 'Alcohol' AND baseline_status = 'Alcohol',
+               'baselineAlcoholEndlineTobacco',
+               addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'Alcohol',
+               'baselineAlcoholEndlineBoth',
+               addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'Alcohol',
+               'baselineAlcoholEndlineQuitted',
+               addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'Alcohol',
+
+           -------------------
+               'baselineTobaccoEndlineAlcohol',
+               addiction NOTNULL AND addiction = 'Alcohol' AND baseline_status = 'Tobacco',
+               'baselineTobaccoEndlineTobacco',
+               addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'Tobacco',
+               'baselineTobaccoEndlineBoth',
+               addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'Tobacco',
+               'baselineTobaccoEndlineQuitted',
+               addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'Tobacco',
+
+           ------------------
+               'baselineBothEndlineAlcohol',
+               addiction NOTNULL AND addiction = 'Alcohol' AND baseline_status = 'Both',
+               'baselineBothEndlineTobacco',
+               addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'Both',
+               'baselineBothEndlineBoth',
+               addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'Both',
+               'baselineBothEndlineQuitted',
+               addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'Both',
+
+           ----------
+               'baselineNoAddictionEndlineAlcohol',
+               addiction NOTNULL AND addiction = 'Alcohol' AND baseline_status = 'No Addiction',
+               'baselineNoAddictionEndlineTobacco',
+               addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'No Addiction',
+               'baselineNoAddictionEndlineBoth',
+               addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'No Addiction',
+               'baselineNoAddictionEndlineQuitted',
+               addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'No Addiction'
+           ) as status_map,
+       jsonb_build_object(
+               'addiction', addiction
+           ) as value_map,
+       gender,
+       baseline_year,
+       visit_number,
+       endline_year
+from all_events
+    );
+
+
+create or replace function sr_individual_prevalence_substance_misuse_indicator_matrix(status text, baseLineStatus text,
+                                                                                      transition text,
+                                                                                      transitionTo text,
+                                                                                      baselineYear int,
+                                                                                      lineListQuestionNumber int)
+    returns table
+            (
+                baseline_year   float,
+                baseline_status text,
+                baseline        text,
+                baseline_ll     text,
+                transition_to   text,
+                endline_year1   text,
+                transition1     text,
+                year_1_ll       text,
+                endline_year2   text,
+                transition2     text,
+                year_2_ll       text,
+                endline_year3   text,
+                transition3     text,
+                year_3_ll       text,
+                endline_year4   text,
+                transition4     text,
+                year_4_ll       text,
+                endline_year5   text,
+                transition5     text,
+                year_5_ll       text,
+                endline_year6   text,
+                transition6     text,
+                year_6_ll       text,
+                endline_year7   text,
+                transition7     text,
+                year_7_ll       text
+            )
+as
+$body$
+with data as (select baseline_year                                                                        as baseline_year,
+                     $1                                                                                   as baseline_status,
+                     count(distinct s.individual_id) filter ( where visit_number = 0 )                    as baselined_individuals,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true)                                  as baseline,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=0&baseline_year=%s', $6,
+                            $2,
+                            $5)::TEXT                                                                     as baseline_ll,
+                     $4                                                                                   as transition_to,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND visit_number = 2))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_1,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 1) OR
+                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 1 else 2 end,
+                            $5)::TEXT                                                                     as endline_1_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 2) OR ($5 <> 2018 AND visit_number = 3))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_2,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 2) OR
+                                                                     ($5 <> 2018 AND visit_number = 3)) ) as transition_2,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 2 else 3 end,
+                            $5)::TEXT                                                                     as endline_2_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 3) OR ($5 <> 2018 AND visit_number = 4))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_3,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 3) OR
+                                                                     ($5 <> 2018 AND visit_number = 4)) ) as transition_3,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 3 else 4 end,
+                            $5)::TEXT                                                                     as endline_3_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 4) OR ($5 <> 2018 AND visit_number = 5))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_4,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 4) OR
+                                                                     ($5 <> 2018 AND visit_number = 5)) ) as transition_4,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 4 else 5 end,
+                            $5)::TEXT                                                                     as endline_4_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 5) OR ($5 <> 2018 AND visit_number = 6))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_5,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 5) OR
+                                                                     ($5 <> 2018 AND visit_number = 6)) ) as transition_5,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 5 else 6 end,
+                            $5)::TEXT                                                                     as endline_5_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 6) OR ($5 <> 2018 AND visit_number = 7))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_6,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 6) OR
+                                                                     ($5 <> 2018 AND visit_number = 7)) ) as transition_6,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 6 else 7 end,
+                            $5)::TEXT                                                                     as endline_6_ll,
+                     coalesce((json_object_agg('year', endline_year)
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 7) OR ($5 <> 2018 AND visit_number = 8))) ->>
+                              'year',
+                              'NA')                                                                       as endline_year_7,
+                     count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
+                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                     ($5 <> 2018 AND visit_number = 8)) ) as transition_7,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
+                            $3,
+                            case when $5 = 2018 then 7 else 8 end,
+                            $5)::TEXT                                                                     as endline_7_ll
+
+              from sr_individual_prevalence_substance_misuse_indicator_matrix s
+              where baseline_year = $5
+              group by baseline_year)
+select baseline_year,
+       baseline_status,
+       format('%s (%s%%)', baseline, trunc((baseline::DECIMAL * 100) / nullif(baselined_individuals, 0), 2)),
+       baseline_ll,
+       transition_to,
+       endline_year_1,
+       format('%s (%s%%)', transition_1, trunc((transition_1::DECIMAL * 100) / nullif(baseline, 0), 2)),
+       endline_1_ll,
+       endline_year_2,
+       format('%s (%s%%)', transition_2, trunc((transition_2::DECIMAL * 100) / nullif(baseline, 0), 2)),
+       endline_2_ll,
+       endline_year_3,
+       format('%s (%s%%)', transition_3, trunc((transition_3::DECIMAL * 100) / nullif(baseline, 0), 2)),
+       endline_3_ll,
+       endline_year_4,
+       format('%s (%s%%)', transition_4, trunc((transition_4::DECIMAL * 100) / nullif(baseline, 0), 2)),
+       endline_4_ll,
+       endline_year_5,
+       format('%s (%s%%)', transition_5, trunc((transition_5::DECIMAL * 100) / nullif(baseline, 0), 2)),
+       endline_5_ll,
+       endline_year_6,
+       format('%s (%s%%)', transition_6, trunc((transition_6::DECIMAL * 100) / nullif(baseline, 0), 2)),
+       endline_6_ll,
+       endline_year_7,
+       format('%s (%s%%)', transition_7, trunc((transition_7::DECIMAL * 100) / nullif(baseline, 0), 2)),
+       endline_7_ll
+from data d;
+$body$
+    language sql;
+
 
 ------views and functions for Menstrual Hygiene Practices  reports
 create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
@@ -583,7 +1374,10 @@ with partitioned_annual as (
                 baseline_year,
                 2        visit_number,
                 b.gender gender,
-                baseline_year + 1
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 2
+                    else baseline_year + 1 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -599,7 +1393,10 @@ with partitioned_annual as (
                 baseline_year,
                 3        visit_number,
                 b.gender gender,
-                baseline_year + 2
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 3
+                    else baseline_year + 2 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -615,7 +1412,10 @@ with partitioned_annual as (
                 baseline_year,
                 4        visit_number,
                 b.gender gender,
-                baseline_year + 3
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 4
+                    else baseline_year + 3 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -631,7 +1431,10 @@ with partitioned_annual as (
                 baseline_year,
                 5        visit_number,
                 b.gender gender,
-                baseline_year + 4
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 5
+                    else baseline_year + 4 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -647,7 +1450,10 @@ with partitioned_annual as (
                 baseline_year,
                 6        visit_number,
                 b.gender gender,
-                baseline_year + 5
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 6
+                    else baseline_year + 5 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -663,7 +1469,10 @@ with partitioned_annual as (
                 baseline_year,
                 7        visit_number,
                 b.gender gender,
-                baseline_year + 6
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 7
+                    else baseline_year + 6 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -679,7 +1488,10 @@ with partitioned_annual as (
                 baseline_year,
                 8        visit_number,
                 b.gender gender,
-                baseline_year + 7
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 8
+                    else baseline_year + 7 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -1292,17 +2104,22 @@ select individual_id,
                'baselineGoing', schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'null',
                'baselinedataNotCapture', schoolGoing ISNULL AND baseline_status = 'null',
            -----DropuOut---------
-               'baselinedropOutEndlinedropOut',schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Dropped Out',
-               'baselinedropOutEndlineGoing', schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'Dropped Out',
-               'baselinedropOutEndlineNotCapture',schoolGoing ISNULL AND baseline_status = 'Dropped Out'
+               'baselinedropOutEndlinedropOut',
+               schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Dropped Out',
+               'baselinedropOutEndlineGoing',
+               schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'Dropped Out',
+               'baselinedropOutEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Dropped Out'
            -----SchooGoing----------
-               'baselineGoingEndlinedropOut',schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Going',
+               'baselineGoingEndlinedropOut',
+               schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Going',
                'baselineGoingEndlineGoing', schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'Going',
-               'baselineGoingEndlineNotCapture',schoolGoing ISNULL AND baseline_status = 'Going'
+               'baselineGoingEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Going'
            ------DataNotCapture--------
-               'baselineNotCaptureEndlinedropOut',schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'NotCapture',
-               'baselineNotCaptureEndlineGoing', schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'NotCapture',
-               'baselineNotCaptureEndlineNotCapture',schoolGoing ISNULL AND baseline_status = 'NotCapture'
+               'baselineNotCaptureEndlinedropOut',
+               schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Data Not Capture',
+               'baselineNotCaptureEndlineGoing',
+               schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'Data Not Capture',
+               'baselineNotCaptureEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Data Not Capture'
            ) as status_map,
        jsonb_build_object(
                'schoolGoing', schoolGoing
@@ -1550,6 +2367,523 @@ select baseline_year,
 from data d;
 $body$
     language sql;
+
+
+--------Chronic Sickness-------------
+
+create or replace view sr_chronic_sickness_matrix as
+(
+with partitioned_annual as (
+    SELECT i.id                                                                    individual_id,
+           row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time)  rank,
+           encounter_date_time,
+           multi_select_coded(
+                   enc.observations -> 'b00a5ea2-e09c-43aa-b514-ac3c50474647')  as sickness,
+           single_select_coded(
+                   enc.observations ->> '575a29c3-a070-4c7d-ac96-fe58b6bddca3') as schoolGoing,
+           g.name                                                                  gender
+    from program_encounter enc
+             join encounter_type enct on enc.encounter_type_id = enct.id
+             join program_enrolment enl on enc.program_enrolment_id = enl.id
+             join operational_program_view op ON op.program_id = enl.program_id
+             join individual i on enl.individual_id = i.id
+             join gender g on i.gender_id = g.id
+    WHERE op.program_name = 'Adolescent'
+      AND (enct.name = 'Annual Visit' or enct.name = 'Quarterly Visit')
+      and multi_select_coded(
+                  enc.observations -> 'b00a5ea2-e09c-43aa-b514-ac3c50474647') != 'No problem'
+      and multi_select_coded(
+            enc.observations -> 'b00a5ea2-e09c-43aa-b514-ac3c50474647') notnull
+      AND enc.encounter_date_time NOTNULL
+      and enc.is_voided = false
+      and enl.program_exit_date_time ISNULL
+      and enl.is_voided = false
+      and i.is_voided = false
+),
+     partitioned_hospital_data as (
+         select individual_id,
+                single_select_coded(
+                        enc.observations ->> 'f96ee9f1-5035-4cbc-87f2-be3c6a19463f')             as hospitalvisited,
+                single_select_coded(
+                        enc.observations ->> '03400ffc-68ab-4b1e-9f45-0a38ce52ca41')             as Treatment,
+                single_select_coded(
+                        enc.observations ->> '56d43609-c80f-4ed9-8d6e-0feb8e05e368')             as cured,
+                single_select_coded(
+                        enc.observations ->> 'f6f45dde-274c-452b-9d40-ee3993303ab6')             as Reason,
+                enl.enrolment_date_time                                                          as enrolmentDate,
+                row_number() over (partition by individual_id order by encounter_date_time desc) as rank2
+         from completed_program_encounter_view enc
+                  join program_enrolment_view enl on enc.program_enrolment_id = enl.id
+         where enc.encounter_type_name = 'Chronic Sickness Followup'
+           and enl.program_exit_date_time isnull
+     ),
+     baseline_data (individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured, Treatment,
+                    baseline_year, visit_number, baseline_status,
+                    endline_year)
+         as (
+         select pa.individual_id,
+                pa.gender,
+                pa.schoolGoing,
+                pa.sickness,
+                phd.hospitalvisited,
+                phd.Reason,
+                phd.cured,
+                phd.Treatment,
+                extract('year' from phd.enrolmentDate),
+                0,
+                'null'::TEXT,
+                0
+         from partitioned_annual pa
+                  join partitioned_hospital_data phd on phd.individual_id = pa.individual_id and rank2 = 1
+         where rank = 1
+     ),
+
+     endline_for_baseline_heartProblem
+         (individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured, Treatment, baseline_year,
+          visit_number, baseline_status,
+          endline_year)
+         as
+         (select b.individual_id,
+                 b.gender,
+                 b.schoolGoing,
+                 b.sickness,
+                 b.hospitalvisited,
+                 b.Reason,
+                 b.cured,
+                 b.Treatment,
+
+                 b.baseline_year,
+                 0,
+                 'Heart problem'::TEXT,
+                 0
+          from baseline_data b
+
+          where b.sickness NOTNULL
+            AND b.sickness = 'Heart problem'
+         ),
+     endline_for_baseline_kidneyProblem(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured,
+                                        Treatment, baseline_year, visit_number, baseline_status,
+                                        endline_year) as (
+         select b.individual_id,
+                b.gender,
+                b.schoolGoing,
+                b.sickness,
+                b.hospitalvisited,
+                b.Reason,
+                b.cured,
+                b.Treatment,
+
+                b.baseline_year,
+                0,
+                'Kidney problem'::TEXT,
+                0
+         from baseline_data b
+
+         where b.sickness NOTNULL
+           AND b.sickness = 'Kidney problem'
+     ),
+     endline_for_baseline_sickleCellDisease(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason,
+                                            cured, Treatment, baseline_year, visit_number, baseline_status,
+                                            endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.schoolGoing,
+                b.sickness,
+                b.hospitalvisited,
+                b.Reason,
+                b.cured,
+                b.Treatment,
+
+                b.baseline_year,
+                0,
+                'Sickle cell disease'::TEXT,
+                0
+         from baseline_data b
+
+         where b.sickness NOTNULL
+           AND b.sickness = 'Sickle cell disease'
+     ),
+     endline_for_baseline_epilepsy(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured,
+                                   Treatment, baseline_year, visit_number, baseline_status,
+                                   endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.schoolGoing,
+                b.sickness,
+                b.hospitalvisited,
+                b.Reason,
+                b.cured,
+                b.Treatment,
+
+                b.baseline_year,
+                0,
+                'Epilepsy'::TEXT,
+                0
+         from baseline_data b
+
+         where b.sickness NOTNULL
+           AND b.sickness = 'Epilepsy'
+     ),
+     endline_for_baseline_other(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured, Treatment,
+                                baseline_year, visit_number, baseline_status,
+                                endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.schoolGoing,
+                b.sickness,
+                b.hospitalvisited,
+                b.Reason,
+                b.cured,
+                b.Treatment,
+
+                b.baseline_year,
+                0,
+                'Other'::TEXT,
+                0
+         from baseline_data b
+
+         where b.sickness NOTNULL
+           AND b.sickness = 'Other'
+     ),
+     all_events as (select *
+                    from baseline_data
+                    union all
+                    select *
+                    from endline_for_baseline_heartProblem
+                    union all
+                    select *
+                    from endline_for_baseline_kidneyProblem
+                    union all
+                    select *
+                    from endline_for_baseline_sickleCellDisease
+                    union all
+                    select *
+                    from endline_for_baseline_epilepsy
+                    union all
+                    select *
+                    from endline_for_baseline_other
+     )
+
+select individual_id,
+       jsonb_build_object(
+               'baselineHeartProblem', sickness NOTNULL AND sickness = 'Heart problem' AND baseline_status = 'null',
+               'baselineKidneyProblem', sickness NOTNULL AND sickness = 'Kidney problem' AND baseline_status = 'null',
+               'baselineSickleCellDisease',
+               sickness NOTNULL AND sickness = 'Sickle cell disease' AND baseline_status = 'null',
+               'baselineEpilepsy', sickness NOTNULL and sickness = 'Epilepsy' AND baseline_status = 'null',
+               'baselineOther', sickness NOTNULL and sickness = 'Other' AND baseline_status = 'null',
+           ) as status_map,
+       jsonb_build_object(
+               'sickness', sickness
+           ) as value_map,
+       gender,
+       baseline_year,
+       visit_number,
+       endline_year
+from all_events
+    );
+
+create or replace function sr_record_from_chronic_sickness(status text, baseLineStatus text, transition text,
+                                                           transitionTo text,
+                                                           baselineYear int, lineListQuestionNumber int)
+    returns table
+            (
+                baseline_year   float,
+                baseline_status text,
+                baseline_male   text,
+                baseline_female text,
+                baseline_other  text,
+                baseline        text,
+                baseline_ll     text
+
+            )
+as
+$body$
+with data as (select baseline_year                                                             as baseline_year,
+                     $1                                                                        as baseline_status,
+                     count(distinct s.individual_id) filter ( where visit_number = 0 )         as baselined_individuals,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true)                       as baseline,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true and gender = 'Male')   as baseline_male,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true and gender = 'Female') as baseline_female,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true and gender = 'Other')  as baseline_other,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=0&baseline_year=%s', $6,
+                            $2,
+                            $5)::TEXT                                                          as baseline_ll
+
+              from sr_chronic_sickness_matrix s
+              where baseline_year = $5
+              group by baseline_year)
+select baseline_year,
+       baseline_status,
+       format('%s (%s%%)', baseline_male, trunc((baseline_male::DECIMAL * 100) / baselined_individuals, 2)),
+       format('%s (%s%%)', baseline_female, trunc((baseline_female::DECIMAL * 100) / baselined_individuals, 2)),
+       format('%s (%s%%)', baseline_other, trunc((baseline_other::DECIMAL * 100) / baselined_individuals, 2)),
+       format('%s (%s%%)', (baseline_male + baseline_female + baseline_other),
+              trunc(((baseline_male + baseline_female + baseline_other)::DECIMAL * 100) / baselined_individuals, 2)),
+       baseline_ll
+
+from data d;
+$body$
+    language sql;
+
+
+--------Adolescent with Menstrual Disorder-------------
+create or replace view sr_menstrual_disorder_matrix as
+(
+with partitioned_annual as (
+    SELECT i.id                                                                   individual_id,
+           row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time) rank,
+           encounter_date_time,
+           multi_select_coded(
+                       enc.observations -> '0f87eac1-cf6a-4632-8af2-29a935451fe4') as disorder,
+           g.name                                                                 gender,
+           enl.enrolment_date_time
+    from program_encounter enc
+             join encounter_type enct on enc.encounter_type_id = enct.id
+             join program_enrolment enl on enc.program_enrolment_id = enl.id
+             join operational_program_view op ON op.program_id = enl.program_id
+             join individual i on enl.individual_id = i.id
+             join gender g on i.gender_id = g.id
+    WHERE op.program_name = 'Adolescent'
+      AND (enct.name = 'Annual Visit' or enct.name = 'Quarterly Visit')
+      and multi_select_coded(
+                enc.observations -> '0f87eac1-cf6a-4632-8af2-29a935451fe4') notnull
+      and multi_select_coded(enc.observations -> '0f87eac1-cf6a-4632-8af2-29a935451fe4') !=
+          'No problem'
+      AND enc.encounter_date_time NOTNULL
+      and enc.is_voided = false
+      and enl.program_exit_date_time ISNULL
+      and enl.is_voided = false
+      and i.is_voided = false
+),
+
+     baseline_data (individual_id, gender, disorder, baseline_year, visit_number, baseline_status,
+                    endline_year)
+         as (
+         select pa.individual_id,
+                pa.gender,
+                pa.disorder,
+                extract('year' from pa.enrolment_date_time),
+                0,
+                'null'::TEXT,
+                0
+         from partitioned_annual pa
+
+         where rank = 1
+     ),
+
+     endline_for_baseline_lowerAbdominalPain
+         (individual_id, gender, disorder, baseline_year, visit_number, baseline_status,
+          endline_year)
+         as
+         (select b.individual_id,
+                 b.gender,
+                 b.disorder,
+                 b.baseline_year,
+                 0,
+                 'Lower abdominal pain'::TEXT,
+                 0
+          from baseline_data b
+
+          where b.disorder NOTNULL
+            AND b.disorder like '%Lower abdominal pain%'
+         ),
+     endline_for_baseline_Backache(individual_id, gender, disorder, baseline_year, visit_number, baseline_status,
+                                   endline_year) as (
+         select b.individual_id,
+                b.gender,
+                b.disorder,
+                b.baseline_year,
+                0,
+                'Backache'::TEXT,
+                0
+         from baseline_data b
+         where b.disorder NOTNULL
+           AND b.disorder like '%Backache%'
+     ),
+     endline_for_baseline_legPain(individual_id, gender, disorder, baseline_year, visit_number,
+                                  baseline_status,
+                                  endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.disorder,
+                b.baseline_year,
+                0,
+                'Leg pain'::TEXT,
+                0
+         from baseline_data b
+         where b.disorder NOTNULL
+           AND b.disorder like '%Leg pain%'
+     ),
+     endline_for_baseline_nauseaAndVomiting(individual_id, gender, disorder, baseline_year, visit_number,
+                                            baseline_status,
+                                            endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.disorder,
+                b.baseline_year,
+                0,
+                'Nausea and vomiting'::TEXT,
+                0
+         from baseline_data b
+         where b.disorder NOTNULL
+           AND b.disorder like '%Nausea and vomiting%'
+     ),
+     endline_for_baseline_Headache(individual_id, gender, disorder, baseline_year, visit_number, baseline_status,
+                                   endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.disorder,
+                b.baseline_year,
+                0,
+                'Headache'::TEXT,
+                0
+         from baseline_data b
+         where b.disorder NOTNULL
+           AND b.disorder like '%Headache%'
+     ),
+     endline_for_baseline_abnormalVaginalDischarge(individual_id, gender, disorder, baseline_year, visit_number,
+                                                   baseline_status,
+                                                   endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.disorder,
+                b.baseline_year,
+                0,
+                'Abnormal vaginal discharge'::TEXT,
+                0
+         from baseline_data b
+         where b.disorder NOTNULL
+           AND b.disorder like '%Abnormal vaginal discharge%'
+     ),
+     endline_for_baseline_heavyBleeding(individual_id, gender, disorder, baseline_year, visit_number, baseline_status,
+                                        endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.disorder,
+                b.baseline_year,
+                0,
+                'Heavy bleeding'::TEXT,
+                0
+         from baseline_data b
+         where b.disorder NOTNULL
+           AND b.disorder like '%Heavy bleeding%'
+     ),
+     endline_for_baseline_irregularMenses(individual_id, gender, disorder, baseline_year, visit_number, baseline_status,
+                                          endline_year)
+         as (
+         select b.individual_id,
+                b.gender,
+                b.disorder,
+                b.baseline_year,
+                0,
+                'Irregular menses'::TEXT,
+                0
+         from baseline_data b
+         where b.disorder NOTNULL
+           AND b.disorder like '%Irregular menses%'
+     ),
+     all_events as (select *
+                    from baseline_data
+                    union all
+                    select *
+                    from endline_for_baseline_lowerAbdominalPain
+                    union all
+                    select *
+                    from endline_for_baseline_Backache
+                    union all
+                    select *
+                    from endline_for_baseline_legPain
+                    union all
+                    select *
+                    from endline_for_baseline_nauseaAndVomiting
+                    union all
+                    select *
+                    from endline_for_baseline_Headache
+                    union all
+                    select *
+                    from endline_for_baseline_abnormalVaginalDischarge
+                    union all
+                    select *
+                    from endline_for_baseline_heavyBleeding
+                    union all
+                    select *
+                    from endline_for_baseline_irregularMenses
+     )
+
+select individual_id,
+       jsonb_build_object(
+               'baselinelowerAbdominalPain',
+               disorder NOTNULL AND disorder like '%Lower abdominal pain%' AND baseline_status = 'null',
+               'baselineBackache', disorder NOTNULL AND disorder like '%Backache%' AND baseline_status = 'null',
+               'baselinelegPain',
+               disorder NOTNULL AND disorder like '%Leg pain%' AND baseline_status = 'null',
+               'baselinenauseaAndVomiting',
+               disorder NOTNULL and disorder like '%Nausea and vomiting%' AND baseline_status = 'null',
+               'baselineHeadache', disorder NOTNULL and disorder like '%Headache%' AND baseline_status = 'null',
+               'baselineabnormalVaginalDischarge',
+               disorder NOTNULL and disorder like '%Abnormal vaginal discharge%' AND baseline_status = 'null',
+               'baselineheavyBleeding',
+               disorder NOTNULL and disorder like '%Heavy bleeding%' AND baseline_status = 'null',
+               'baselineirregularMenses',
+               disorder NOTNULL and disorder like '%Irregular menses%' AND baseline_status = 'null'
+           ) as status_map,
+       jsonb_build_object(
+               'disorder', disorder
+           ) as value_map,
+       gender,
+       baseline_year,
+       visit_number,
+       endline_year
+from all_events
+    );
+
+create or replace function sr_record_from_menstrual_disorder_matrix(status text, baseLineStatus text, transition text,
+                                                                    transitionTo text,
+                                                                    baselineYear int, lineListQuestionNumber int)
+    returns table
+            (
+                baseline_year   float,
+                baseline_status text,
+                baseline        text,
+                baseline_ll     text
+
+            )
+as
+$body$
+with data as (select baseline_year                                                     as baseline_year,
+                     $1                                                                as baseline_status,
+                     count(distinct s.individual_id) filter ( where visit_number = 0 ) as baselined_individuals,
+                     count(distinct s.individual_id)
+                     filter ( where (status_map ->> $2)::boolean = true)               as baseline,
+                     format('https://reporting.openchs.org/question/%s?status=%s&visit_number=0&baseline_year=%s', $6,
+                            $2,
+                            $5)::TEXT                                                  as baseline_ll
+
+              from sr_menstrual_disorder_matrix s
+              where baseline_year = $5
+              group by baseline_year)
+select baseline_year,
+       baseline_status,
+       format('%s (%s%%)', baseline, trunc((baseline::DECIMAL * 100) / baselined_individuals, 2)),
+       baseline_ll
+
+from data d;
+$body$
+    language sql;
+
 
 create table sr_enrolment_year
 (
