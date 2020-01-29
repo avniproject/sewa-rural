@@ -2108,12 +2108,12 @@ select individual_id,
                schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Dropped Out',
                'baselinedropOutEndlineGoing',
                schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'Dropped Out',
-               'baselinedropOutEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Dropped Out'
+               'baselinedropOutEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Dropped Out',
            -----SchooGoing----------
                'baselineGoingEndlinedropOut',
                schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Going',
                'baselineGoingEndlineGoing', schoolGoing NOTNULL AND schoolGoing = 'Yes' AND baseline_status = 'Going',
-               'baselineGoingEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Going'
+               'baselineGoingEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Going',
            ------DataNotCapture--------
                'baselineNotCaptureEndlinedropOut',
                schoolGoing NOTNULL AND schoolGoing = 'Dropped Out' AND baseline_status = 'Data Not Capture',
