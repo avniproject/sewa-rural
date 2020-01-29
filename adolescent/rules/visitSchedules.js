@@ -64,29 +64,6 @@ const addDropoutHomeVisits = (programEncounter, scheduleBuilder, cancelSchedule)
     }
 };
 
-const addEndlineVisit = (programEncounter, scheduleBuilder, cancelSchedule) => {
-    const year = moment(programEncounter.encounterDateTime).year();
-
-    const earliest = moment()
-        .date(1)
-        .month(2)
-        .year(year + 1)
-        .startOf("months");
-
-    const maxDateOfVisit = moment(earliest).add(1, 'month');
-
-    scheduleBuilder
-        .add({
-            name: `Endline Visit ${year + 1}`,
-            encounterType: "Endline Visit",
-            earliestDate: earliest.toDate(),
-            maxDate: maxDateOfVisit.toDate()
-
-        });
-
-
-};
-
 
 const addDropoutFollowUpVisits = (programEncounter, scheduleBuilder, cancelSchedule) => {
     const dateTimeToUse = programEncounter.encounterDateTime || programEncounter.earliestVisitDateTime;
@@ -177,8 +154,7 @@ const getNextScheduledVisits = function (programEncounter) {
 
     addDropoutHomeVisits(programEncounter, scheduleBuilder);
     addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
-
-    return scheduleBuilder.getAllUnique("encounterType", true);
+    return scheduleBuilder.getAllUnique("encounterType");
 };
 
 const DropoutVisitSchedule = RuleFactory("54636d6b-33bf-4faf-9397-eb3b1d9b1792", "VisitSchedule");
@@ -486,7 +462,10 @@ const scheduleChronicSicknessFollowupSchedule = ({programEncounter}, scheduleBui
 class ChronicSicknessFollowupScheduleSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
         const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
-        if (!hasExitedProgram(programEncounter)) {
+        if (!hasExitedProgram(programEncounter) &&
+            new RuleCondition({programEncounter})
+                .when.valueInEncounter('Whether condition cured')
+                .is.no.matches()) {
             scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder);
         }
 
@@ -511,7 +490,10 @@ class MenstrualDisorderFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
         const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
-        if (!hasExitedProgram(programEncounter)) {
+        if (!hasExitedProgram(programEncounter) &&
+            new RuleCondition({programEncounter})
+                .when.valueInEncounter("Remains absent due to menstrual problem")
+                .is.yes.matches()) {
             scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
         }
 
@@ -595,7 +577,10 @@ class ModerateAnemiaFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
         const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
-        if (!hasExitedProgram(programEncounter)) {
+        if (!hasExitedProgram(programEncounter) &&
+            new RuleCondition({programEncounter}).when
+                .valueInEncounter("HB after 3 months of treatment")
+                .is.lessThanOrEqualTo(10).matches()) {
             moderateAnemiaFollowup({programEncounter}, scheduleBuilder);
         }
 
@@ -646,7 +631,10 @@ class AddictionVulnerabilityFollowupSR {
     static exec(programEncounter, visitSchedule = [], scheduleConfig) {
         const scheduleBuilder = new VisitScheduleBuilder({programEncounter});
 
-        if (!hasExitedProgram(programEncounter)) {
+        if (!hasExitedProgram(programEncounter) &&
+            new RuleCondition({programEncounter})
+                .when.valueInEncounter('Knowing about hazards of tobacco have you quit tobacco/alcohol')
+                .is.no.matches()) {
             addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
         }
 
@@ -727,9 +715,15 @@ class VisitRescheduleOnCancelSR {
                     addDropoutHomeVisits(programEncounter, scheduleBuilder, true);
                     break;
                 case 'Quarterly Visit':
+                    CommonSchedule.addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
+                    break;
                 case 'Annual Visit':
                     CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
+                    CommonSchedule.addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
                     break;
+                case 'Endline Visit':
+                    CommonSchedule.scheduleNextRegularVisitFromEndline({programEncounter}, scheduleBuilder);
+                    break
             }
         }
 
