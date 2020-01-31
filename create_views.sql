@@ -771,7 +771,7 @@ with partitioned_annual as (
 ),
      partitioned_addiction as (
          SELECT i.id                                                                             individual_id,
-                row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time)           rank2,
+                row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time desc)           rank2,
                 encounter_date_time,
                 single_select_coded(enc.observations ->> '7593f241-b3c8-4b5c-8176-c9dfac3d4396') quitted
          from program_encounter enc
@@ -825,9 +825,11 @@ with partitioned_annual as (
                 baseline_year + 1
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
-                  left join midline_partitioned enc on enc.program_enrolment_id = enl.id and rank = 1
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id and rank2 = 1
+                  left join midline_partitioned enc on enc.program_enrolment_id = enl.id
              and extract('year' from enc.encounter_date_time) = baseline_year + 1
+             and rank = 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
 
          where enl.program_exit_date_time ISNULL
            and enl.is_voided = false
@@ -846,10 +848,10 @@ with partitioned_annual as (
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
              and enc.encounter_type_name = 'Endline Visit'
              and enc.is_voided = false
              and extract('year' from enc.encounter_date_time) = baseline_year + 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
              and extract('year' from enc2.encounter_date_time) = baseline_year + 1
 
          where enl.program_exit_date_time ISNULL
@@ -868,12 +870,12 @@ with partitioned_annual as (
                     else baseline_year + 2 end
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
-
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
              and enc.encounter_type_name = 'Endline Visit'
              and enc.is_voided = false
-             and extract('year' from enc.encounter_date_time) = baseline_year + 2
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
          where enl.program_exit_date_time ISNULL
            and enl.is_voided = false
      ),
@@ -891,10 +893,11 @@ with partitioned_annual as (
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
              and enc.encounter_type_name = 'Endline Visit'
              and enc.is_voided = false
-             and extract('year' from enc.encounter_date_time) = baseline_year + 3
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
          where enl.program_exit_date_time ISNULL
            and enl.is_voided = false
      ),
@@ -912,10 +915,11 @@ with partitioned_annual as (
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
              and enc.encounter_type_name = 'Endline Visit'
              and enc.is_voided = false
-             and extract('year' from enc.encounter_date_time) = baseline_year + 4
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
          where enl.program_exit_date_time ISNULL
            and enl.is_voided = false
      ),
@@ -933,10 +937,11 @@ with partitioned_annual as (
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
              and enc.encounter_type_name = 'Endline Visit'
              and enc.is_voided = false
-             and extract('year' from enc.encounter_date_time) = baseline_year + 5
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
          where enl.program_exit_date_time ISNULL
            and enl.is_voided = false
      ),
@@ -954,10 +959,11 @@ with partitioned_annual as (
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
              and enc.encounter_type_name = 'Endline Visit'
              and enc.is_voided = false
-             and extract('year' from enc.encounter_date_time) = baseline_year + 6
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
          where enl.program_exit_date_time ISNULL
            and enl.is_voided = false
      ),
@@ -975,10 +981,11 @@ with partitioned_annual as (
          from baseline_data b
                   left join program_enrolment enl on enl.individual_id = b.individual_id
                   left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                  left join partitioned_addiction enc2 on enc.program_enrolment_id = enl.id
              and enc.encounter_type_name = 'Endline Visit'
              and enc.is_voided = false
-             and extract('year' from enc.encounter_date_time) = baseline_year + 7
+             and extract('year' from enc.encounter_date_time) = baseline_year + 1
+                  left join partitioned_addiction enc2 on enc2.individual_id = enl.individual_id and rank2 = 1
+             and extract('year' from enc2.encounter_date_time) = baseline_year + 1
          where enl.program_exit_date_time ISNULL
            and enl.is_voided = false
      ),
@@ -1106,6 +1113,10 @@ select individual_id,
                addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'Alcohol',
                'baselineAlcoholEndlineQuitted',
                addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'Alcohol',
+               'baselineAlcoholEndlineNoAddiction',
+               addiction NOTNULL AND addiction = 'No Addiction' AND baseline_status = 'Alcohol',
+                'baselineAlcoholEndlineDataNotCapture',
+               addiction ISNULL AND baseline_status = 'Alcohol',
 
            -------------------
                'baselineTobaccoEndlineAlcohol',
@@ -1114,8 +1125,12 @@ select individual_id,
                addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'Tobacco',
                'baselineTobaccoEndlineBoth',
                addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'Tobacco',
+               'baselineTobaccoEndlineNoAddiction',
+               addiction NOTNULL AND addiction = 'No Addiction' AND baseline_status = 'Tobacco',
                'baselineTobaccoEndlineQuitted',
                addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'Tobacco',
+                'baselineTobaccoEndlineDataNotCapture',
+               addiction ISNULL AND baseline_status = 'Tobacco',
 
            ------------------
                'baselineBothEndlineAlcohol',
@@ -1124,8 +1139,12 @@ select individual_id,
                addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'Both',
                'baselineBothEndlineBoth',
                addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'Both',
+               'baselineBothEndlineNoAddiction',
+               addiction NOTNULL AND addiction = 'No Addiction' AND baseline_status = 'Both',
                'baselineBothEndlineQuitted',
                addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'Both',
+                'baselineBothEndlineDataNotCapture',
+               addiction ISNULL AND baseline_status = 'Both',
 
            ----------
                'baselineNoAddictionEndlineAlcohol',
@@ -1134,8 +1153,12 @@ select individual_id,
                addiction NOTNULL AND addiction = 'Tobacco' AND baseline_status = 'No Addiction',
                'baselineNoAddictionEndlineBoth',
                addiction NOTNULL AND addiction = 'Both' AND baseline_status = 'No Addiction',
+               'baselineNoAddictionEndlineNoAddiction',
+               addiction NOTNULL AND addiction = 'No Addiction' AND baseline_status = 'No Addiction',
                'baselineNoAddictionEndlineQuitted',
-               addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'No Addiction'
+               addiction NOTNULL AND quitted = 'Yes' AND baseline_status = 'No Addiction',
+                'baselineNoAddictionEndlineDataNotCapture',
+               addiction ISNULL AND baseline_status = 'No Addiction'
            ) as status_map,
        jsonb_build_object(
                'addiction', addiction
@@ -1541,7 +1564,7 @@ with partitioned_annual as (
           from baseline_data b
                    join endline_data e on e.individual_id = b.individual_id
           where b.material NOTNULL
-            AND b.material = 'Falalin'
+            AND b.material like '%Falalin%'
          ),
      endline_for_baseline_sanitary_pad(individual_id, gender, material, baseline_year, visit_number,
                                        baseline_status, endline_year) as (
@@ -1555,7 +1578,7 @@ with partitioned_annual as (
          from baseline_data b
                   join endline_data e on e.individual_id = b.individual_id
          where b.material NOTNULL
-           AND b.material = 'Sanitary pad'
+           AND b.material like '%Sanitary pad%'
      ),
      endline_for_baseline_old_cloth(individual_id, gender, material, baseline_year, visit_number, baseline_status,
                                     endline_year)
@@ -1570,7 +1593,7 @@ with partitioned_annual as (
          from baseline_data b
                   join endline_data e on e.individual_id = b.individual_id
          where b.material NOTNULL
-           AND b.material = 'Old cloth'
+           AND b.material like '%Old cloth%'
      ),
      endline_for_baseline_kit_pad(individual_id, gender, material, baseline_year, visit_number, baseline_status,
                                   endline_year)
@@ -1585,7 +1608,7 @@ with partitioned_annual as (
          from baseline_data b
                   join endline_data e on e.individual_id = b.individual_id
          where b.material NOTNULL
-           AND b.material = 'Kit pad'
+           AND b.material like '%Kit pad%'
      ),
      all_events as (select *
                     from baseline_data
@@ -1604,49 +1627,49 @@ with partitioned_annual as (
 
 select individual_id,
        jsonb_build_object(
-               'baselineFalalin', material NOTNULL AND material = 'Falalin' AND baseline_status = 'null',
-               'baselineSanitary', material NOTNULL AND material = 'Sanitary pad' AND baseline_status = 'null',
-               'baselineOldCloth', material NOTNULL AND material = 'Old cloth' AND baseline_status = 'null',
-               'baselineKitPad', material NOTNULL and material = 'Kit pad' AND baseline_status = 'null',
+               'baselineFalalin', material NOTNULL AND material like '%Falalin%' AND baseline_status = 'null',
+               'baselineSanitary', material NOTNULL AND material like '%Sanitary pad%' AND baseline_status = 'null',
+               'baselineOldCloth', material NOTNULL AND material like '%Old cloth%' AND baseline_status = 'null',
+               'baselineKitPad', material NOTNULL and material like '%Kit pad%' AND baseline_status = 'null',
                'baselineDataNotCapture', material isnull AND baseline_status = 'null',
            --------------------
                'baselineFalalinEndlineFalalin',
-               material NOTNULL AND material = 'Falalin' AND baseline_status = 'Falalin',
+               material NOTNULL AND material like '%Falalin%' AND baseline_status = 'Falalin',
                'baselineFalalinEndlineSanitary',
-               material NOTNULL AND material = 'Sanitary pad' AND baseline_status = 'Falalin',
+               material NOTNULL AND material like '%Sanitary pad%' AND baseline_status = 'Falalin',
                'baselineFalalinEndlineOldCloth',
-               material NOTNULL AND material = 'Old cloth' AND baseline_status = 'Falalin',
+               material NOTNULL AND material like '%Old cloth%' AND baseline_status = 'Falalin',
                'baselineFalalinEndlineKitPad',
-               material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Falalin',
+               material NOTNULL AND material like '%Kit pad%' AND baseline_status = 'Falalin',
                'baselineFalalinEndlineDataNotCapture', material ISNULL AND baseline_status = 'Falalin',
            -------------------
                'baselineSanitaryEndlineFalalin',
-               material NOTNULL AND material = 'Falalin' AND baseline_status = 'Sanitary pad',
+               material NOTNULL AND material like '%Falalin%' AND baseline_status = 'Sanitary pad',
                'baselineSanitaryEndlineSanitary',
-               material NOTNULL AND material = 'Sanitary pad' AND baseline_status = 'Sanitary pad',
+               material NOTNULL AND material like '%Sanitary pad%' AND baseline_status = 'Sanitary pad',
                'baselineSanitaryEndlineOldCloth',
-               material NOTNULL AND material = 'Old cloth' AND baseline_status = 'Sanitary pad',
+               material NOTNULL AND material like '%Old cloth%' AND baseline_status = 'Sanitary pad',
                'baselineSanitaryEndlineKitPad',
-               material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Sanitary pad',
+               material NOTNULL AND material like '%Kit pad%' AND baseline_status = 'Sanitary pad',
                'baselineSanitaryEndlineDataNotCapture', material ISNULL AND baseline_status = 'Sanitary pad',
            ------------------
                'baselineOldClothEndlineFalalin',
-               material NOTNULL AND material = 'Falalin' AND baseline_status = 'Old cloth',
+               material NOTNULL AND material like '%Falalin%' AND baseline_status = 'Old cloth',
                'baselineOldClothEndlineSanitary',
-               material NOTNULL AND material = 'Sanitary pad' AND baseline_status = 'Old cloth',
+               material NOTNULL AND material like '%Sanitary pad%' AND baseline_status = 'Old cloth',
                'baselineOldClothEndlineOldCloth',
-               material NOTNULL AND material = 'Old cloth' AND baseline_status = 'Old cloth',
+               material NOTNULL AND material like '%Old cloth%' AND baseline_status = 'Old cloth',
                'baselineOldClothEndlineKitPad',
-               material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Old cloth',
+               material NOTNULL AND material like '%Kit pad%' AND baseline_status = 'Old cloth',
                'baselineOldClothEndlineDataNotCapture', material ISNULL AND baseline_status = 'Old cloth',
            ------------------
                'baselineKitPadEndlineFalalin',
-               material NOTNULL AND material = 'Falalin' AND baseline_status = 'Kit pad',
+               material NOTNULL AND material like '%Falalin%' AND baseline_status = 'Kit pad',
                'baselineKitPadEndlineSanitary',
-               material NOTNULL AND material = 'Sanitary pad' AND baseline_status = 'Kit pad',
+               material NOTNULL AND material like '%Sanitary pad%' AND baseline_status = 'Kit pad',
                'baselineKitPadEndlineOldCloth',
-               material NOTNULL AND material = 'Old cloth' AND baseline_status = 'Kit pad',
-               'baselineKitPadEndlineKitPad', material NOTNULL AND material = 'Kit pad' AND baseline_status = 'Kit pad',
+               material NOTNULL AND material like '%Old cloth%' AND baseline_status = 'Kit pad',
+               'baselineKitPadEndlineKitPad', material NOTNULL AND material like '%Kit pad%' AND baseline_status = 'Kit pad',
                'baselineKitPadEndlineDataNotCapture', material ISNULL AND baseline_status = 'Kit pad'
            ) as status_map,
        jsonb_build_object(
