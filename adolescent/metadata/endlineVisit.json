@@ -77,6 +77,48 @@
           }
         },
         {
+          "name": "Height",
+          "uuid": "868bcc96-c201-4a83-aab6-0d98e9705e52",
+          "keyValues": [],
+          "concept": {
+            "uuid": "d883d5fe-e17d-4136-b989-089fa0295e34"
+          },
+          "displayOrder": 0.7,
+          "mandatory": true,
+          "validFormat": {
+            "regex": "^[0-9]{2,3}$",
+            "descriptionKey": "Required2Or3Digits"
+          }
+        },
+        {
+          "name": "Weight",
+          "uuid": "7197c6a5-93c3-4d2e-84f3-c31af9f53be1",
+          "keyValues": [],
+          "concept": {
+            "uuid": "75b1656e-2777-4753-9612-ce03a766a5e1"
+          },
+          "displayOrder": 0.8,
+          "mandatory": true,
+          "validFormat": {
+            "regex": "^[0-9]{2}(\\.[0-9])??$",
+            "descriptionKey": "requiredFormatxxDotx"
+          }
+        },
+        {
+          "name": "BMI",
+          "uuid": "512d479d-7d31-43d8-907c-d38e4958eff9",
+          "keyValues": [
+            {
+              "key": "editable",
+              "value": false
+            }
+          ],
+          "concept": {
+            "uuid": "7ac0d759-c50d-4971-88e0-84274224c839"
+          },
+          "displayOrder": 0.9,
+          "mandatory": true
+        },{
           "name": "Sickling Test Status",
           "uuid": "7befc5af-a088-415f-b717-f4e6e5a7175c",
           "keyValues": [],

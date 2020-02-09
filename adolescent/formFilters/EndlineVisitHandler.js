@@ -4,6 +4,7 @@ import {
     FormElementsStatusHelper,
     WithName
 } from 'rules-config/rules';
+import lib from "../../lib";
 
 const _ = require("lodash");
 
@@ -213,6 +214,21 @@ class EndlineVisitHandler {
             .female
             .and.when.valueInEncounter("Menstrual disorders")
             .containsAnswerConceptNameOtherThan("No problem");
+    }
+    @WithName("BMI")
+    @WithStatusBuilder
+    bmi([programEncounter], statusBuilder) {
+        let weight = programEncounter.getObservationValue("Weight");
+        let height = programEncounter.getObservationValue("Height");
+
+        let bmi = "";
+        if (_.isNumber(height) && _.isNumber(weight)) {
+            bmi = lib.C.calculateBMI(weight, height);
+        }
+
+        let formElmentStatus = statusBuilder.build();
+        formElmentStatus.value = bmi;
+        return formElmentStatus;
     }
 }
 
