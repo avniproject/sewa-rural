@@ -377,6 +377,7 @@ class CommonSchedule {
 
 
     static  addEndlineVisitAnnual = (programEncounter, scheduleBuilder, cancelSchedule) => {
+        console.log("addEndlineVisitAnnual =>>>>>>");
         const year = moment(programEncounter.encounterDateTime).year();
 
         const earliest = moment()
@@ -715,7 +716,7 @@ class VisitRescheduleOnCancelSR {
                     addDropoutHomeVisits(programEncounter, scheduleBuilder, true);
                     break;
                 case 'Quarterly Visit':
-                    CommonSchedule.addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
+                    CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
                     break;
                 case 'Annual Visit':
                     CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
