@@ -377,7 +377,7 @@ class CommonSchedule {
 
 
     static  addEndlineVisitAnnual = (programEncounter, scheduleBuilder, cancelSchedule) => {
-        console.log("addEndlineVisitAnnual =>>>>>>");
+
         const year = moment(programEncounter.encounterDateTime).year();
 
         const earliest = moment()
@@ -420,7 +420,7 @@ class AnnualVisitScheduleSR {
             CommonSchedule.scheduleNextRegularVisit({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
-            CommonSchedule.addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
+            CommonSchedule.addEndlineVisitAnnual(programEncounter, scheduleBuilder);
         }
         return scheduleBuilder.getAllUnique("encounterType", true);
     }
@@ -440,7 +440,7 @@ class QuarterlyVisitScheduleSR {
             CommonSchedule.scheduleModerateAnemiaFollowup({programEncounter}, scheduleBuilder);
             addDropoutHomeVisits(programEncounter, scheduleBuilder);
             addDropoutFollowUpVisits(programEncounter, scheduleBuilder);
-            CommonSchedule.addEndlineVisitAnnual({programEncounter}, scheduleBuilder);
+            CommonSchedule.addEndlineVisitAnnual(programEncounter, scheduleBuilder);
         }
 
         return scheduleBuilder.getAllUnique("encounterType", true);
