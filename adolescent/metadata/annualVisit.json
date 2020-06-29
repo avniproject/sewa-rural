@@ -877,6 +877,25 @@
           "mandatory": false
         }
       ]
+    },
+    {
+      "uuid": "80f6b2e2-2996-44f6-bfb2-e70e99a380fc",
+      "name": "Obesity Counselling",
+      "display": "Obesity Counselling",
+      "displayOrder": 12,
+      "formElements": [
+        {
+          "name": "Counselling checklist for Obesity",
+          "uuid": "9ff6246d-b2e4-461f-b309-4e3d67c1d9b7",
+          "keyValues": [],
+          "type": "SingleSelect",
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4"
+          },
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
     }
   ]
 }

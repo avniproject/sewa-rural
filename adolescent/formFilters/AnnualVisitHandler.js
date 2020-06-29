@@ -362,5 +362,12 @@ export default class AnnualVisitHandler {
         return statusBuilder.build();
     }
 
+    @WithName("Counselling checklist for Obesity")
+    @WithStatusBuilder
+    obesityCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when.valueInEncounter("BMI").is.greaterThan(25);
+        return statusBuilder.build();
+    }
+
 
 }

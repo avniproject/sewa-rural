@@ -451,12 +451,29 @@ const scheduleChronicSicknessFollowupSchedule = ({programEncounter}, scheduleBui
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-    scheduleBuilder.add({
-        name: "Chronic Sickness Followup",
-        encounterType: "Chronic Sickness Followup",
-        earliestDate: nextVisitDate.toDate(),
-        maxDate: nextVisitDate.add(15, "days").toDate()
-    });
+
+    const schedulingEncounter = programEncounter.programEnrolment.getEncounters(true).filter(encounter => {
+        const sicknessValue = encounter.getObservationReadableValue('Is there any other condition you want to mention about him/her?');
+        return sicknessValue && !_.includes(sicknessValue, 'No problem');
+    })[0];
+
+    const chronicSicknessCondition = new RuleCondition({programEncounter}).whenItem(
+            programEncounter.programEnrolment
+                .getEncounters(true)
+                .filter(encounter => encounter.encounterType.name === "Chronic Sickness Followup" &&
+                    (schedulingEncounter && encounter.encounterDateTime >= schedulingEncounter.encounterDateTime)
+                ).length
+        )
+        .lessThan(2);
+
+    if(schedulingEncounter && chronicSicknessCondition.matches()){
+        scheduleBuilder.add({
+            name: "Chronic Sickness Followup",
+            encounterType: "Chronic Sickness Followup",
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
+        });
+    }
 };
 
 @ChronicSicknessFollowup("625a709f-90b9-40f9-8483-b0c9790a4eba", "Chronic Sickness Followup", 100.0)
@@ -563,7 +580,7 @@ class SeverAnemiaFollowupSR {
 const moderateAnemiaFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        : moment(programEncounter.earliestVisitDateTime).add(3, "month");
     scheduleBuilder.add({
         name: "Moderate Anemia Followup",
         encounterType: "Moderate Anemia Followup",
@@ -592,7 +609,7 @@ class ModerateAnemiaFollowupSR {
 const severeMalnutritionFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+        : moment(programEncounter.earliestVisitDateTime).add(3, "month");
     scheduleBuilder.add({
         name: "Severe Malnutrition Followup",
         encounterType: "Severe Malnutrition Followup",
