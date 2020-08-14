@@ -132,11 +132,11 @@ create or replace view sr_individual_indicator_matrix as
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
-                     join operational_program_view op ON op.program_id = enl.program_id
+                     join program p ON p.id = enl.program_id
                      join individual i on enl.individual_id = i.id
                      join gender g on i.gender_id = g.id
-            WHERE op.program_name = 'Adolescent'
-              AND enct.name = 'Annual Visit'
+            WHERE p.id = 3
+              AND enct.id = 7
               AND enc.encounter_date_time NOTNULL
               and enc.is_voided = false
               and enl.program_exit_date_time ISNULL
@@ -164,7 +164,7 @@ create or replace view sr_individual_indicator_matrix as
                         row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
                  from program_encounter_view enc
                           join program_enrolment enl on enc.program_enrolment_id = enl.id
-                 where encounter_type_name = 'Midline Visit'
+                 where enc.encounter_type_id = 47
                    and enl.is_voided = false
                    and enl.program_exit_date_time ISNULL
                    and enl.is_voided = false
@@ -199,7 +199,7 @@ create or replace view sr_individual_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 1
                  where enl.program_exit_date_time ISNULL
@@ -219,7 +219,7 @@ create or replace view sr_individual_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 2
                  where enl.program_exit_date_time ISNULL
@@ -239,7 +239,7 @@ create or replace view sr_individual_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 3
                  where enl.program_exit_date_time ISNULL
@@ -259,7 +259,7 @@ create or replace view sr_individual_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 4
                  where enl.program_exit_date_time ISNULL
@@ -279,7 +279,7 @@ create or replace view sr_individual_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 5
                  where enl.program_exit_date_time ISNULL
@@ -299,7 +299,7 @@ create or replace view sr_individual_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 6
                  where enl.program_exit_date_time ISNULL
@@ -319,7 +319,7 @@ create or replace view sr_individual_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 7
                  where enl.program_exit_date_time ISNULL
@@ -762,11 +762,11 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
-                     join operational_program_view op ON op.program_id = enl.program_id
+                     join program p ON p.id = enl.program_id
                      join individual i on enl.individual_id = i.id
                      join gender g on i.gender_id = g.id
-            WHERE op.program_name = 'Adolescent'
-              AND enct.name = 'Annual Visit'
+            WHERE p.id = 3
+              AND enct.id = 7
               AND enc.encounter_date_time NOTNULL
               and enc.is_voided = false
               and enl.program_exit_date_time ISNULL
@@ -796,7 +796,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
                  from program_encounter_view enc
                           join program_enrolment enl on enc.program_enrolment_id = enl.id
-                 where encounter_type_name = 'Midline Visit'
+                 where encounter_type_id = 47
                    and enl.is_voided = false
                    and enl.program_exit_date_time ISNULL
                    and enl.is_voided = false
@@ -836,7 +836,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from enc.encounter_date_time) = baseline_year + 1
                           left join sr_partitioned_addiction_view enc2
@@ -860,7 +860,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from enc.encounter_date_time) = baseline_year + 1
                           left join sr_partitioned_addiction_view enc2
@@ -883,7 +883,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from enc.encounter_date_time) = baseline_year + 1
                           left join sr_partitioned_addiction_view enc2
@@ -906,7 +906,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from enc.encounter_date_time) = baseline_year + 1
                           left join sr_partitioned_addiction_view enc2
@@ -929,7 +929,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from enc.encounter_date_time) = baseline_year + 1
                           left join sr_partitioned_addiction_view enc2
@@ -952,7 +952,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from enc.encounter_date_time) = baseline_year + 1
                           left join sr_partitioned_addiction_view enc2
@@ -975,7 +975,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from enc.encounter_date_time) = baseline_year + 1
                           left join sr_partitioned_addiction_view enc2
@@ -1363,11 +1363,11 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
-                     join operational_program_view op ON op.program_id = enl.program_id
+                     join program p ON p.id = enl.program_id
                      join individual i on enl.individual_id = i.id
                      join gender g on i.gender_id = g.id
-            WHERE op.program_name = 'Adolescent'
-              AND enct.name = 'Annual Visit'
+            WHERE p.id = 3
+              AND enct.id = 7
               AND enc.encounter_date_time NOTNULL
               and enc.is_voided = false
               and enl.program_exit_date_time ISNULL
@@ -1394,7 +1394,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
                  from program_encounter_view enc
                           join program_enrolment enl on enc.program_enrolment_id = enl.id
-                 where encounter_type_name = 'Midline Visit'
+                 where encounter_type_id = 47
                    and enl.is_voided = false
                    and enl.program_exit_date_time ISNULL
                    and enl.is_voided = false
@@ -1427,7 +1427,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 1
                  where enl.program_exit_date_time ISNULL
@@ -1446,7 +1446,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 2
                  where enl.program_exit_date_time ISNULL
@@ -1465,7 +1465,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 3
                  where enl.program_exit_date_time ISNULL
@@ -1484,7 +1484,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 4
                  where enl.program_exit_date_time ISNULL
@@ -1503,7 +1503,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 5
                  where enl.program_exit_date_time ISNULL
@@ -1522,7 +1522,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 6
                  where enl.program_exit_date_time ISNULL
@@ -1541,7 +1541,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 7
                  where enl.program_exit_date_time ISNULL
@@ -1901,11 +1901,11 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
-                     join operational_program_view op ON op.program_id = enl.program_id
+                     join program op ON op.id = enl.program_id
                      join individual i on enl.individual_id = i.id
                      join gender g on i.gender_id = g.id
-            WHERE op.program_name = 'Adolescent'
-              AND enct.name = 'Annual Visit'
+            WHERE op.id = 3
+              AND enct.id = 7
               AND enc.encounter_date_time NOTNULL
               and enc.is_voided = false
               and enl.program_exit_date_time ISNULL
@@ -1932,7 +1932,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                         row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
                  from program_encounter_view enc
                           join program_enrolment enl on enc.program_enrolment_id = enl.id
-                 where encounter_type_name = 'Midline Visit'
+                 where encounter_type_id = 47
                    and enl.is_voided = false
                    and enl.program_exit_date_time ISNULL
                    and enl.is_voided = false
@@ -1965,7 +1965,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 1
                  where enl.program_exit_date_time ISNULL
@@ -1984,7 +1984,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 2
                  where enl.program_exit_date_time ISNULL
@@ -2003,7 +2003,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 3
                  where enl.program_exit_date_time ISNULL
@@ -2022,7 +2022,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 4
                  where enl.program_exit_date_time ISNULL
@@ -2041,7 +2041,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 5
                  where enl.program_exit_date_time ISNULL
@@ -2060,7 +2060,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 6
                  where enl.program_exit_date_time ISNULL
@@ -2079,7 +2079,7 @@ create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_name = 'Endline Visit'
+                     and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 7
                  where enl.program_exit_date_time ISNULL
@@ -2467,11 +2467,11 @@ create or replace view sr_chronic_sickness_matrix as
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
-                     join operational_program_view op ON op.program_id = enl.program_id
+                     join program op ON op.id = enl.program_id
                      join individual i on enl.individual_id = i.id
                      join gender g on i.gender_id = g.id
-            WHERE op.program_name = 'Adolescent'
-              AND (enct.name = 'Annual Visit' or enct.name = 'Quarterly Visit')
+            WHERE op.id = 3
+              AND (enct.id = 7 or enct.id = 8)
               and enc.observations ->> 'b00a5ea2-e09c-43aa-b514-ac3c50474647' notnull
               and '[
               "3505bbe2-e276-4f1b-a0d9-5c22ce160fd4",
@@ -2726,11 +2726,11 @@ create or replace view sr_menstrual_disorder_matrix as
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
-                     join operational_program_view op ON op.program_id = enl.program_id
+                     join program op ON op.id = enl.program_id
                      join individual i on enl.individual_id = i.id
                      join gender g on i.gender_id = g.id
-            WHERE op.program_name = 'Adolescent'
-              AND (enct.name = 'Annual Visit' or enct.name = 'Quarterly Visit')
+            WHERE op.id = 3
+              AND (enct.id = 7 or enct.id = 8)
               and enc.observations -> '0f87eac1-cf6a-4632-8af2-29a935451fe4' notnull
               and '[
               "92ad8878-b476-4291-aa76-3377fa7cf19c",
@@ -3078,8 +3078,8 @@ create or replace view sr_partitioned_addiction_view as (
              join encounter_type enct on enc.encounter_type_id = enct.id
              join program_enrolment enl on enc.program_enrolment_id = enl.id
              join program p ON p.id = enl.program_id
-    WHERE p.name = 'Adolescent'
-      AND enct.name = 'Addiction Followup'
+    WHERE p.id = 3
+      AND enct.id = 60
       AND enc.encounter_date_time NOTNULL
       and enc.is_voided = false
       and enl.program_exit_date_time ISNULL
@@ -3097,7 +3097,7 @@ create or replace view sr_partitioned_hospital_data_view as (
     from program_encounter enc
              join encounter_type et on et.id = enc.encounter_type_id
              join program_enrolment enl on enc.program_enrolment_id = enl.id
-    where et.name = 'Chronic Sickness Followup'
+    where et.id = 55
       and enl.program_exit_date_time isnull
       and enc.encounter_date_time notnull
       and not enc.is_voided
