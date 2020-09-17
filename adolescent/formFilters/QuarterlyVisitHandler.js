@@ -65,8 +65,22 @@ export default class QuarterlyVisitHandler {
         statusBuilder
             .show()
             .when.valueInEncounter("Iron tablets received")
-            .containsAnswerConceptName("Yes");
+            .containsAnswerConceptName("Yes")
+            .and.when.valueInEncounter("Hb")
+            .is.greaterThan(10);
         return statusBuilder.build();
+    }
+
+    @WithName("How many IFA received in last 3 months?")
+    @WithStatusBuilder
+    abc811([], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Iron tablets received")
+            .containsAnswerConceptName("Yes")
+            .and.when.valueInEncounter("Hb")
+            .is.greaterThan(10);
+            return statusBuilder.build();
     }
 
     @WithName("Menstruation started")

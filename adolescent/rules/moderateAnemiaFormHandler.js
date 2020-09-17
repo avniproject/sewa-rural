@@ -55,7 +55,7 @@ class ModerateAnemiaViewFilterHandlerSR {
 class ModerateAnemiaValidationsSR {
     validate(programEncounter) {
         const validationResults = [];
-        const ifaTabletsConsumed = programEncounter.getObservationReadableValue("Iron tablets consumed in last week");
+        const ifaTabletsConsumed = programEncounter.getObservationReadableValue("Iron tablets consumed in the last month");
         if (ifaTabletsConsumed && ifaTabletsConsumed.toString().length > 2) {
             validationResults.push(lib.C.createValidationError("IronTabletsMoreThanTwoDigitNotAllowed"));
         }
