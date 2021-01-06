@@ -116,6 +116,7 @@ export default class QuarterlyVisitHandler {
             .show()
             .when.latestValueInAllEncounters("Menstruation started")
             .containsAnswerConceptName("Yes");
+        statusBuilder.skipAnswers("Kit pad");
         return statusBuilder.build();
     }
 
@@ -191,6 +192,16 @@ export default class QuarterlyVisitHandler {
             .show()
             .when.valueInEncounter("Sickness in last 3 month")
             .containsAnswerConceptName("Other");
+        return statusBuilder.build();
+    }
+
+    @WithName("Hospitalized in last 3 months")
+    @WithStatusBuilder
+    abc222([programEncounter], statusBuilder) {
+        statusBuilder
+            .show()
+            .when.valueInEncounter("Sickness in last 3 month")
+            .containsAnswerConceptNameOtherThan("No sickness");
         return statusBuilder.build();
     }
 

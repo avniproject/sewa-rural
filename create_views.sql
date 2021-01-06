@@ -128,7 +128,9 @@ create or replace view sr_individual_indicator_matrix as
                    encounter_date_time,
                    cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT)       hb,
                    enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc' hb_status,
-                   g.name                                                                           gender
+                   g.name                                                                           genderc
+                   case when enl.program_exit_date_time ISNULL then 'Non-exited'
+                   else 'Exited' end exitStatus
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
@@ -139,12 +141,12 @@ create or replace view sr_individual_indicator_matrix as
               AND enct.id = 7
               AND enc.encounter_date_time NOTNULL
               and enc.is_voided = false
-              and enl.program_exit_date_time ISNULL
-              and enl.is_voided = false
+--               and enl.program_exit_date_time ISNULL
+--               and enl.is_voided = false
               and i.is_voided = false
         ),
              baseline_data (individual_id, gender, hb, hb_status, baseline_year, visit_number, baseline_status,
-                            endline_year)
+                            endline_year, exitStatus)
                  as (
                  select individual_id,
                         gender,
@@ -153,7 +155,8 @@ create or replace view sr_individual_indicator_matrix as
                         extract('year' from encounter_date_time),
                         0,
                         'null'::TEXT,
-                        0
+                        0,
+                        exitStatus
                  from partitioned_annual
                  where rank = 1
              ),
@@ -165,27 +168,28 @@ create or replace view sr_individual_indicator_matrix as
                  from program_encounter_view enc
                           join program_enrolment enl on enc.program_enrolment_id = enl.id
                  where enc.encounter_type_id = 47
-                   and enl.is_voided = false
-                   and enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+                   and enc.is_voided = false
+--                    and enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             midline_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             midline_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year, exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
                         baseline_year,
                         1        visit_number,
                         b.gender gender,
-                        baseline_year + 1
+                        baseline_year + 1,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join midline_partitioned enc on enc.program_enrolment_id = enl.id
                      and extract('year' from encounter_date_time) = baseline_year + 1
                      and rank = 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_1_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             endline_1_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
@@ -195,17 +199,18 @@ create or replace view sr_individual_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 2
-                            else baseline_year + 1 end
+                            else baseline_year + 1 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_2_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             endline_2_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
@@ -215,17 +220,18 @@ create or replace view sr_individual_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 3
-                            else baseline_year + 2 end
+                            else baseline_year + 2 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 2
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_3_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             endline_3_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year, exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
@@ -235,17 +241,18 @@ create or replace view sr_individual_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 4
-                            else baseline_year + 3 end
+                            else baseline_year + 3 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 3
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_4_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             endline_4_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
@@ -255,17 +262,18 @@ create or replace view sr_individual_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 5
-                            else baseline_year + 4 end
+                            else baseline_year + 4 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 4
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_5_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             endline_5_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
@@ -275,17 +283,18 @@ create or replace view sr_individual_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 6
-                            else baseline_year + 5 end
+                            else baseline_year + 5 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 5
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_6_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             endline_6_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
@@ -295,17 +304,18 @@ create or replace view sr_individual_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 7
-                            else baseline_year + 6 end
+                            else baseline_year + 6 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 6
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_7_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year) as (
+             endline_7_data(individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         cast(enc.observations ->> 'f9ecabbc-2df2-4bfc-a6fa-aa417c50e11b' AS FLOAT),
                         enc.observations ->> 'c5d4acdc-86f5-4b6f-b700-ef85d89108dc',
@@ -315,15 +325,16 @@ create or replace view sr_individual_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 8
-                            else baseline_year + 7 end
+                            else baseline_year + 7 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 7
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
              endline_data
                  (individual_id, hb, hb_status, baseline_year, visit_number, gender, endline_year)
@@ -353,7 +364,7 @@ create or replace view sr_individual_indicator_matrix as
                   from endline_7_data
                  ),
              endline_for_baseline_severe
-                 (individual_id, gender, hb, hb_status, baseline_year, visit_number, baseline_status, endline_year)
+                 (individual_id, gender, hb, hb_status, baseline_year, visit_number, baseline_status, endline_year,exitStatus)
                  as
                  (select b.individual_id,
                          b.gender,
@@ -362,14 +373,15 @@ create or replace view sr_individual_indicator_matrix as
                          b.baseline_year,
                          e.visit_number,
                          'Severe'::TEXT,
-                         e.endline_year
+                         e.endline_year,
+                         b.exitStatus
                   from baseline_data b
                            join endline_data e on e.individual_id = b.individual_id
                   where b.hb NOTNULL
                     AND b.hb <= 7
                  ),
              endline_for_baseline_moderate(individual_id, gender, hb, hb_status, baseline_year, visit_number,
-                                           baseline_status, endline_year) as (
+                                           baseline_status, endline_year,exitStatus) as (
                  select e.individual_id,
                         b.gender,
                         e.hb,
@@ -377,7 +389,8 @@ create or replace view sr_individual_indicator_matrix as
                         b.baseline_year,
                         e.visit_number,
                         'Moderate'::TEXT,
-                        e.endline_year
+                        e.endline_year,
+                        b.exitStatus
                  from baseline_data b
                           join endline_data e on e.individual_id = b.individual_id
                  where b.hb NOTNULL
@@ -385,7 +398,7 @@ create or replace view sr_individual_indicator_matrix as
              ),
              endline_for_baseline_mild(individual_id, gender, hb, hb_status, baseline_year, visit_number,
                                        baseline_status,
-                                       endline_year)
+                                       endline_year,exitStatus)
                  as (
                  select e.individual_id,
                         b.gender,
@@ -394,7 +407,8 @@ create or replace view sr_individual_indicator_matrix as
                         b.baseline_year,
                         e.visit_number,
                         'Mild'::TEXT,
-                        e.endline_year
+                        e.endline_year,
+                        b.exitStatus
                  from baseline_data b
                           join endline_data e on e.individual_id = b.individual_id
                  where b.hb NOTNULL
@@ -402,7 +416,7 @@ create or replace view sr_individual_indicator_matrix as
              ),
              endline_for_baseline_normal(individual_id, gender, hb, hb_status, baseline_year, visit_number,
                                          baseline_status,
-                                         endline_year)
+                                         endline_year,exitStatus)
                  as (
                  select e.individual_id,
                         b.gender,
@@ -411,7 +425,8 @@ create or replace view sr_individual_indicator_matrix as
                         b.baseline_year,
                         e.visit_number,
                         'Normal'::TEXT,
-                        e.endline_year
+                        e.endline_year,
+                        b.exitStatus
                  from baseline_data b
                           join endline_data e on e.individual_id = b.individual_id
                  where b.hb NOTNULL
@@ -419,7 +434,7 @@ create or replace view sr_individual_indicator_matrix as
              ),
              endline_for_baseline_missed(individual_id, gender, hb, hb_status, baseline_year, visit_number,
                                          baseline_status,
-                                         endline_year) as (
+                                         endline_year, exitStatus) as (
                  select e.individual_id,
                         b.gender,
                         e.hb,
@@ -427,10 +442,26 @@ create or replace view sr_individual_indicator_matrix as
                         b.baseline_year,
                         e.visit_number,
                         'Missed'::TEXT,
-                        e.endline_year
+                        e.endline_year,
+                        b.exitStatus
                  from baseline_data b
                           join endline_data e on e.individual_id = b.individual_id
                  where b.hb ISNULL
+             ),
+             total_data(individual_id, gender, hb, hb_status, baseline_year, visit_number,
+                                         baseline_status,
+                                         endline_year, exitStatus) as (
+                 select e.individual_id,
+                        b.gender,
+                        e.hb,
+                        e.hb_status,
+                        b.baseline_year,
+                        e.visit_number,
+                        'Total'::TEXT,
+                        e.endline_year,
+                        b.exitStatus
+                 from baseline_data b
+                          join endline_data e on e.individual_id = b.individual_id
              ),
              all_events as (select *
                             from baseline_data
@@ -449,6 +480,9 @@ create or replace view sr_individual_indicator_matrix as
                             union all
                             select *
                             from endline_for_baseline_missed
+                            union all
+                            select *
+                            from total_data
              )
 
         select individual_id,
@@ -504,7 +538,8 @@ create or replace view sr_individual_indicator_matrix as
                        'baselineMissedEndlineNormal', hb NOTNULL AND hb >= 12 AND baseline_status = 'Missed',
                        'baselineMissedEndlineHBDone', hb_status = '8d161a9c-9401-4883-8cf7-ce0a8f2d7b45' AND baseline_status = 'Missed',
                        'baselineMissedEndlineHBNotDone', hb_status = '474477a3-9859-4d7c-865c-e8fdc7bba9d8' AND baseline_status = 'Missed',
-                       'baselineMissedEndlineMissingHB', hb ISNULL AND baseline_status = 'Missed'
+                       'baselineMissedEndlineMissingHB', hb ISNULL AND baseline_status = 'Missed',
+                       'totalData', 1 = 1
                    ) as status_map,
                jsonb_build_object(
                        'hb', hb
@@ -512,13 +547,14 @@ create or replace view sr_individual_indicator_matrix as
                gender,
                baseline_year,
                visit_number,
-               endline_year
+               endline_year,
+               exitStatus
         from all_events
     );
 
 create or replace function sr_record_from_individual_indicator(status text, baseLineStatus text, transition text,
                                                                transitionTo text,
-                                                               baselineYear int, lineListQuestionNumber int)
+                                                               baselineYear int, lineListQuestionNumber int, exitStatus text)
     returns table
             (
                 baseline_year       float,
@@ -580,23 +616,23 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as baseline_ll,
                      $4                                                                                   as transition_to,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND visit_number = 2))) ->>
+                               FILTER (WHERE ($5 = 2018  AND visit_number = 1) OR ($5 <> 2018  AND visit_number = 2))) ->>
                               'year',
                               'NA')                                                                       as endline_year_1,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
-                                                                    (($5 = 2018 AND visit_number = 1) OR
-                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1_male,
+                                                                    (($5 = 2018  AND visit_number = 1) OR
+                                                                     ($5 <> 2018  AND visit_number = 2)))  as transition_1_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 1) OR
-                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1_female,
+                                                                    (($5 = 2018  AND visit_number = 1) OR
+                                                                     ($5 <> 2018  AND visit_number = 2)))  as transition_1_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 1 else 2 end,
                             $5)::TEXT                                                                     as endline_1_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 2) OR ($5 <> 2018 AND visit_number = 3))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 2) OR ($5 <> 2018  AND visit_number = 3))) ->>
                               'year',
                               'NA')                                                                       as endline_year_2,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
@@ -612,17 +648,17 @@ with data as (select baseline_year                                              
                             case when $5 = 2018 then 2 else 3 end,
                             $5)::TEXT                                                                     as endline_2_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 3) OR ($5 <> 2018 AND visit_number = 4))) ->>
+                               FILTER (WHERE ($5 = 2018  AND visit_number = 3) OR ($5 <> 2018 AND visit_number = 4))) ->>
                               'year',
                               'NA')                                                                       as endline_year_3,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
-                                                                    (($5 = 2018 AND visit_number = 3) OR
+                                                                    (($5 = 2018  AND visit_number = 3) OR
                                                                      ($5 <> 2018 AND visit_number = 4)) ) as transition_3_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
                                                                     (($5 = 2018 AND visit_number = 3) OR
-                                                                     ($5 <> 2018 AND visit_number = 4)))  as transition_3_female,
+                                                                     ($5 <> 2018  AND visit_number = 4)))  as transition_3_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 3 else 4 end,
@@ -637,8 +673,8 @@ with data as (select baseline_year                                              
                                                                      ($5 <> 2018 AND visit_number = 5)) ) as transition_4_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 4) OR
-                                                                     ($5 <> 2018 AND visit_number = 5)))  as transition_4_female,
+                                                                    (($5 = 2018  AND visit_number = 4) OR
+                                                                     ($5 <> 2018  AND visit_number = 5)))  as transition_4_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 4 else 5 end,
@@ -660,7 +696,7 @@ with data as (select baseline_year                                              
                             case when $5 = 2018 then 5 else 6 end,
                             $5)::TEXT                                                                     as endline_5_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 6) OR ($5 <> 2018 AND visit_number = 7))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 6) OR ($5 <> 2018  AND visit_number = 7))) ->>
                               'year',
                               'NA')                                                                       as endline_year_6,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
@@ -681,11 +717,11 @@ with data as (select baseline_year                                              
                               'NA')                                                                       as endline_year_7,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
-                                                                    (($5 = 2018 AND visit_number = 7) OR
-                                                                     ($5 <> 2018 AND visit_number = 8)) ) as transition_7_male,
+                                                                    (($5 = 2018  AND visit_number = 7) OR
+                                                                     ($5 <> 2018  AND visit_number = 8)) ) as transition_7_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                    (($5 = 2018   AND visit_number = 7) OR
                                                                      ($5 <> 2018 AND visit_number = 8)))  as transition_7_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -693,7 +729,8 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as endline_7_ll
 
               from sr_individual_indicator_matrix s
-              where baseline_year = $5
+              where baseline_year = $5 and case when $7 is null then exitStatus in ('Exited','Non-exited') else
+                  exitStatus = $7 end
               group by baseline_year)
 select baseline_year,
        baseline_status,
@@ -758,7 +795,9 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                    row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time) rank,
                    encounter_date_time,
                    enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8'             addiction,
-                   g.name                                                                 gender
+                   g.name                                                                 gender,
+                   case when enl.program_exit_date_time ISNULL then 'Non-exited'
+                   else 'Exited' end exitStatus
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
@@ -769,12 +808,12 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
               AND enct.id = 7
               AND enc.encounter_date_time NOTNULL
               and enc.is_voided = false
-              and enl.program_exit_date_time ISNULL
-              and enl.is_voided = false
+--               and enl.program_exit_date_time ISNULL
+--               and enl.is_voided = false
               and i.is_voided = false
         ),
              baseline_data (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status,
-                            endline_year)
+                            endline_year,exitStatus)
                  as (
                  select pa.individual_id,
                         pa.gender,
@@ -783,7 +822,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         extract('year' from pa.encounter_date_time),
                         0,
                         'null'::TEXT,
-                        0
+                        0,
+                        pa.exitStatus
                  from partitioned_annual pa
                           left join sr_partitioned_addiction_view pad
                                     on pad.individual_id = pa.individual_id and pad.rank2 = 1
@@ -793,15 +833,17 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  select enc.program_enrolment_id,
                         enc.observations,
                         encounter_date_time,
+                        case when enl.program_exit_date_time ISNULL then 'Non-exited'
+                        else 'Exited' end exitStatus,
                         row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
                  from program_encounter_view enc
                           join program_enrolment enl on enc.program_enrolment_id = enl.id
                  where encounter_type_id = 47
                    and enl.is_voided = false
-                   and enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                    and enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             midline_data(individual_id, addiction, baseline_year, visit_number, gender, endline_year) as (
+             midline_data(individual_id, addiction, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
 
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
@@ -809,7 +851,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         baseline_year,
                         1               visit_number,
                         b.gender        gender,
-                        baseline_year + 1
+                        baseline_year + 1,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join midline_partitioned enc on enc.program_enrolment_id = enl.id
@@ -819,10 +862,10 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
 
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_1_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+             endline_1_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
                         enc2.quitted as quitted,
@@ -832,7 +875,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         case
                             when baseline_year = 2018
                                 then baseline_year + 2
-                            else baseline_year + 1 end
+                            else baseline_year + 1 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -843,10 +887,10 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
 
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_2_data(individual_id, addicted, quitted, visit_number, gender, endline_year) as (
+             endline_2_data(individual_id, addicted, quitted, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
                         enc2.quitted as quitted,
@@ -856,7 +900,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         case
                             when baseline_year = 2018
                                 then baseline_year + 3
-                            else baseline_year + 2 end
+                            else baseline_year + 2 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -866,10 +911,10 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                           left join sr_partitioned_addiction_view enc2
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_3_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+             endline_3_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
                         enc2.quitted as quitted,
@@ -879,7 +924,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         case
                             when baseline_year = 2018
                                 then baseline_year + 4
-                            else baseline_year + 3 end
+                            else baseline_year + 3 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -889,10 +935,10 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                           left join sr_partitioned_addiction_view enc2
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_4_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+             endline_4_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
                         enc2.quitted as quitted,
@@ -902,7 +948,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         case
                             when baseline_year = 2018
                                 then baseline_year + 5
-                            else baseline_year + 4 end
+                            else baseline_year + 4 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -912,10 +959,10 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                           left join sr_partitioned_addiction_view enc2
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_5_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+             endline_5_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
                         enc2.quitted as quitted,
@@ -925,7 +972,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         case
                             when baseline_year = 2018
                                 then baseline_year + 6
-                            else baseline_year + 5 end
+                            else baseline_year + 5 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -935,10 +983,10 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                           left join sr_partitioned_addiction_view enc2
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_6_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+             endline_6_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
                         enc2.quitted as quitted,
@@ -948,7 +996,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         case
                             when baseline_year = 2018
                                 then baseline_year + 7
-                            else baseline_year + 6 end
+                            else baseline_year + 6 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -958,10 +1007,10 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                           left join sr_partitioned_addiction_view enc2
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_7_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year) as (
+             endline_7_data(individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> '2ebca9be-3be3-4d11-ada0-187563ff04f8',
                         enc2.quitted as quitted,
@@ -971,7 +1020,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                         case
                             when baseline_year = 2018
                                 then baseline_year + 8
-                            else baseline_year + 7 end
+                            else baseline_year + 7 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -981,11 +1031,11 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                           left join sr_partitioned_addiction_view enc2
                                     on enc2.individual_id = enl.individual_id and rank2 = 1
                                         and extract('year' from enc2.encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
              endline_data
-                 (individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year)
+                 (individual_id, addiction, quitted, baseline_year, visit_number, gender, endline_year,exitStatus)
                  as
                  (select *
                   from midline_data
@@ -1012,7 +1062,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                   from endline_7_data
                  ),
              endline_for_baseline_alcohol
-                 (individual_id, gender, addiction, baseline_year, visit_number, baseline_status, endline_year)
+                 (individual_id, gender, addiction, baseline_year, visit_number, baseline_status, endline_year,exitStatus)
                  as
                  (select b.individual_id,
                          b.gender,
@@ -1021,14 +1071,15 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                          b.baseline_year,
                          e.visit_number,
                          'Alcohol'::TEXT,
-                         e.endline_year
+                         e.endline_year,
+                         b.exitStatus
                   from baseline_data b
                            join endline_data e on e.individual_id = b.individual_id
                   where b.addiction notnull
                     and b.addiction @> to_jsonb('92654fda-d485-4b6d-97c5-8a8fe2a9582a'::text)
                  ),
              endline_for_baseline_tobacco
-                 (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year)
+                 (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year,exitStatus)
                  as
                  (select b.individual_id,
                          b.gender,
@@ -1037,14 +1088,15 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                          b.baseline_year,
                          e.visit_number,
                          'Tobacco'::TEXT,
-                         e.endline_year
+                         e.endline_year,
+                         b.exitStatus
                   from baseline_data b
                            join endline_data e on e.individual_id = b.individual_id
                   where b.addiction notnull
                     and b.addiction @> to_jsonb('ef29759b-5f74-4f5a-b186-fea7697cfb34'::text)
                  ),
              endline_for_baseline_both
-                 (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year)
+                 (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year,exitStatus)
                  as
                  (select b.individual_id,
                          b.gender,
@@ -1053,7 +1105,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                          b.baseline_year,
                          e.visit_number,
                          'Both'::TEXT,
-                         e.endline_year
+                         e.endline_year,
+                         b.exitStatus
                   from baseline_data b
                            join endline_data e on e.individual_id = b.individual_id
                   where b.addiction notnull
@@ -1061,7 +1114,7 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                  ),
 
              endline_for_baseline_noAddiction
-                 (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year)
+                 (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year,exitStatus)
                  as
                  (select b.individual_id,
                          b.gender,
@@ -1070,11 +1123,32 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                          b.baseline_year,
                          e.visit_number,
                          'No Addiction'::TEXT,
-                         e.endline_year
+                         e.endline_year,
+                         b.exitStatus
                   from baseline_data b
                            join endline_data e on e.individual_id = b.individual_id
                   where b.addiction notnull
                     and b.addiction @> to_jsonb('c7f89d3c-2aa3-4570-a7a5-163e002fba66'::text)
+                 ),
+                 total_data
+                 (individual_id, gender, addiction, quitted, baseline_year, visit_number, baseline_status, endline_year,exitStatus)
+                 as
+                 (select b.individual_id,
+                         b.gender,
+                         e.addiction,
+                         e.quitted,
+                         b.baseline_year,
+                         e.visit_number,
+                         'Total'::TEXT,
+                         e.endline_year,
+                         b.exitStatus
+                  from baseline_data b
+                           join endline_data e on e.individual_id = b.individual_id
+                  where b.addiction notnull or b.addiction ISNULL
+                    or b.addiction @> to_jsonb('c7f89d3c-2aa3-4570-a7a5-163e002fba66'::text)
+                    or b.addiction @> to_jsonb('246df73a-07d8-4924-8cf9-787dea8278fe'::text)
+                    or b.addiction @> to_jsonb('ef29759b-5f74-4f5a-b186-fea7697cfb34'::text)
+                    or b.addiction @> to_jsonb('92654fda-d485-4b6d-97c5-8a8fe2a9582a'::text)
                  ),
              all_events as (select *
                             from baseline_data
@@ -1090,6 +1164,9 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                             union all
                             select *
                             from endline_for_baseline_noAddiction
+                            union all
+                            select *
+                            from total_data
              )
 
         select individual_id,
@@ -1181,7 +1258,15 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                        addiction NOTNULL AND quitted @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
                        baseline_status = 'No Addiction',
                        'baselineNoAddictionEndlineDataNotCapture',
-                       addiction ISNULL AND baseline_status = 'No Addiction'
+                       addiction ISNULL AND baseline_status = 'No Addiction',
+                       'total_data', addiction notnull or addiction ISNULL
+                    or addiction @> to_jsonb('c7f89d3c-2aa3-4570-a7a5-163e002fba66'::text)
+                    or addiction @> to_jsonb('246df73a-07d8-4924-8cf9-787dea8278fe'::text)
+                    or addiction @> to_jsonb('ef29759b-5f74-4f5a-b186-fea7697cfb34'::text)
+                    or addiction @> to_jsonb('92654fda-d485-4b6d-97c5-8a8fe2a9582a'::text)
+                    OR baseline_status = 'No Addiction' OR baseline_status = 'Both' OR baseline_status = 'Tobacco' OR
+                    baseline_status = 'Alcohol' OR baseline_status = 'null'
+
                    ) as status_map,
                jsonb_build_object(
                        'addiction', addiction
@@ -1189,7 +1274,8 @@ create or replace view sr_individual_prevalence_substance_misuse_indicator_matri
                gender,
                baseline_year,
                visit_number,
-               endline_year
+               endline_year,
+               exitStatus
         from all_events
     );
 
@@ -1198,7 +1284,7 @@ create or replace function sr_individual_prevalence_substance_misuse_indicator_m
                                                                                       transition text,
                                                                                       transitionTo text,
                                                                                       baselineYear int,
-                                                                                      lineListQuestionNumber int)
+                                                                                      lineListQuestionNumber int,exitStatus text)
     returns table
             (
                 baseline_year   float,
@@ -1240,7 +1326,7 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as baseline_ll,
                      $4                                                                                   as transition_to,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND visit_number = 2))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND  visit_number = 2))) ->>
                               'year',
                               'NA')                                                                       as endline_year_1,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
@@ -1251,7 +1337,7 @@ with data as (select baseline_year                                              
                             case when $5 = 2018 then 1 else 2 end,
                             $5)::TEXT                                                                     as endline_1_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 2) OR ($5 <> 2018 AND visit_number = 3))) ->>
+                               FILTER (WHERE ($5 = 2018  AND  visit_number = 2) OR ($5 <> 2018 AND  visit_number = 3))) ->>
                               'year',
                               'NA')                                                                       as endline_year_2,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
@@ -1288,7 +1374,7 @@ with data as (select baseline_year                                              
                               'year',
                               'NA')                                                                       as endline_year_5,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 5) OR
+                                                                    (($5 = 2018  AND visit_number = 5) OR
                                                                      ($5 <> 2018 AND visit_number = 6)) ) as transition_5,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -1299,7 +1385,7 @@ with data as (select baseline_year                                              
                               'year',
                               'NA')                                                                       as endline_year_6,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 6) OR
+                                                                    (($5 = 2018  AND visit_number = 6) OR
                                                                      ($5 <> 2018 AND visit_number = 7)) ) as transition_6,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -1318,7 +1404,8 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as endline_7_ll
 
               from sr_individual_prevalence_substance_misuse_indicator_matrix s
-              where baseline_year = $5
+              where baseline_year = $5 and case when $7 is null then exitStatus in ('Exited','Non-exited') else
+                  exitStatus = $7 end
               group by baseline_year)
 select baseline_year,
        baseline_status,
@@ -1359,7 +1446,9 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                    row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time) rank,
                    encounter_date_time,
                    enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca'             material,
-                   g.name                                                                 gender
+                   g.name                                                                 gender,
+                   case when enl.program_exit_date_time ISNULL then 'Non-exited'
+                   else 'Exited' end exitStatus
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
@@ -1370,12 +1459,12 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
               AND enct.id = 7
               AND enc.encounter_date_time NOTNULL
               and enc.is_voided = false
-              and enl.program_exit_date_time ISNULL
-              and enl.is_voided = false
+--               and enl.program_exit_date_time ISNULL
+--               and enl.is_voided = false
               and i.is_voided = false
         ),
              baseline_data (individual_id, gender, material, baseline_year, visit_number, baseline_status,
-                            endline_year)
+                            endline_year,exitStatus)
                  as (
                  select individual_id,
                         gender,
@@ -1383,7 +1472,8 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         extract('year' from encounter_date_time),
                         0,
                         'null'::TEXT,
-                        0
+                        0,
+                        exitStatus
                  from partitioned_annual
                  where rank = 1
              ),
@@ -1396,25 +1486,26 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                           join program_enrolment enl on enc.program_enrolment_id = enl.id
                  where encounter_type_id = 47
                    and enl.is_voided = false
-                   and enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                    and enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             midline_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             midline_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
                         1        visit_number,
                         b.gender gender,
-                        baseline_year + 1
+                        baseline_year + 1,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join midline_partitioned enc on enc.program_enrolment_id = enl.id
                      and extract('year' from encounter_date_time) = baseline_year + 1
                      and rank = 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_1_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             endline_1_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
@@ -1423,17 +1514,18 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 2
-                            else baseline_year + 1 end
+                            else baseline_year + 1 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_2_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             endline_2_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
@@ -1442,17 +1534,18 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 3
-                            else baseline_year + 2 end
+                            else baseline_year + 2 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 2
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_3_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             endline_3_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
@@ -1461,17 +1554,18 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 4
-                            else baseline_year + 3 end
+                            else baseline_year + 3 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 3
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_4_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             endline_4_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
@@ -1480,17 +1574,18 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 5
-                            else baseline_year + 4 end
+                            else baseline_year + 4 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 4
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_5_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             endline_5_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
@@ -1499,17 +1594,18 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 6
-                            else baseline_year + 5 end
+                            else baseline_year + 5 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 5
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
-             endline_6_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             endline_6_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
@@ -1518,7 +1614,8 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 7
-                            else baseline_year + 6 end
+                            else baseline_year + 6 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
@@ -1528,7 +1625,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                  where enl.program_exit_date_time ISNULL
                    and enl.is_voided = false
              ),
-             endline_7_data(individual_id, material, baseline_year, visit_number, gender, endline_year) as (
+             endline_7_data(individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus) as (
                  select b.individual_id,
                         enc.observations -> 'a54fcfad-8656-46ae-9706-671a600eabca',
                         baseline_year,
@@ -1537,18 +1634,19 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         case
                             when baseline_year = 2018
                                 then baseline_year + 8
-                            else baseline_year + 7 end
+                            else baseline_year + 7 end,
+                        b.exitStatus
                  from baseline_data b
                           left join program_enrolment enl on enl.individual_id = b.individual_id
                           left join program_encounter_view enc on enc.program_enrolment_id = enl.id
                      and enc.encounter_type_id = 88
                      and enc.is_voided = false
                      and extract('year' from encounter_date_time) = baseline_year + 7
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
              ),
              endline_data
-                 (individual_id, material, baseline_year, visit_number, gender, endline_year)
+                 (individual_id, material, baseline_year, visit_number, gender, endline_year,exitStatus)
                  as
                  (select *
                   from midline_data
@@ -1583,21 +1681,24 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                          b.baseline_year,
                          e.visit_number,
                          'Falalin'::TEXT,
-                         e.endline_year
+                         e.endline_year,
+                         b.exitStatus
                   from baseline_data b
                            join endline_data e on e.individual_id = b.individual_id
                   where b.material NOTNULL
-                    AND b.material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text)
+                    AND (b.material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text)
+                    OR b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text))
                  ),
              endline_for_baseline_sanitary_pad(individual_id, gender, material, baseline_year, visit_number,
-                                               baseline_status, endline_year) as (
+                                               baseline_status, endline_year,exitStatus) as (
                  select e.individual_id,
                         b.gender,
                         e.material,
                         b.baseline_year,
                         e.visit_number,
                         'Sanitary pad'::TEXT,
-                        e.endline_year
+                        e.endline_year,
+                        b.exitStatus
                  from baseline_data b
                           join endline_data e on e.individual_id = b.individual_id
                  where b.material NOTNULL
@@ -1605,7 +1706,7 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
              ),
              endline_for_baseline_old_cloth(individual_id, gender, material, baseline_year, visit_number,
                                             baseline_status,
-                                            endline_year)
+                                            endline_year,exitStatus)
                  as (
                  select e.individual_id,
                         b.gender,
@@ -1613,14 +1714,15 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         b.baseline_year,
                         e.visit_number,
                         'Old cloth'::TEXT,
-                        e.endline_year
+                        e.endline_year,
+                        b.exitStatus
                  from baseline_data b
                           join endline_data e on e.individual_id = b.individual_id
                  where b.material NOTNULL
                    AND b.material @> to_jsonb('968b26b8-a357-4960-8aa8-0db67a728481'::text)
              ),
              endline_for_baseline_kit_pad(individual_id, gender, material, baseline_year, visit_number, baseline_status,
-                                          endline_year)
+                                          endline_year,exitStatus)
                  as (
                  select e.individual_id,
                         b.gender,
@@ -1628,11 +1730,31 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                         b.baseline_year,
                         e.visit_number,
                         'Kit pad'::TEXT,
-                        e.endline_year
+                        e.endline_year,
+                        b.exitStatus
                  from baseline_data b
                           join endline_data e on e.individual_id = b.individual_id
                  where b.material NOTNULL
                    AND b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text)
+             ),
+              total_data(individual_id, gender, material, baseline_year, visit_number, baseline_status,
+                                          endline_year,exitStatus)
+                 as (
+                 select e.individual_id,
+                        b.gender,
+                        e.material,
+                        b.baseline_year,
+                        e.visit_number,
+                        'Total'::TEXT,
+                        e.endline_year,
+                        b.exitStatus
+                 from baseline_data b
+                          join endline_data e on e.individual_id = b.individual_id
+                 where b.material NOTNULL
+                   OR b.material @> to_jsonb('968b26b8-a357-4960-8aa8-0db67a728481'::text)
+                   OR b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text)
+                   OR b.material @> to_jsonb('fa118efa-116e-471e-a9cc-f39eabbc0a57'::text)
+                   OR b.material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text)
              ),
              all_events as (select *
                             from baseline_data
@@ -1647,12 +1769,16 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                             from endline_for_baseline_old_cloth
                             union all
                             select *
-                            from endline_for_baseline_falalin)
+                            from endline_for_baseline_falalin
+                            union all
+                            select *
+                            from total_data)
 
         select individual_id,
                jsonb_build_object(
                        'baselineFalalin',
-                       material NOTNULL AND material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) AND
+                       material NOTNULL AND (material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) OR
+                       b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text)) AND
                        baseline_status = 'null',
                        'baselineSanitary',
                        material NOTNULL AND material @> to_jsonb('fa118efa-116e-471e-a9cc-f39eabbc0a57'::text) AND
@@ -1666,7 +1792,8 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                        'baselineDataNotCapture', material isnull AND baseline_status = 'null',
                    --------------------
                        'baselineFalalinEndlineFalalin',
-                       material NOTNULL AND material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) AND
+                       material NOTNULL AND (material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) OR
+                       b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text)) AND
                        baseline_status = 'Falalin',
                        'baselineFalalinEndlineSanitary',
                        material NOTNULL AND material @> to_jsonb('fa118efa-116e-471e-a9cc-f39eabbc0a57'::text) AND
@@ -1680,7 +1807,8 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                        'baselineFalalinEndlineDataNotCapture', material ISNULL AND baseline_status = 'Falalin',
                    -------------------
                        'baselineSanitaryEndlineFalalin',
-                       material NOTNULL AND material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) AND
+                       material NOTNULL AND (material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) OR
+                       b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text)) AND
                        baseline_status = 'Sanitary pad',
                        'baselineSanitaryEndlineSanitary',
                        material NOTNULL AND material @> to_jsonb('fa118efa-116e-471e-a9cc-f39eabbc0a57'::text) AND
@@ -1694,7 +1822,8 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                        'baselineSanitaryEndlineDataNotCapture', material ISNULL AND baseline_status = 'Sanitary pad',
                    ------------------
                        'baselineOldClothEndlineFalalin',
-                       material NOTNULL AND material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) AND
+                       material NOTNULL AND (material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) OR
+                       b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text)) AND
                        baseline_status = 'Old cloth',
                        'baselineOldClothEndlineSanitary',
                        material NOTNULL AND material @> to_jsonb('fa118efa-116e-471e-a9cc-f39eabbc0a57'::text) AND
@@ -1708,7 +1837,8 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                        'baselineOldClothEndlineDataNotCapture', material ISNULL AND baseline_status = 'Old cloth',
                    ------------------
                        'baselineKitPadEndlineFalalin',
-                       material NOTNULL AND material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) AND
+                       material NOTNULL AND (material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text) OR
+                       b.material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text)) AND
                        baseline_status = 'Kit pad',
                        'baselineKitPadEndlineSanitary',
                        material NOTNULL AND material @> to_jsonb('fa118efa-116e-471e-a9cc-f39eabbc0a57'::text) AND
@@ -1719,7 +1849,14 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                        'baselineKitPadEndlineKitPad',
                        material NOTNULL AND material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text) AND
                        baseline_status = 'Kit pad',
-                       'baselineKitPadEndlineDataNotCapture', material ISNULL AND baseline_status = 'Kit pad'
+                       'baselineKitPadEndlineDataNotCapture', material ISNULL AND baseline_status = 'Kit pad',
+                       'totalData', (material NOTNULL OR material ISNULL) AND
+                       (material @> to_jsonb('6ebf2af2-38c6-4703-98c2-cba9f234b8f5'::text)
+                       OR material @> to_jsonb('fa118efa-116e-471e-a9cc-f39eabbc0a57'::text)
+                       OR material @> to_jsonb('968b26b8-a357-4960-8aa8-0db67a728481'::text)
+                       OR material @> to_jsonb('99414d2a-b7b1-434d-9354-c3da69619d83'::text))
+                       AND ( baseline_status = 'null' OR baseline_status = 'Falalin' OR baseline_status = 'Sanitary pad'
+                       OR baseline_status = 'Old cloth' OR baseline_status = 'Kit pad')
                    ) as status_map,
                jsonb_build_object(
                        'material', material
@@ -1727,7 +1864,8 @@ create or replace view sr_individual_menstrual_hygiene_indicator_matrix as
                gender,
                baseline_year,
                visit_number,
-               endline_year
+               endline_year,
+               exitStatus
         from all_events
     );
 
@@ -1735,7 +1873,8 @@ create or replace function sr_record_from_individual_menstrual_hygiene_indicator
                                                                                  transition text,
                                                                                  transitionTo text,
                                                                                  baselineYear int,
-                                                                                 lineListQuestionNumber int)
+                                                                                 lineListQuestionNumber int,
+                                                                                 exitStatus text)
     returns table
             (
                 baseline_year   float,
@@ -1769,7 +1908,7 @@ as
 $body$
 with data as (select baseline_year                                                                        as baseline_year,
                      $1                                                                                   as baseline_status,
-                     count(distinct s.individual_id) filter ( where visit_number = 0 )                    as baselined_individuals,
+                     count(distinct s.individual_id) filter ( where visit_number = 0 ) as baselined_individuals,
                      count(distinct s.individual_id)
                      filter ( where (status_map ->> $2)::boolean = true)                                  as baseline,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=0&baseline_year=%s', $6,
@@ -1777,44 +1916,44 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as baseline_ll,
                      $4                                                                                   as transition_to,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND visit_number = 2))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 1 ) OR ($5 <> 2018 AND visit_number = 2 ))) ->>
                               'year',
                               'NA')                                                                       as endline_year_1,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 1) OR
-                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1,
+                                                                    (($5 = 2018 AND visit_number = 1 ) OR
+                                                                     ($5 <> 2018 AND visit_number = 2 )))  as transition_1,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 1 else 2 end,
                             $5)::TEXT                                                                     as endline_1_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 2) OR ($5 <> 2018 AND visit_number = 3))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 2 ) OR ($5 <> 2018 AND visit_number = 3 ))) ->>
                               'year',
                               'NA')                                                                       as endline_year_2,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 2) OR
+                                                                    (($5 = 2018 AND visit_number = 2 ) OR
                                                                      ($5 <> 2018 AND visit_number = 3)) ) as transition_2,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 2 else 3 end,
                             $5)::TEXT                                                                     as endline_2_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 3) OR ($5 <> 2018 AND visit_number = 4))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 3 ) OR ($5 <> 2018 AND visit_number = 4 ))) ->>
                               'year',
                               'NA')                                                                       as endline_year_3,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 3) OR
-                                                                     ($5 <> 2018 AND visit_number = 4)) ) as transition_3,
+                                                                    (($5 = 2018 AND visit_number = 3 ) OR
+                                                                     ($5 <> 2018 AND visit_number = 4 )) ) as transition_3,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 3 else 4 end,
                             $5)::TEXT                                                                     as endline_3_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 4) OR ($5 <> 2018 AND visit_number = 5))) ->>
+                               FILTER (WHERE ($5 = 2018  AND visit_number = 4) OR ($5 <> 2018 AND visit_number = 5))) ->>
                               'year',
                               'NA')                                                                       as endline_year_4,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 4) OR
+                                                                    (($5 = 2018  AND visit_number = 4) OR
                                                                      ($5 <> 2018 AND visit_number = 5)) ) as transition_4,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -1832,22 +1971,22 @@ with data as (select baseline_year                                              
                             case when $5 = 2018 then 5 else 6 end,
                             $5)::TEXT                                                                     as endline_5_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 6) OR ($5 <> 2018 AND visit_number = 7))) ->>
+                               FILTER (WHERE ($5 = 2018  AND visit_number = 6) OR ($5 <> 2018 AND visit_number = 7))) ->>
                               'year',
                               'NA')                                                                       as endline_year_6,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 6) OR
+                                                                    (($5 = 2018  AND visit_number = 6) OR
                                                                      ($5 <> 2018 AND visit_number = 7)) ) as transition_6,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 6 else 7 end,
                             $5)::TEXT                                                                     as endline_6_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 7) OR ($5 <> 2018 AND visit_number = 8))) ->>
+                               FILTER (WHERE ($5 = 2018 AND  visit_number = 7) OR ($5 <> 2018 AND visit_number = 8))) ->>
                               'year',
                               'NA')                                                                       as endline_year_7,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
-                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                    (($5 = 2018 AND  visit_number = 7) OR
                                                                      ($5 <> 2018 AND visit_number = 8)) ) as transition_7,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -1855,7 +1994,8 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as endline_7_ll
 
               from sr_individual_menstrual_hygiene_indicator_matrix s
-              where baseline_year = $5
+              where baseline_year = $5 and case when $7 is null then exitStatus in ('Exited','Non-exited') else
+                  exitStatus = $7 end
               group by baseline_year)
 select baseline_year,
        baseline_status,
@@ -1891,328 +2031,371 @@ $body$
 
 -----views and functions for School Dropout Ratio
 create or replace view sr_individual_School_Dropout_Ratio_indicator_matrix as
-    (
-        with partitioned_annual as (
-            SELECT i.id                                                                   individual_id,
-                   row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time) rank,
-                   encounter_date_time,
-                   enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3'             schoolGoing,
-                   g.name                                                                 gender
-            from program_encounter enc
-                     join encounter_type enct on enc.encounter_type_id = enct.id
-                     join program_enrolment enl on enc.program_enrolment_id = enl.id
-                     join program op ON op.id = enl.program_id
-                     join individual i on enl.individual_id = i.id
-                     join gender g on i.gender_id = g.id
-            WHERE op.id = 3
-              AND enct.id = 7
-              AND enc.encounter_date_time NOTNULL
-              and enc.is_voided = false
-              and enl.program_exit_date_time ISNULL
-              and enl.is_voided = false
-              and i.is_voided = false
+(
+with partitioned_annual as (
+    SELECT i.id                                                                   individual_id,
+           row_number() OVER (PARTITION BY i.id ORDER BY enc.encounter_date_time) rank,
+           encounter_date_time,
+           enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3'             schoolGoing,
+           g.name                                                                 gender,
+           case when enl.program_exit_date_time ISNULL then 'Non-exited'
+                else 'Exited' end exitStatus
+    from program_encounter enc
+             join encounter_type enct on enc.encounter_type_id = enct.id
+             join program_enrolment enl on enc.program_enrolment_id = enl.id
+             join program op ON op.id = enl.program_id
+             join individual i on enl.individual_id = i.id
+             join gender g on i.gender_id = g.id
+    WHERE op.id = 3
+      AND enct.id = 7
+      AND enc.encounter_date_time NOTNULL
+      and enc.is_voided = false
+--               and enl.program_exit_date_time ISNULL
+--               and enl.is_voided = false
+      and i.is_voided = false
+),
+     baseline_data (individual_id, gender, schoolGoing, baseline_year, visit_number, baseline_status,
+                    endline_year, exitStatus)
+         as (
+         select individual_id,
+                gender,
+                schoolGoing,
+                extract('year' from encounter_date_time),
+                0,
+                'null'::TEXT,
+                0,
+                exitStatus
+         from partitioned_annual
+         where rank = 1
+     ),
+     midline_partitioned as (
+         select enc.program_enrolment_id,
+                enc.observations,
+                encounter_date_time,
+                row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank,
+                case when enl.program_exit_date_time ISNULL then 'Non-exited'
+                     else 'Exited' end exitStatus
+         from program_encounter_view enc
+                  join program_enrolment enl on enc.program_enrolment_id = enl.id
+         where encounter_type_id = 47
+           and enl.is_voided = false
+--                    and enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     midline_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                1        visit_number,
+                b.gender gender,
+                baseline_year + 1,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join midline_partitioned enc on enc.program_enrolment_id = enl.id
+             and extract('year' from encounter_date_time) = baseline_year + 1
+             and rank = 1
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_1_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                2        visit_number,
+                b.gender gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 2
+                    else baseline_year + 1 end,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_id = 88
+             and enc.is_voided = false
+             and extract('year' from encounter_date_time) = baseline_year + 1
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_2_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                3        visit_number,
+                b.gender gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 3
+                    else baseline_year + 2 end,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_id = 88
+             and enc.is_voided = false
+             and extract('year' from encounter_date_time) = baseline_year + 2
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_3_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                4        visit_number,
+                b.gender gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 4
+                    else baseline_year + 3 end,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_id = 88
+             and enc.is_voided = false
+             and extract('year' from encounter_date_time) = baseline_year + 3
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_4_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                5        visit_number,
+                b.gender gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 5
+                    else baseline_year + 4 end,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_id = 88
+             and enc.is_voided = false
+             and extract('year' from encounter_date_time) = baseline_year + 4
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_5_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                6        visit_number,
+                b.gender gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 6
+                    else baseline_year + 5 end,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_id = 88
+             and enc.is_voided = false
+             and extract('year' from encounter_date_time) = baseline_year + 5
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_6_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                7        visit_number,
+                b.gender gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 7
+                    else baseline_year + 6 end,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_id = 88
+             and enc.is_voided = false
+             and extract('year' from encounter_date_time) = baseline_year + 6
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_7_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus) as (
+         select b.individual_id,
+                enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
+                baseline_year,
+                8        visit_number,
+                b.gender gender,
+                case
+                    when baseline_year = 2018
+                        then baseline_year + 8
+                    else baseline_year + 7 end,
+                b.exitStatus
+         from baseline_data b
+                  left join program_enrolment enl on enl.individual_id = b.individual_id
+                  left join program_encounter_view enc on enc.program_enrolment_id = enl.id
+             and enc.encounter_type_id = 88
+             and enc.is_voided = false
+             and extract('year' from encounter_date_time) = baseline_year + 7
+--                  where enl.program_exit_date_time ISNULL
+--                    and enl.is_voided = false
+     ),
+     endline_data
+         (individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year, exitStatus)
+         as
+         (select *
+          from midline_data
+          union all
+          select *
+          from endline_1_data
+          union all
+          select *
+          from endline_2_data
+          union all
+          select *
+          from endline_3_data
+          union all
+          select *
+          from endline_4_data
+          union all
+          select *
+          from endline_5_data
+          union all
+          select *
+          from endline_6_data
+          union all
+          select *
+          from endline_7_data
+         ),
+     endline_for_baseline_dropOut
+         (individual_id, gender, schoolGoing, baseline_year, visit_number, baseline_status, endline_year, exitStatus)
+         as
+         (select b.individual_id,
+                 b.gender,
+                 e.schoolGoing,
+
+                 b.baseline_year,
+                 e.visit_number,
+                 'Dropped Out'::TEXT,
+                 e.endline_year,
+                 b.exitStatus
+          from baseline_data b
+                   join endline_data e on e.individual_id = b.individual_id
+          where b.schoolGoing NOTNULL
+            AND b.schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text)
+         ),
+     endline_for_baseline_going(individual_id, gender, schoolGoing, baseline_year, visit_number,
+                                baseline_status, endline_year, exitStatus) as (
+         select e.individual_id,
+                b.gender,
+                e.schoolGoing,
+
+                b.baseline_year,
+                e.visit_number,
+                'Going'::TEXT,
+                e.endline_year,
+                b.exitStatus
+         from baseline_data b
+                  join endline_data e on e.individual_id = b.individual_id
+         where b.schoolGoing NOTNULL
+           AND b.schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text)
+     ),
+     endline_for_baseline_dataNotCapture(individual_id, gender, schoolGoing, baseline_year, visit_number,
+                                         baseline_status,
+                                         endline_year, exitStatus) as (
+         select e.individual_id,
+                b.gender,
+                e.schoolGoing,
+                b.baseline_year,
+                e.visit_number,
+                'Data Not Capture'::TEXT,
+                e.endline_year,
+                b.exitStatus
+         from baseline_data b
+                  join endline_data e on e.individual_id = b.individual_id
+        where b.schoolGoing ISNULL
         ),
-             baseline_data (individual_id, gender, schoolGoing, baseline_year, visit_number, baseline_status,
-                            endline_year)
-                 as (
-                 select individual_id,
-                        gender,
-                        schoolGoing,
-                        extract('year' from encounter_date_time),
-                        0,
-                        'null'::TEXT,
-                        0
-                 from partitioned_annual
-                 where rank = 1
-             ),
-             midline_partitioned as (
-                 select enc.program_enrolment_id,
-                        enc.observations,
-                        encounter_date_time,
-                        row_number() OVER (PARTITION BY individual_id ORDER BY enc.encounter_date_time) rank
-                 from program_encounter_view enc
-                          join program_enrolment enl on enc.program_enrolment_id = enl.id
-                 where encounter_type_id = 47
-                   and enl.is_voided = false
-                   and enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             midline_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        1        visit_number,
-                        b.gender gender,
-                        baseline_year + 1
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join midline_partitioned enc on enc.program_enrolment_id = enl.id
-                     and extract('year' from encounter_date_time) = baseline_year + 1
-                     and rank = 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_1_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        2        visit_number,
-                        b.gender gender,
-                        case
-                            when baseline_year = 2018
-                                then baseline_year + 2
-                            else baseline_year + 1 end
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_id = 88
-                     and enc.is_voided = false
-                     and extract('year' from encounter_date_time) = baseline_year + 1
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_2_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        3        visit_number,
-                        b.gender gender,
-                        case
-                            when baseline_year = 2018
-                                then baseline_year + 3
-                            else baseline_year + 2 end
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_id = 88
-                     and enc.is_voided = false
-                     and extract('year' from encounter_date_time) = baseline_year + 2
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_3_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        4        visit_number,
-                        b.gender gender,
-                        case
-                            when baseline_year = 2018
-                                then baseline_year + 4
-                            else baseline_year + 3 end
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_id = 88
-                     and enc.is_voided = false
-                     and extract('year' from encounter_date_time) = baseline_year + 3
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_4_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        5        visit_number,
-                        b.gender gender,
-                        case
-                            when baseline_year = 2018
-                                then baseline_year + 5
-                            else baseline_year + 4 end
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_id = 88
-                     and enc.is_voided = false
-                     and extract('year' from encounter_date_time) = baseline_year + 4
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_5_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        6        visit_number,
-                        b.gender gender,
-                        case
-                            when baseline_year = 2018
-                                then baseline_year + 6
-                            else baseline_year + 5 end
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_id = 88
-                     and enc.is_voided = false
-                     and extract('year' from encounter_date_time) = baseline_year + 5
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_6_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        7        visit_number,
-                        b.gender gender,
-                        case
-                            when baseline_year = 2018
-                                then baseline_year + 7
-                            else baseline_year + 6 end
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_id = 88
-                     and enc.is_voided = false
-                     and extract('year' from encounter_date_time) = baseline_year + 6
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_7_data(individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year) as (
-                 select b.individual_id,
-                        enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3',
-                        baseline_year,
-                        8        visit_number,
-                        b.gender gender,
-                        case
-                            when baseline_year = 2018
-                                then baseline_year + 8
-                            else baseline_year + 7 end
-                 from baseline_data b
-                          left join program_enrolment enl on enl.individual_id = b.individual_id
-                          left join program_encounter_view enc on enc.program_enrolment_id = enl.id
-                     and enc.encounter_type_id = 88
-                     and enc.is_voided = false
-                     and extract('year' from encounter_date_time) = baseline_year + 7
-                 where enl.program_exit_date_time ISNULL
-                   and enl.is_voided = false
-             ),
-             endline_data
-                 (individual_id, schoolGoing, baseline_year, visit_number, gender, endline_year)
-                 as
-                 (select *
-                  from midline_data
-                  union all
-                  select *
-                  from endline_1_data
-                  union all
-                  select *
-                  from endline_2_data
-                  union all
-                  select *
-                  from endline_3_data
-                  union all
-                  select *
-                  from endline_4_data
-                  union all
-                  select *
-                  from endline_5_data
-                  union all
-                  select *
-                  from endline_6_data
-                  union all
-                  select *
-                  from endline_7_data
-                 ),
-             endline_for_baseline_dropOut
-                 (individual_id, gender, schoolGoing, baseline_year, visit_number, baseline_status, endline_year)
-                 as
-                 (select b.individual_id,
-                         b.gender,
-                         e.schoolGoing,
+     total_data(individual_id, gender, schoolGoing, baseline_year, visit_number,
+                                         baseline_status,
+                                         endline_year, exitStatus) as (
+         select e.individual_id,
+                b.gender,
+                e.schoolGoing,
+                b.baseline_year,
+                e.visit_number,
+                'Data Not Capture'::TEXT,
+                e.endline_year,
+                b.exitStatus
+         from baseline_data b
+                  join endline_data e on e.individual_id = b.individual_id
+          where b.schoolGoing ISNULL OR b.schoolGoing NOTNULL
+          OR b.schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text)
+          OR b.schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text)
 
-                         b.baseline_year,
-                         e.visit_number,
-                         'Dropped Out'::TEXT,
-                         e.endline_year
-                  from baseline_data b
-                           join endline_data e on e.individual_id = b.individual_id
-                  where b.schoolGoing NOTNULL
-                    AND b.schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text)
-                 ),
-             endline_for_baseline_going(individual_id, gender, schoolGoing, baseline_year, visit_number,
-                                        baseline_status, endline_year) as (
-                 select e.individual_id,
-                        b.gender,
-                        e.schoolGoing,
+     ),
+     all_events as (select *
+                    from baseline_data
+                    union all
+                    select *
+                    from endline_for_baseline_dropOut
+                    union all
+                    select *
+                    from endline_for_baseline_going
+                    union all
+                    select *
+                    from endline_for_baseline_dataNotCapture
+                    union all
+                    select *
+                    from total_data
+     )
 
-                        b.baseline_year,
-                        e.visit_number,
-                        'Going'::TEXT,
-                        e.endline_year
-                 from baseline_data b
-                          join endline_data e on e.individual_id = b.individual_id
-                 where b.schoolGoing NOTNULL
-                   AND b.schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text)
-             ),
-             endline_for_baseline_dataNotCapture(individual_id, gender, schoolGoing, baseline_year, visit_number,
-                                                 baseline_status,
-                                                 endline_year) as (
-                 select e.individual_id,
-                        b.gender,
-                        e.schoolGoing,
-                        b.baseline_year,
-                        e.visit_number,
-                        'Data Not Capture'::TEXT,
-                        e.endline_year
-                 from baseline_data b
-                          join endline_data e on e.individual_id = b.individual_id
-                 where b.schoolGoing ISNULL
-             ),
-             all_events as (select *
-                            from baseline_data
-                            union all
-                            select *
-                            from endline_for_baseline_dropOut
-                            union all
-                            select *
-                            from endline_for_baseline_going
-                            union all
-                            select *
-                            from endline_for_baseline_dataNotCapture
-             )
-
-        select individual_id,
-               jsonb_build_object(
-                       'baselinedropOut',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
-                       baseline_status = 'null',
-                       'baselineGoing',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
-                       baseline_status = 'null',
-                       'baselinedataNotCapture', schoolGoing ISNULL AND baseline_status = 'null',
-                   -----DropuOut---------
-                       'baselinedropOutEndlinedropOut',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
-                       baseline_status = 'Dropped Out',
-                       'baselinedropOutEndlineGoing',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
-                       baseline_status = 'Dropped Out',
-                       'baselinedropOutEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Dropped Out',
-                   -----SchooGoing----------
-                       'baselineGoingEndlinedropOut',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
-                       baseline_status = 'Going',
-                       'baselineGoingEndlineGoing',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
-                       baseline_status = 'Going',
-                       'baselineGoingEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Going',
-                   ------DataNotCapture--------
-                       'baselineNotCaptureEndlinedropOut',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
-                       baseline_status = 'Data Not Capture',
-                       'baselineNotCaptureEndlineGoing',
-                       schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
-                       baseline_status = 'Data Not Capture',
-                       'baselineNotCaptureEndlineNotCapture',
-                       schoolGoing ISNULL AND baseline_status = 'Data Not Capture'
-                   ) as status_map,
-               jsonb_build_object(
-                       'schoolGoing', schoolGoing
-                   ) as value_map,
-               gender,
-               baseline_year,
-               visit_number,
-               endline_year
-        from all_events
+select individual_id,
+       jsonb_build_object(
+               'baselinedropOut',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
+               baseline_status = 'null',
+               'baselineGoing',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
+               baseline_status = 'null',
+               'baselinedataNotCapture', schoolGoing ISNULL AND baseline_status = 'null',
+           -----DropuOut---------
+               'baselinedropOutEndlinedropOut',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
+               baseline_status = 'Dropped Out',
+               'baselinedropOutEndlineGoing',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
+               baseline_status = 'Dropped Out',
+               'baselinedropOutEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Dropped Out',
+           -----SchooGoing----------
+               'baselineGoingEndlinedropOut',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
+               baseline_status = 'Going',
+               'baselineGoingEndlineGoing',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
+               baseline_status = 'Going',
+               'baselineGoingEndlineNotCapture', schoolGoing ISNULL AND baseline_status = 'Going',
+           ------DataNotCapture--------
+               'baselineNotCaptureEndlinedropOut',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text) AND
+               baseline_status = 'Data Not Capture',
+               'baselineNotCaptureEndlineGoing',
+               schoolGoing NOTNULL AND schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) AND
+               baseline_status = 'Data Not Capture',
+               'baselineNotCaptureEndlineNotCapture',
+               schoolGoing ISNULL AND baseline_status = 'Data Not Capture',
+               'total_data',
+               schoolGoing ISNULL OR schoolGoing NOTNULL
+               OR schoolGoing @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text)
+               OR schoolGoing @> to_jsonb('58f789aa-6570-4aea-87a7-1f7651729c5a'::text)
+               OR baseline_status = 'null' OR baseline_status = 'Dropped Out' OR baseline_status = 'Going' OR baseline_status = 'Data Not Capture'
+           ) as status_map,
+       jsonb_build_object(
+               'schoolGoing', schoolGoing
+           ) as value_map,
+       gender,
+       baseline_year,
+       visit_number,
+       endline_year,
+       exitStatus
+from all_events
     );
 
 
@@ -2221,7 +2404,8 @@ create or replace function sr_individual_School_Dropout_Ratio_indicator_matrix(s
                                                                                transition text,
                                                                                transitionTo text,
                                                                                baselineYear int,
-                                                                               lineListQuestionNumber int)
+                                                                               lineListQuestionNumber int,
+                                                                               exitStatus text)
     returns table
             (
                 baseline_year       float,
@@ -2283,17 +2467,17 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as baseline_ll,
                      $4                                                                                   as transition_to,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018 AND visit_number = 2))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 1) OR ($5 <> 2018  AND visit_number = 2))) ->>
                               'year',
                               'NA')                                                                       as endline_year_1,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
-                                                                    (($5 = 2018 AND visit_number = 1) OR
+                                                                    (($5 = 2018  AND visit_number = 1) OR
                                                                      ($5 <> 2018 AND visit_number = 2)))  as transition_1_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 1) OR
-                                                                     ($5 <> 2018 AND visit_number = 2)))  as transition_1_female,
+                                                                    (($5 = 2018  AND visit_number = 1) OR
+                                                                     ($5 <> 2018  AND visit_number = 2)))  as transition_1_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 1 else 2 end,
@@ -2304,11 +2488,11 @@ with data as (select baseline_year                                              
                               'NA')                                                                       as endline_year_2,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
-                                                                    (($5 = 2018 AND visit_number = 2) OR
+                                                                    (($5 = 2018  AND visit_number = 2) OR
                                                                      ($5 <> 2018 AND visit_number = 3)) ) as transition_2_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 2) OR
+                                                                    (($5 = 2018  AND visit_number = 2) OR
                                                                      ($5 <> 2018 AND visit_number = 3)))  as transition_2_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -2321,10 +2505,10 @@ with data as (select baseline_year                                              
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
                                                                     (($5 = 2018 AND visit_number = 3) OR
-                                                                     ($5 <> 2018 AND visit_number = 4)) ) as transition_3_male,
+                                                                     ($5 <> 2018  AND visit_number = 4)) ) as transition_3_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 3) OR
+                                                                    (($5 = 2018  AND visit_number = 3) OR
                                                                      ($5 <> 2018 AND visit_number = 4)))  as transition_3_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -2340,14 +2524,14 @@ with data as (select baseline_year                                              
                                                                      ($5 <> 2018 AND visit_number = 5)) ) as transition_4_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 4) OR
+                                                                    (($5 = 2018  AND visit_number = 4) OR
                                                                      ($5 <> 2018 AND visit_number = 5)))  as transition_4_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 4 else 5 end,
                             $5)::TEXT                                                                     as endline_4_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 5) OR ($5 <> 2018 AND visit_number = 6))) ->>
+                               FILTER (WHERE ($5 = 2018  AND visit_number = 5) OR ($5 <> 2018  AND visit_number = 6))) ->>
                               'year',
                               'NA')                                                                       as endline_year_5,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
@@ -2369,26 +2553,26 @@ with data as (select baseline_year                                              
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
                                                                     (($5 = 2018 AND visit_number = 6) OR
-                                                                     ($5 <> 2018 AND visit_number = 7)) ) as transition_6_male,
+                                                                     ($5 <> 2018  AND visit_number = 7)) ) as transition_6_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 6) OR
+                                                                    (($5 = 2018  AND visit_number = 6) OR
                                                                      ($5 <> 2018 AND visit_number = 7)))  as transition_6_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
                             case when $5 = 2018 then 6 else 7 end,
                             $5)::TEXT                                                                     as endline_6_ll,
                      coalesce((json_object_agg('year', endline_year)
-                               FILTER (WHERE ($5 = 2018 AND visit_number = 7) OR ($5 <> 2018 AND visit_number = 8))) ->>
+                               FILTER (WHERE ($5 = 2018 AND visit_number = 7) OR ($5 <> 2018  AND visit_number = 8))) ->>
                               'year',
                               'NA')                                                                       as endline_year_7,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Male' and
-                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                    (($5 = 2018  AND visit_number = 7) OR
                                                                      ($5 <> 2018 AND visit_number = 8)) ) as transition_7_male,
                      count(distinct s.individual_id) filter ( where (status_map ->> $3)::boolean = true and
                                                                     gender = 'Female' and
-                                                                    (($5 = 2018 AND visit_number = 7) OR
+                                                                    (($5 = 2018  AND visit_number = 7) OR
                                                                      ($5 <> 2018 AND visit_number = 8)))  as transition_7_female,
                      format('https://reporting.openchs.org/question/%s?status=%s&visit_number=%s&baseline_year=%s', $6,
                             $3,
@@ -2396,7 +2580,8 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                                     as endline_7_ll
 
               from sr_individual_School_Dropout_Ratio_indicator_matrix s
-              where baseline_year = $5
+              where baseline_year = $5 and case when $7 is null then exitStatus in ('Exited','Non-exited') else
+                  exitStatus = $7 end
               group by baseline_year)
 select baseline_year,
        baseline_status,
@@ -2463,7 +2648,9 @@ create or replace view sr_chronic_sickness_matrix as
                    encounter_date_time,
                    enc.observations -> 'b00a5ea2-e09c-43aa-b514-ac3c50474647' as          sickness,
                    enc.observations -> '575a29c3-a070-4c7d-ac96-fe58b6bddca3' as          schoolGoing,
-                   g.name                                                                 gender
+                   g.name                                                                 gender,
+                   case when enl.program_exit_date_time ISNULL then 'Non-exited'
+                   else 'Exited' end exitStatus
             from program_encounter enc
                      join encounter_type enct on enc.encounter_type_id = enct.id
                      join program_enrolment enl on enc.program_enrolment_id = enl.id
@@ -2481,14 +2668,14 @@ create or replace view sr_chronic_sickness_matrix as
               "05ea583c-51d2-412d-ad00-06c432ffe538"
             ]'::jsonb @> (enc.observations -> 'b00a5ea2-e09c-43aa-b514-ac3c50474647')
               AND enc.encounter_date_time NOTNULL
-              and enc.is_voided = false
-              and enl.program_exit_date_time ISNULL
-              and enl.is_voided = false
-              and i.is_voided = false
+--               and enc.is_voided = false
+--               and enl.program_exit_date_time ISNULL
+--               and enl.is_voided = false
+--               and i.is_voided = false
         ),
              baseline_data (individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured, Treatment,
                             baseline_year, visit_number, baseline_status,
-                            endline_year)
+                            endline_year,exitStatus)
                  as (
                  select pa.individual_id,
                         pa.gender,
@@ -2501,7 +2688,8 @@ create or replace view sr_chronic_sickness_matrix as
                         extract('year' from phd.enrolmentDate),
                         0,
                         'null'::TEXT,
-                        0
+                        0,
+                        pa.exitStatus
                  from partitioned_annual pa
                           join sr_partitioned_hospital_data_view phd
                                on phd.individual_id = pa.individual_id and rank2 = 1
@@ -2512,7 +2700,7 @@ create or replace view sr_chronic_sickness_matrix as
                  (individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured, Treatment,
                   baseline_year,
                   visit_number, baseline_status,
-                  endline_year)
+                  endline_year, exitStatus)
                  as
                  (select b.individual_id,
                          b.gender,
@@ -2526,7 +2714,8 @@ create or replace view sr_chronic_sickness_matrix as
                          b.baseline_year,
                          0,
                          'Heart problem'::TEXT,
-                         0
+                         0,
+                         b.exitStatus
                   from baseline_data b
 
                   where b.sickness NOTNULL
@@ -2535,7 +2724,7 @@ create or replace view sr_chronic_sickness_matrix as
              endline_for_baseline_kidneyProblem(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason,
                                                 cured,
                                                 Treatment, baseline_year, visit_number, baseline_status,
-                                                endline_year) as (
+                                                endline_year,exitStatus) as (
                  select b.individual_id,
                         b.gender,
                         b.schoolGoing,
@@ -2548,7 +2737,8 @@ create or replace view sr_chronic_sickness_matrix as
                         b.baseline_year,
                         0,
                         'Kidney problem'::TEXT,
-                        0
+                        0,
+                        b.exitStatus
                  from baseline_data b
 
                  where b.sickness NOTNULL
@@ -2557,7 +2747,7 @@ create or replace view sr_chronic_sickness_matrix as
              endline_for_baseline_sickleCellDisease(individual_id, gender, schoolGoing, sickness, hospitalvisited,
                                                     Reason,
                                                     cured, Treatment, baseline_year, visit_number, baseline_status,
-                                                    endline_year)
+                                                    endline_year, exitStatus)
                  as (
                  select b.individual_id,
                         b.gender,
@@ -2571,7 +2761,8 @@ create or replace view sr_chronic_sickness_matrix as
                         b.baseline_year,
                         0,
                         'Sickle cell disease'::TEXT,
-                        0
+                        0,
+                        b.exitStatus
                  from baseline_data b
 
                  where b.sickness NOTNULL
@@ -2579,7 +2770,7 @@ create or replace view sr_chronic_sickness_matrix as
              ),
              endline_for_baseline_epilepsy(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured,
                                            Treatment, baseline_year, visit_number, baseline_status,
-                                           endline_year)
+                                           endline_year,exitStatus)
                  as (
                  select b.individual_id,
                         b.gender,
@@ -2593,7 +2784,8 @@ create or replace view sr_chronic_sickness_matrix as
                         b.baseline_year,
                         0,
                         'Epilepsy'::TEXT,
-                        0
+                        0,
+                        b.exitStatus
                  from baseline_data b
 
                  where b.sickness NOTNULL
@@ -2602,7 +2794,7 @@ create or replace view sr_chronic_sickness_matrix as
              endline_for_baseline_other(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured,
                                         Treatment,
                                         baseline_year, visit_number, baseline_status,
-                                        endline_year)
+                                        endline_year,exitStatus)
                  as (
                  select b.individual_id,
                         b.gender,
@@ -2616,11 +2808,65 @@ create or replace view sr_chronic_sickness_matrix as
                         b.baseline_year,
                         0,
                         'Other'::TEXT,
-                        0
+                        0,
+                        b.exitStatus
                  from baseline_data b
 
                  where b.sickness NOTNULL
                    AND b.sickness @> to_jsonb('05ea583c-51d2-412d-ad00-06c432ffe538'::text)
+             ),
+             endline_for_total(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured,
+                                        Treatment,
+                                        baseline_year, visit_number, baseline_status,
+                                        endline_year, exitStatus)
+                 as (
+                 select b.individual_id,
+                        b.gender,
+                        b.schoolGoing,
+                        b.sickness,
+                        b.hospitalvisited,
+                        b.Reason,
+                        b.cured,
+                        b.Treatment,
+
+                        b.baseline_year,
+                        0,
+                        'Total'::TEXT,
+                        0,
+                        b.exitStatus
+                 from baseline_data b
+
+                 where b.sickness NOTNULL
+                        AND ( b.sickness @> to_jsonb('4cb9f91e-c8f8-4e9f-8c4b-544d94b5afa5'::text)
+                        OR b.sickness @> to_jsonb('3505bbe2-e276-4f1b-a0d9-5c22ce160fd4'::text)
+                        OR b.sickness @> to_jsonb('00ff88d0-d8bd-493b-98e2-fe60f6f9ce66'::text)
+                        OR b.sickness @> to_jsonb('a34bf7a0-4d55-41fa-855a-0b8094f369f7'::text)
+                        OR b.sickness @> to_jsonb('05ea583c-51d2-412d-ad00-06c432ffe538'::text))
+             ),
+             endline_for_taking_treatment(individual_id, gender, schoolGoing, sickness, hospitalvisited, Reason, cured,
+                                        Treatment,
+                                        baseline_year, visit_number, baseline_status,
+                                        endline_year,exitStatus)
+                 as (
+                 select pa.individual_id,
+                        pa.gender,
+                        pa.schoolGoing,
+                        pa.sickness,
+                        b.hospitalvisited,
+                        b.Reason,
+                        b.cured,
+                        b.Treatment,
+
+                         extract('year' from b.enrolmentDate),
+                         0,
+                         'Taking treatment regularly'::TEXT,
+                         0,
+                         pa.exitStatus
+                 from sr_partitioned_hospital_data_view b
+                  join partitioned_annual pa on b.individual_id = pa.individual_id and rank2 =1
+
+                 where b.Treatment NOTNULL
+                  and  b.Treatment  @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text) and rank =1
              ),
              all_events as (select *
                             from baseline_data
@@ -2639,6 +2885,12 @@ create or replace view sr_chronic_sickness_matrix as
                             union all
                             select *
                             from endline_for_baseline_other
+                            union all
+                            select *
+                            from endline_for_total
+                            union all
+                            select *
+                            from endline_for_taking_treatment
              )
 
         select individual_id,
@@ -2650,7 +2902,17 @@ create or replace view sr_chronic_sickness_matrix as
                        'baselineSickleCellDisease',
                        sickness NOTNULL AND sickness @> to_jsonb('00ff88d0-d8bd-493b-98e2-fe60f6f9ce66'::text) AND baseline_status = 'null',
                        'baselineEpilepsy', sickness NOTNULL and sickness @> to_jsonb('a34bf7a0-4d55-41fa-855a-0b8094f369f7'::text) AND baseline_status = 'null',
-                       'baselineOther', sickness NOTNULL and sickness @> to_jsonb('05ea583c-51d2-412d-ad00-06c432ffe538'::text) AND baseline_status = 'null'
+                       'baselineOther', sickness NOTNULL and sickness @> to_jsonb('05ea583c-51d2-412d-ad00-06c432ffe538'::text) AND baseline_status = 'null',
+                       'total', sickness NOTNULL
+                        AND ( sickness @> to_jsonb('4cb9f91e-c8f8-4e9f-8c4b-544d94b5afa5'::text)
+                        OR sickness @> to_jsonb('3505bbe2-e276-4f1b-a0d9-5c22ce160fd4'::text)
+                        OR sickness @> to_jsonb('00ff88d0-d8bd-493b-98e2-fe60f6f9ce66'::text)
+                        OR sickness @> to_jsonb('a34bf7a0-4d55-41fa-855a-0b8094f369f7'::text)
+                        OR sickness @> to_jsonb('05ea583c-51d2-412d-ad00-06c432ffe538'::text))
+                        AND baseline_status = 'null',
+                        'totalTreatment', Treatment NOTNULL
+                        AND Treatment  @> to_jsonb('04bb1773-c353-44a1-a68c-9b448e07ff70'::text)
+
                    ) as status_map,
                jsonb_build_object(
                        'sickness', sickness
@@ -2658,13 +2920,14 @@ create or replace view sr_chronic_sickness_matrix as
                gender,
                baseline_year,
                visit_number,
-               endline_year
+               endline_year,
+               exitStatus
         from all_events
     );
 
 create or replace function sr_record_from_chronic_sickness(status text, baseLineStatus text, transition text,
                                                            transitionTo text,
-                                                           baselineYear int, lineListQuestionNumber int)
+                                                           baselineYear int, lineListQuestionNumber int, exitStatus text)
     returns table
             (
                 baseline_year   float,
@@ -2674,7 +2937,6 @@ create or replace function sr_record_from_chronic_sickness(status text, baseLine
                 baseline_other  text,
                 baseline        text,
                 baseline_ll     text
-
             )
 as
 $body$
@@ -2694,7 +2956,8 @@ with data as (select baseline_year                                              
                             $5)::TEXT                                                          as baseline_ll
 
               from sr_chronic_sickness_matrix s
-              where baseline_year = $5
+              where baseline_year = $5 and case when $7 is null then exitStatus in ('Exited','Non-exited') else
+                  exitStatus = $7 end
               group by baseline_year)
 select baseline_year,
        baseline_status,
@@ -3098,10 +3361,16 @@ create or replace view sr_partitioned_hospital_data_view as (
              join encounter_type et on et.id = enc.encounter_type_id
              join program_enrolment enl on enc.program_enrolment_id = enl.id
     where et.id = 55
-      and enl.program_exit_date_time isnull
+--       and enl.program_exit_date_time isnull
       and enc.encounter_date_time notnull
       and not enc.is_voided
       and not enl.is_voided
 );
+
+
+create view sr_program_exit_view(name) as
+    (select 'Exited'
+     union
+     select 'Non-exited');
 
 set role none;

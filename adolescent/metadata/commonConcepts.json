@@ -739,8 +739,29 @@
     "name": "Other Occupations",
     "uuid": "dce53152-2e5e-442d-aa0d-9bdcd42859cb",
     "dataType": "Text"
+  },
+  {
+    "name": "Absorbent material used",
+    "uuid": "a54fcfad-8656-46ae-9706-671a600eabca",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "Old cloth",
+        "uuid": "968b26b8-a357-4960-8aa8-0db67a728481"
+      },
+      {
+        "name": "Sanitary pad",
+        "uuid": "fa118efa-116e-471e-a9cc-f39eabbc0a57"
+      },
+      {
+        "name": "Falalin",
+        "uuid": "6ebf2af2-38c6-4703-98c2-cba9f234b8f5"
+      },
+      {
+        "name": "Kit pad",
+        "uuid": "99414d2a-b7b1-434d-9354-c3da69619d83",
+        "voided": true
+      }
+    ]
   }
-
-
-
 ]
