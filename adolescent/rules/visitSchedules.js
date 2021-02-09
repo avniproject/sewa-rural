@@ -192,7 +192,7 @@ class CommonSchedule {
         const isUnderweight =
             (heightObs &&
                 weightObs &&
-                lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 14.5) ||
+                lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 18.5) ||
             false;
 
         if (isUnderweight) {
@@ -610,12 +610,30 @@ const severeMalnutritionFollowup = ({programEncounter}, scheduleBuilder) => {
     const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
         ? moment().add(1, "month")
         : moment(programEncounter.earliestVisitDateTime).add(3, "month");
-    scheduleBuilder.add({
-        name: "Severe Malnutrition Followup",
-        encounterType: "Severe Malnutrition Followup",
-        earliestDate: nextVisitDate.toDate(),
-        maxDate: nextVisitDate.add(15, "days").toDate()
-    });
+
+    const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment(
+        "Height",
+        programEncounter
+    );
+    const weightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment(
+        "Weight",
+        programEncounter
+    );
+    const isUnderweight =
+        (heightObs &&
+            weightObs &&
+            lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 18.5) ||
+        false;
+
+    if (isUnderweight) {
+            scheduleBuilder.add({
+            name: "Severe Malnutrition Followup",
+            encounterType: "Severe Malnutrition Followup",
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
+        });
+    }
+
 };
 
 @SeverMalnutritionFollowup("2bf7b5fd-adfe-49f1-b249-48482ef6e6e8", "Sever Malnutrition Followup", 100.0)

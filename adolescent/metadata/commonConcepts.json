@@ -585,6 +585,11 @@
     "dataType": "NA"
   },
   {
+    "name": "BMI values",
+    "uuid": "eeac6e9c-3eec-4024-b1dd-3798bd166b93",
+    "dataType": "NA"
+  },
+  {
     "name": "Iron tablets consumed in last 3 months",
     "uuid": "c238b921-749b-45f9-8fd5-6ffc3c14d96d",
     "dataType": "Numeric"

@@ -113,6 +113,13 @@ class AdolescentProgramSummary {
                 .join(", ");
             summaries.push({name: "HB values", value: value})
         }
+        const bmiValues = programEnrolment.getObservationsForConceptName('BMI');
+
+        if (!_.isEmpty(bmiValues)) {
+            const value = bmiValues.map(({encounterDateTime, obs}) => (`${moment(encounterDateTime).format("DD-MM-YYYY")}: ${obs}kg/m²`))
+                .join(", ");
+            summaries.push({name: "BMI values", value: value})
+        }
         return summaries;
     }
 
