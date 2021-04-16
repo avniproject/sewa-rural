@@ -1,4 +1,4 @@
-import {RuleFactory, VisitScheduleBuilder, RuleCondition} from "rules-config";
+import {RuleCondition, RuleFactory, VisitScheduleBuilder} from "rules-config";
 import moment from "moment";
 import lib from "../../lib";
 import _ from "lodash";
@@ -376,23 +376,35 @@ class CommonSchedule {
     }
 
 
+    static getISTDateTime = (date = new Date()) => {
+        if (date.getTimezoneOffset() === 0) {
+            const ISTDate = date;
+            ISTDate.setHours(date.getHours() + 5);
+            ISTDate.setMinutes(date.getMinutes() + 30);
+            return ISTDate;
+        }
+        return date
+    };
+
     static  addEndlineVisitAnnual = (programEncounter, scheduleBuilder, cancelSchedule) => {
-
-        const year = moment(programEncounter.encounterDateTime).year();
-
+        //visit scheduled for 2020-12-31 18:30:00.00000Z when computed in UTC returns 11 as month() and
+        //since rule server has timezone set to UTC so hardcoding timezone in the rule.
+        const ISTDateTime = CommonSchedule.getISTDateTime(programEncounter.earliestVisitDateTime);
+        const earliestVisitDateTime = moment(ISTDateTime);
+        const scheduledVisitYear = earliestVisitDateTime.year();
+        const scheduledVisitMonth = earliestVisitDateTime.month();
         const earliest = moment()
             .date(1)
             .month(2)
-            .year(year)
+            .year(scheduledVisitYear)
             .startOf("months");
 
         const maxDateOfVisit = moment(earliest).add(1, 'month');
-        const currentMonth = moment().format('M');
-
-        if (currentMonth < 3) {
+        //Schedule Endline visit from Jan Quarterly visit or from the annual visit when child is enrolled on Jan, Feb or March.
+        if (scheduledVisitMonth < 3) {
             scheduleBuilder
                 .add({
-                    name: `Endline Visit ${year}`,
+                    name: `Endline Visit ${scheduledVisitYear}`,
                     encounterType: "Endline Visit",
                     earliestDate: earliest.toDate(),
                     maxDate: maxDateOfVisit.toDate()
