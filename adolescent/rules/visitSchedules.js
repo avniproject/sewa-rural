@@ -318,14 +318,15 @@ class CommonSchedule {
             December: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
 
         };
-        const currentMonth = moment(programEncounter.earliestVisitDateTime).format("MMMM");
+        const earliestVisitDateTime = CommonSchedule.getISTDateTime(programEncounter.earliestVisitDateTime);
+        const currentMonth = moment(earliestVisitDateTime).format("MMMM");
         const nextVisit = visitTable[currentMonth];
 
         if (nextVisit) {
             let quarterlyVisitEarliestDate = moment()
                 .date(1)
                 .month(nextVisit.nextMonth)
-                .year(moment(programEncounter.earliestVisitDateTime).year() + nextVisit.incrementInYear)
+                .year(moment(earliestVisitDateTime).year() + nextVisit.incrementInYear)
                 .startOf("day");
 
             scheduleBuilder.add({
@@ -354,14 +355,15 @@ class CommonSchedule {
             December: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
             January: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
         };
-        const currentMonth = moment(programEncounter.earliestVisitDateTime).format("MMMM");
+        const earliestVisitDateTime = CommonSchedule.getISTDateTime(programEncounter.earliestVisitDateTime);
+        const currentMonth = moment(earliestVisitDateTime).format("MMMM");
         const nextVisit = visitTable[currentMonth];
 
         if (nextVisit) {
             let quarterlyVisitEarliestDate = moment()
                 .date(1)
                 .month(nextVisit.nextMonth)
-                .year(moment(programEncounter.earliestVisitDateTime).year() + nextVisit.incrementInYear)
+                .year(moment(earliestVisitDateTime).year() + nextVisit.incrementInYear)
                 .startOf("day");
 
             scheduleBuilder.add({
