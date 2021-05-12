@@ -22,25 +22,25 @@ class AdolescentProgramSummary {
 
         const add = builder.addComplication.bind(builder);
 
-        add("Severely malnourished")
+        add("332a435b-069c-4283-a4f7-4310d7e458d7")
             .when[latest]("BMI")
             .lessThan(14.5);
-        add("Underweight")
+        add("41b2db08-99a4-428c-a908-641330858b8a")
             .when[latest]("BMI")
             .greaterThanOrEqualTo(14.5)
             .and.when[latest]("BMI")
             .lessThanOrEqualTo(18.5);
-        add("Normal")
+        add("ba43b326-18a1-4f8d-ad04-29b0371461e0")
             .when[latest]("BMI")
             .greaterThanOrEqualTo(18.6)
             .and.when[latest]("BMI")
             .lessThanOrEqualTo(24.9);
-        add("Overweight")
+        add("74481c32-e400-4103-b656-b4f52e517fdd")
             .when[latest]("BMI")
             .greaterThanOrEqualTo(25)
             .and.when[latest]("BMI")
             .lessThanOrEqualTo(29.9);
-        add("Obese")
+        add("c7512031-62fb-4bbc-b793-7fde56d45883")
             .when[latest]("BMI")
             .greaterThanOrEqualTo(30);
 
@@ -57,10 +57,10 @@ class AdolescentProgramSummary {
         });
 
         const add = builder.addComplication.bind(builder);
-        add("Severe")
+        add("8d9b69e1-9efe-410f-8063-71767b6482f6")
             .when[latest]("Hb")
             .lessThanOrEqualTo(7);
-        add("Moderate")
+        add("5d04a0e1-548e-418b-bad3-3cb4ae184fdd")
             .when[latest]("Hb")
             .greaterThanOrEqualTo(7.1)
             .and.when[latest]("Hb")
@@ -79,18 +79,18 @@ class AdolescentProgramSummary {
         });
         const add = builder.addComplication.bind(builder);
 
-        add("School dropout")
+        add("b5e3310a-7628-40d9-8bb3-961a6c302c84")
             .when[latest]("School going")
             [has]("Dropped Out");
-        add("Menstrual absenteeism")
+        add("b13eb71b-f117-41c6-b8a0-88743ed64175")
             .when[latest]("Are you able to do daily routine work during menstruation?")
             [has]("Yes")
             .or.when[latest]("Does she remain absent during menstruation?")
             [has]("Yes");
-        add("Addiction (Self)")
+        add("f03ac7c5-b520-4f59-8de7-add48d05d68e")
             .when[latest]("Addiction Details")
             [has]("Alcohol", "Tobacco", "Both");
-        add("Chronic Sickness")
+        add("67a48afe-2706-4c22-a7ba-5c27371c5542")
             .when[latest]("Is there any other condition you want to mention about him/her?")
             [has]("Heart problem", "Kidney problem", "Sickle cell disease", "Epilepsy", "Other");
 
@@ -100,13 +100,13 @@ class AdolescentProgramSummary {
     }
 
     static exec(programEnrolment, summaries, context, today) {
-        this.pushToSummaries(AdolescentProgramSummary.getNutritionalStatus(programEnrolment), summaries, context);
+        this.pushToSummaries(AdolescentProgramSummary.getNutritionalStatus(programEnrolment), summaries);
         const sickleTestResult = programEnrolment.findObservationInEntireEnrolment("Sickling Test Result");
         if (sickleTestResult && !_.isNil(sickleTestResult.getReadableValue())) {
             summaries.push({name: "Sickle Cell", value: sickleTestResult.getReadableValue()});
         }
-        this.pushToSummaries(AdolescentProgramSummary.getAnemiaStatus(programEnrolment), summaries, context);
-        this.pushToSummaries(AdolescentProgramSummary.getOtherComplications(programEnrolment), summaries, context);
+        this.pushToSummaries(AdolescentProgramSummary.getAnemiaStatus(programEnrolment), summaries);
+        this.pushToSummaries(AdolescentProgramSummary.getOtherComplications(programEnrolment), summaries);
         const hbValues = programEnrolment.getObservationsForConceptName('Hb');
         if (!_.isEmpty(hbValues)) {
             const value = hbValues.map(({encounterDateTime, obs}) => (`${moment(encounterDateTime).format("DD-MM-YYYY")}: ${obs}g/dL`))
@@ -123,9 +123,7 @@ class AdolescentProgramSummary {
         return summaries;
     }
 
-    static pushToSummaries(vulnerability, summaries, context) {
-        const conceptService = context.get("conceptService");
-        vulnerability.value = vulnerability.value.map(name => conceptService.conceptFor(name).uuid);
+    static pushToSummaries(vulnerability, summaries) {
         if (vulnerability.value.length) {
             summaries.push(vulnerability);
         }
