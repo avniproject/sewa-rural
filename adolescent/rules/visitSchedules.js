@@ -16,16 +16,37 @@ const VisitRescheduleOnCancel = RuleFactory("c294aadf-94a6-4908-8d04-9cc4ce2b901
 const EndlineVisitSchedule = RuleFactory("b9d58493-7d08-49c9-bdc7-f1864cb97819", "VisitSchedule");
 const hasExitedProgram = (programEncounter) => programEncounter.programEnrolment.programExitDateTime;
 
-const getEarliestDate = programEncounter =>
-    moment(programEncounter.earliestVisitDateTime || programEncounter.encounterDateTime)
-        .startOf("day")
-        .toDate();
+const getEarliestDate = programEncounter => {
+    const currentDateTime = moment(programEncounter.earliestVisitDateTime || programEncounter.encounterDateTime);
+    const month = currentDateTime.month();
+    //if month is Nov
+    if (month === 10) {
+        return currentDateTime.toDate();
+    } else if (month < 10) {
+        return moment(currentDateTime).month(10).startOf('M').toDate()
+    } else if (month > 10) {
+        const year = currentDateTime.year();
+        return moment(currentDateTime).month(10).year(year + 1).startOf('M').toDate()
+    }
+};
 
 const getMaxDate = programEncounter =>
     moment(getEarliestDate(programEncounter))
         .add(15, "days")
         .endOf("day")
         .toDate();
+
+const getNextNovDate = programEncounter => {
+    return moment(programEncounter.earliestVisitDateTime || programEncounter.encounterDateTime)
+            .add(1, 'y')
+            .month(10).startOf('M');
+};
+
+const getNextCancelDate = programEncounter => {
+    return _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month")
+};
 
 const addDropoutHomeVisits = (programEncounter, scheduleBuilder, cancelSchedule) => {
     const dateTimeToUse = programEncounter.encounterDateTime || programEncounter.earliestVisitDateTime;
@@ -307,9 +328,9 @@ class CommonSchedule {
 
     static scheduleNextRegularVisit({programEncounter}, scheduleBuilder) {
         const visitTable = {
-
-            May: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
-            June: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
+            April: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
+            May: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
+            June: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
             July: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
             August: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
             September: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
@@ -342,10 +363,10 @@ class CommonSchedule {
 
     static scheduleNextRegularVisitFromEndline({programEncounter}, scheduleBuilder) {
         const visitTable = {
-            February: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
-            March: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
-            April: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
-            May: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
+            February: {nextMonth: "April", incrementInYear: 0, visitType: "Annual Visit"},
+            March: {nextMonth: "April", incrementInYear: 0, visitType: "Annual Visit"},
+            April: {nextMonth: "May", incrementInYear: 0, visitType: "Annual Visit"},
+            May: {nextMonth: "June", incrementInYear: 0, visitType: "Annual Visit"},
             June: {nextMonth: "July", incrementInYear: 0, visitType: "Annual Visit"},
             July: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
             August: {nextMonth: "October", incrementInYear: 0, visitType: "Quarterly Visit"},
@@ -353,7 +374,7 @@ class CommonSchedule {
             October: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
             November: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
             December: {nextMonth: "January", incrementInYear: 1, visitType: "Quarterly Visit"},
-            January: {nextMonth: "May", incrementInYear: 0, visitType: "Quarterly Visit"},
+            January: {nextMonth: "April", incrementInYear: 0, visitType: "Annual Visit"},
         };
         const earliestVisitDateTime = CommonSchedule.getISTDateTime(programEncounter.earliestVisitDateTime);
         const currentMonth = moment(earliestVisitDateTime).format("MMMM");
@@ -397,7 +418,7 @@ class CommonSchedule {
         const scheduledVisitMonth = earliestVisitDateTime.month();
         const earliest = moment()
             .date(1)
-            .month(2)
+            .month(1)
             .year(scheduledVisitYear)
             .startOf("months");
 
@@ -461,10 +482,7 @@ class QuarterlyVisitScheduleSR {
     }
 }
 
-const scheduleChronicSicknessFollowupSchedule = ({programEncounter}, scheduleBuilder) => {
-    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+const scheduleChronicSicknessFollowupSchedule = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
 
     const schedulingEncounter = programEncounter.programEnrolment.getEncounters(true).filter(encounter => {
         const sicknessValue = encounter.getObservationReadableValue('Is there any other condition you want to mention about him/her?');
@@ -480,13 +498,25 @@ const scheduleChronicSicknessFollowupSchedule = ({programEncounter}, scheduleBui
         )
         .lessThan(2);
 
-    if(schedulingEncounter && chronicSicknessCondition.matches()){
-        scheduleBuilder.add({
-            name: "Chronic Sickness Followup",
-            encounterType: "Chronic Sickness Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
-        });
+    if (schedulingEncounter && chronicSicknessCondition.matches()) {
+        if (cancelSchedule) {
+            const nextVisitDate = getNextCancelDate(programEncounter);
+            scheduleBuilder.add({
+                name: "Chronic Sickness Followup",
+                encounterType: "Chronic Sickness Followup",
+                earliestDate: nextVisitDate.toDate(),
+                maxDate: nextVisitDate.add(15, "days").toDate()
+            });
+        } else {
+            const nextNovDate = getNextNovDate(programEncounter);
+            scheduleBuilder.add({
+                name: "Chronic Sickness Followup",
+                encounterType: "Chronic Sickness Followup",
+                earliestDate: nextNovDate.toDate(),
+                maxDate: nextNovDate.add(15, "days").toDate()
+            });
+        }
+
     }
 };
 
@@ -505,16 +535,24 @@ class ChronicSicknessFollowupScheduleSR {
     }
 }
 
-const scheduleMenstrualDisorderFollowup = ({programEncounter}, scheduleBuilder) => {
-    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-    scheduleBuilder.add({
-        name: "Menstrual Disorder Followup",
-        encounterType: "Menstrual Disorder Followup",
-        earliestDate: nextVisitDate.toDate(),
-        maxDate: nextVisitDate.add(15, "days").toDate()
-    });
+const scheduleMenstrualDisorderFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
+    if (cancelSchedule) {
+        const nextVisitDate = getNextCancelDate(programEncounter);
+        scheduleBuilder.add({
+            name: "Menstrual Disorder Followup",
+            encounterType: "Menstrual Disorder Followup",
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
+        });
+    } else {
+        const nextNovDate = getNextNovDate(programEncounter);
+        scheduleBuilder.add({
+            name: "Menstrual Disorder Followup",
+            encounterType: "Menstrual Disorder Followup",
+            earliestDate: nextNovDate.toDate(),
+            maxDate: nextNovDate.add(15, "days").toDate()
+        });
+    }
 };
 
 @MenstrualDisorderFollowup("0dd989d4-027b-4b66-99d8-f91183981965", "Menstrual Disorder Followup", 100.0)
@@ -534,11 +572,8 @@ class MenstrualDisorderFollowupSR {
 }
 
 const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
-    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-
     if (cancelSchedule) {
+        const nextVisitDate = getNextCancelDate(programEncounter);
         scheduleBuilder.add({
             name: "Severe Anemia Followup",
             encounterType: "Severe Anemia Followup",
@@ -554,11 +589,12 @@ const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder, cancelSchedul
             .is.lessThanOrEqualTo(7)
             .matches()
     ) {
+       const nextNovDate = getNextNovDate(programEncounter);
         scheduleBuilder.add({
             name: "Severe Anemia Followup",
             encounterType: "Severe Anemia Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
+            earliestDate: nextNovDate.toDate(),
+            maxDate: nextNovDate.add(15, "days").toDate()
         });
     }
     if (
@@ -569,11 +605,12 @@ const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder, cancelSchedul
             .is.lessThanOrEqualTo(10)
             .matches()
     ) {
+        const nextNovDate = getNextNovDate(programEncounter);
         scheduleBuilder.add({
             name: "Moderate Anemia Followup",
             encounterType: "Moderate Anemia Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
+            earliestDate: nextNovDate.toDate(),
+            maxDate: nextNovDate.add(15, "days").toDate()
         });
     }
 };
@@ -591,16 +628,27 @@ class SeverAnemiaFollowupSR {
     }
 }
 
-const moderateAnemiaFollowup = ({programEncounter}, scheduleBuilder) => {
-    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(3, "month");
-    scheduleBuilder.add({
-        name: "Moderate Anemia Followup",
-        encounterType: "Moderate Anemia Followup",
-        earliestDate: nextVisitDate.toDate(),
-        maxDate: nextVisitDate.add(15, "days").toDate()
-    });
+const moderateAnemiaFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
+    if (cancelSchedule) {
+        const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+            ? moment().add(1, "month")
+            : moment(programEncounter.earliestVisitDateTime).add(3, "month");
+        scheduleBuilder.add({
+            name: "Moderate Anemia Followup",
+            encounterType: "Moderate Anemia Followup",
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
+        });
+    } else {
+        const nextNovDate = getNextNovDate(programEncounter);
+        scheduleBuilder.add({
+            name: "Moderate Anemia Followup",
+            encounterType: "Moderate Anemia Followup",
+            earliestDate: nextNovDate.toDate(),
+            maxDate: nextNovDate.add(15, "days").toDate()
+        });
+    }
+
 
 };
 
@@ -620,11 +668,7 @@ class ModerateAnemiaFollowupSR {
     }
 }
 
-const severeMalnutritionFollowup = ({programEncounter}, scheduleBuilder) => {
-    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(3, "month");
-
+const severeMalnutritionFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
     const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment(
         "Height",
         programEncounter
@@ -640,12 +684,25 @@ const severeMalnutritionFollowup = ({programEncounter}, scheduleBuilder) => {
         false;
 
     if (isUnderweight) {
+        if (cancelSchedule) {
+            const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+                ? moment().add(1, "month")
+                : moment(programEncounter.earliestVisitDateTime).add(3, "month");
             scheduleBuilder.add({
-            name: "Severe Malnutrition Followup",
-            encounterType: "Severe Malnutrition Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
-        });
+                name: "Severe Malnutrition Followup",
+                encounterType: "Severe Malnutrition Followup",
+                earliestDate: nextVisitDate.toDate(),
+                maxDate: nextVisitDate.add(15, "days").toDate()
+            });
+        } else {
+            const nextNovDate = getNextNovDate(programEncounter);
+            scheduleBuilder.add({
+                name: "Severe Malnutrition Followup",
+                encounterType: "Severe Malnutrition Followup",
+                earliestDate: nextNovDate.toDate(),
+                maxDate: nextNovDate.add(15, "days").toDate()
+            });
+        }
     }
 
 };
@@ -663,17 +720,24 @@ class SeverMalnutritionFollowupSR {
     }
 }
 
-const addictionVulnerabilityFollowup = ({programEncounter}, scheduleBuilder) => {
-    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-
-    scheduleBuilder.add({
-        name: "Addiction Followup",
-        encounterType: "Addiction Followup",
-        earliestDate: nextVisitDate.toDate(),
-        maxDate: nextVisitDate.add(15, "days").toDate()
-    });
+const addictionVulnerabilityFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
+    if (cancelSchedule) {
+        const nextVisitDate = getNextCancelDate(programEncounter);
+        scheduleBuilder.add({
+            name: "Addiction Followup",
+            encounterType: "Addiction Followup",
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
+        });
+    } else {
+        const nextNovDate = getNextNovDate(programEncounter);
+        scheduleBuilder.add({
+            name: "Addiction Followup",
+            encounterType: "Addiction Followup",
+            earliestDate: nextNovDate.toDate(),
+            maxDate: nextNovDate.add(15, "days").toDate()
+        });
+    }
 };
 
 @AddictionVulnerabilityFollowup("beca45b9-f037-4d3f-906d-5970018ce5bb", "Addiction Vulnerability Followup", 100.0)
@@ -692,16 +756,24 @@ class AddictionVulnerabilityFollowupSR {
     }
 }
 
-const sickleCellVulnerabilityFollowup = ({programEncounter}, scheduleBuilder) => {
-    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
-        ? moment().add(1, "month")
-        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
-    scheduleBuilder.add({
-        name: "Sickle Cell Followup",
-        encounterType: "Sickle Cell Followup",
-        earliestDate: nextVisitDate.toDate(),
-        maxDate: nextVisitDate.add(15, "days").toDate()
-    });
+const sickleCellVulnerabilityFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
+    if (cancelSchedule) {
+        const nextVisitDate = getNextCancelDate(programEncounter);
+        scheduleBuilder.add({
+            name: "Sickle Cell Followup",
+            encounterType: "Sickle Cell Followup",
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
+        });
+    } else {
+        const nextNovDate = getNextNovDate(programEncounter);
+        scheduleBuilder.add({
+            name: "Sickle Cell Followup",
+            encounterType: "Sickle Cell Followup",
+            earliestDate: nextNovDate.toDate(),
+            maxDate: nextNovDate.add(15, "days").toDate()
+        });
+    }
 };
 
 @SickleCellVulnerabilityFollowup("d85c8fd0-a5bf-49f3-9eb2-b67ef7af9f5c", "Sickle Cell Vulnerability Followup", 100.0)
@@ -738,25 +810,25 @@ class VisitRescheduleOnCancelSR {
         if (!hasExitedProgram(programEncounter)) {
             switch (programEncounter.encounterType.name) {
                 case 'Addiction Followup':
-                    addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder);
+                    addictionVulnerabilityFollowup({programEncounter}, scheduleBuilder, true);
                     break;
                 case 'Severe Malnutrition Followup':
-                    severeMalnutritionFollowup({programEncounter}, scheduleBuilder);
+                    severeMalnutritionFollowup({programEncounter}, scheduleBuilder, true);
                     break;
                 case 'Moderate Anemia Followup':
-                    moderateAnemiaFollowup({programEncounter}, scheduleBuilder);
+                    moderateAnemiaFollowup({programEncounter}, scheduleBuilder, true);
                     break;
                 case 'Severe Anemia Followup':
                     severeAnemiaFollowup({programEncounter}, scheduleBuilder, true);
                     break;
                 case 'Menstrual Disorder Followup':
-                    scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder);
+                    scheduleMenstrualDisorderFollowup({programEncounter}, scheduleBuilder, true);
                     break;
                 case 'Chronic Sickness Followup':
-                    scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder);
+                    scheduleChronicSicknessFollowupSchedule({programEncounter}, scheduleBuilder, true);
                     break;
                 case 'Sickle Cell Followup':
-                    sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder);
+                    sickleCellVulnerabilityFollowup({programEncounter}, scheduleBuilder, true);
                     break;
                 case 'Dropout Followup Visit':
                     addDropoutFollowUpVisits(programEncounter, scheduleBuilder, true);
