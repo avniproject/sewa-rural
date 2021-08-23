@@ -401,6 +401,114 @@
           "mandatory": false
         }
       ]
+    },
+    {
+      "uuid": "5faf1343-3e39-4b08-9819-a72816df57e5",
+      "name": "Addiction Counselling",
+      "display": "Addiction Counselling",
+      "displayOrder": 9,
+      "formElements": [
+        {
+          "name": "Counselling checklist for Addiction",
+          "uuid": "b1506b35-844d-4ded-8e92-3430768d08f7",
+          "keyValues": [],
+          "concept": {
+            "uuid": "8927fdfe-dc55-44ad-9803-77f5bc4a43d0"
+          },
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "31bbf6b8-7956-480d-bf35-beb932011b2c",
+      "name": "Sickle Cell Disease Counselling",
+      "display": "Sickle Cell Disease Counselling",
+      "displayOrder": 10,
+      "formElements": [
+        {
+          "name": "Counselling checklist for Sickle Cell Anemia(Disease)",
+          "uuid": "c575ae62-5ed7-4d81-a8e1-dc1b5c6c9b1e",
+          "keyValues": [],
+          "concept": {
+            "uuid": "c449b65a-8982-4275-b126-02f4902da5b7"
+          },
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "d672e91d-f39d-4dd5-b629-c6eb5a6968cd",
+      "name": "Severe Anemia Counselling",
+      "display": "Severe Anemia Counselling",
+      "displayOrder": 11,
+      "formElements": [
+        {
+          "name": "Counselling checklist for Severe Anemia",
+          "uuid": "8e6650ff-aa9a-44cc-9c3f-8691b8017250",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b4ad6f1e-7481-4fe0-93b8-db78b620bf1c"
+          },
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "e8ebbe7b-c7bf-4355-8433-469d35c8e6cc",
+      "name": "Moderate Anemia Counselling",
+      "display": "Moderate Anemia Counselling",
+      "displayOrder": 13,
+      "formElements": [
+        {
+          "name": "SR ModerateAnemiaCounselling",
+          "uuid": "39e1fdda-0d93-47be-8a56-a20e48c52aa1",
+          "keyValues": [],
+          "concept": {
+            "uuid": "b4e5a662-97bf-4846-b9b7-9baeab4d89c4"
+          },
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "af87d45f-40c3-4796-b05f-f9044c0aaa7e",
+      "name": "Malnutrition Counselling",
+      "display": "Malnutrition Counselling",
+      "displayOrder": 14,
+      "formElements": [
+        {
+          "name": "Counselling checklist for Malnutrition",
+          "uuid": "89f034e8-8f7d-441b-a594-bd19509d5bc4",
+          "keyValues": [],
+          "concept": {
+            "uuid": "8460c376-5fe7-47dd-add7-af9163583c6f"
+          },
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
+    },
+    {
+      "uuid": "7a843b58-a497-41e1-9d70-5b862aacc25c",
+      "name": "Dropout Counselling",
+      "display": "Dropout Counselling",
+      "displayOrder": 15,
+      "formElements": [
+        {
+          "name": "Counselling checklist for dropout",
+          "uuid": "c4b23dde-e38c-4eae-966e-c501c013247c",
+          "keyValues": [],
+          "concept": {
+            "uuid": "efaa640c-f320-496f-b407-8351148da734"
+          },
+          "displayOrder": 1,
+          "mandatory": false
+        }
+      ]
     }
   ]
 }

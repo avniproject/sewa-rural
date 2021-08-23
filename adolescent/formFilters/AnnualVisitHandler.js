@@ -380,5 +380,95 @@ export default class AnnualVisitHandler {
         return statusBuilder.build();
     }
 
+    @WithName("Counselling checklist for Menstrual Disorder")
+    @WithStatusBuilder
+    menstrualDisorderCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Are you able to do daily routine work during menstruation?")
+            .is.no
+            .or
+            .valueInEncounter("Does she remain absent during menstruation?")
+            .is.yes;
+        return statusBuilder.build();
+    }
+
+    @WithName("Counselling checklist for Addiction")
+    @WithStatusBuilder
+    addictionCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Addiction Details")
+            .containsAnyAnswerConceptName("Alcohol", "Tobacco", "Both");
+        return statusBuilder.build();
+    }
+
+    @WithName("Counselling checklist for Sickle Cell Anemia(Disease)")
+    @WithStatusBuilder
+    sickleCellDiseaseCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Sickling Test Result")
+            .containsAnswerConceptName("Disease");
+        return statusBuilder.build();
+    }
+
+    @WithName("Counselling checklist for Severe Anemia")
+    @WithStatusBuilder
+    severeAnemiaCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Hb")
+            .is.lessThanOrEqualTo(7);
+        return statusBuilder.build();
+    }
+
+    @WithName("SR ModerateAnemiaCounselling")
+    @WithStatusBuilder
+    moderateAnemiaCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Hb")
+            .is.greaterThanOrEqualTo(7.1)
+            .and.valueInEncounter("Hb")
+            .is.lessThanOrEqualTo(10);
+        return statusBuilder.build();
+    }
+
+    @WithName("Counselling checklist for Malnutrition")
+    @WithStatusBuilder
+    malnutritionCounselling([programEncounter], statusBuilder) {
+        const heightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment(
+            "Height",
+            programEncounter
+        );
+        const weightObs = programEncounter.programEnrolment.findLatestObservationInEntireEnrolment(
+            "Weight",
+            programEncounter
+        );
+        const isUnderweight =
+            (heightObs &&
+                weightObs &&
+                lib.C.calculateBMI(weightObs.getReadableValue(), heightObs.getReadableValue()) < 18.5) ||
+            false;
+        statusBuilder.show()
+            .whenItem(isUnderweight).is
+            .truthy;
+        return statusBuilder.build();
+    }
+
+    @WithName("Counselling checklist for dropout")
+    @WithStatusBuilder
+    dropoutCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("School going")
+            .containsAnswerConceptName("Dropped Out");
+        return statusBuilder.build();
+    }
+
+    @WithName("ChronicSicknessCounselling for SR")
+    @WithStatusBuilder
+    chronicSicknessCounselling([programEncounter], statusBuilder) {
+        statusBuilder.show().when
+            .valueInEncounter("Is there any other condition you want to mention about him/her?")
+            .containsAnswerConceptNameOtherThan("No problem");
+        return statusBuilder.build();
+    }
+
 
 }
