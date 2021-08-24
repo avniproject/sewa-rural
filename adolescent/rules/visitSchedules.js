@@ -572,8 +572,11 @@ class MenstrualDisorderFollowupSR {
 }
 
 const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+
     if (cancelSchedule) {
-        const nextVisitDate = getNextCancelDate(programEncounter);
         scheduleBuilder.add({
             name: "Severe Anemia Followup",
             encounterType: "Severe Anemia Followup",
@@ -589,12 +592,11 @@ const severeAnemiaFollowup = ({programEncounter}, scheduleBuilder, cancelSchedul
             .is.lessThanOrEqualTo(7)
             .matches()
     ) {
-       const nextNovDate = getNextNovDate(programEncounter);
         scheduleBuilder.add({
             name: "Severe Anemia Followup",
             encounterType: "Severe Anemia Followup",
-            earliestDate: nextNovDate.toDate(),
-            maxDate: nextNovDate.add(15, "days").toDate()
+            earliestDate: nextVisitDate.toDate(),
+            maxDate: nextVisitDate.add(15, "days").toDate()
         });
     }
     if (
@@ -756,24 +758,16 @@ class AddictionVulnerabilityFollowupSR {
     }
 }
 
-const sickleCellVulnerabilityFollowup = ({programEncounter}, scheduleBuilder, cancelSchedule) => {
-    if (cancelSchedule) {
-        const nextVisitDate = getNextCancelDate(programEncounter);
-        scheduleBuilder.add({
-            name: "Sickle Cell Followup",
-            encounterType: "Sickle Cell Followup",
-            earliestDate: nextVisitDate.toDate(),
-            maxDate: nextVisitDate.add(15, "days").toDate()
-        });
-    } else {
-        const nextNovDate = getNextNovDate(programEncounter);
-        scheduleBuilder.add({
-            name: "Sickle Cell Followup",
-            encounterType: "Sickle Cell Followup",
-            earliestDate: nextNovDate.toDate(),
-            maxDate: nextNovDate.add(15, "days").toDate()
-        });
-    }
+const sickleCellVulnerabilityFollowup = ({programEncounter}, scheduleBuilder) => {
+    const nextVisitDate = _.isNil(programEncounter.earliestVisitDateTime)
+        ? moment().add(1, "month")
+        : moment(programEncounter.earliestVisitDateTime).add(1, "month");
+    scheduleBuilder.add({
+        name: "Sickle Cell Followup",
+        encounterType: "Sickle Cell Followup",
+        earliestDate: nextVisitDate.toDate(),
+        maxDate: nextVisitDate.add(15, "days").toDate()
+    });
 };
 
 @SickleCellVulnerabilityFollowup("d85c8fd0-a5bf-49f3-9eb2-b67ef7af9f5c", "Sickle Cell Vulnerability Followup", 100.0)
