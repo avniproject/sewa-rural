@@ -267,11 +267,14 @@ class CommonSchedule {
                 .is.lessThanOrEqualTo(7)
                 .matches()
         ) {
+            const programEncounter = context.programEncounter;
+            const earliestVisitDate = moment(programEncounter.earliestVisitDateTime || programEncounter.encounterDateTime)
+                .startOf("day");
             scheduleBuilder.add({
                 name: "Severe Anemia Followup",
                 encounterType: "Severe Anemia Followup",
-                earliestDate: getEarliestDate(context.programEncounter),
-                maxDate: getMaxDate(context.programEncounter)
+                earliestDate: earliestVisitDate.toDate(),
+                maxDate: earliestVisitDate.add(15, "days").toDate()
             });
         }
     }
@@ -317,11 +320,14 @@ class CommonSchedule {
                 .containsAnswerConceptName("Disease")
                 .matches()
         ) {
+            const programEncounter = context.programEncounter;
+            const earliestVisitDate = moment(programEncounter.earliestVisitDateTime || programEncounter.encounterDateTime)
+                .startOf("day");
             scheduleBuilder.add({
                 name: "Sickle Cell Followup",
                 encounterType: "Sickle Cell Followup",
-                earliestDate: getEarliestDate(context.programEncounter),
-                maxDate: getMaxDate(context.programEncounter)
+                earliestDate: earliestVisitDate.toDate(),
+                maxDate: earliestVisitDate.add(15, "days").toDate()
             });
         }
     }
