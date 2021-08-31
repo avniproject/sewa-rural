@@ -103,7 +103,7 @@ class AdolescentProgramSummary {
         this.pushToSummaries(AdolescentProgramSummary.getNutritionalStatus(programEnrolment), summaries);
         const sickleTestResult = programEnrolment.findObservationInEntireEnrolment("Sickling Test Result");
         if (sickleTestResult && !_.isNil(sickleTestResult.getReadableValue())) {
-            summaries.push({name: "Sickle Cell", value: sickleTestResult.getReadableValue()});
+            summaries.push({name: "Sickling Test Result", value: sickleTestResult.toResource.value});
         }
         this.pushToSummaries(AdolescentProgramSummary.getAnemiaStatus(programEnrolment), summaries);
         this.pushToSummaries(AdolescentProgramSummary.getOtherComplications(programEnrolment), summaries);
