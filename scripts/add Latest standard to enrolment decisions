@@ -1,0 +1,21 @@
+-- Script to add "Latest standard" enrolment decision to all the existing enrolments
+with latest_data as (
+
+    select program_enrolment_id,
+           (program_encounter.observations ->> 'fda18675-59dc-4a69-82f7-4e137c274073') as standard,
+           row_number() over (partition by program_enrolment_id order by encounter_date_time desc) row_number
+
+    from program_encounter
+    where encounter_type_id = 7 and
+        single_select_coded(program_encounter.observations ->> 'fda18675-59dc-4a69-82f7-4e137c274073') is not null
+)
+update program_enrolment
+set observations =  observations ||  jsonb_build_object('ada18675-59dc-4a69-82f7-4e137c274086',
+                                                 standard
+                                  ),
+    last_modified_date_time = current_timestamp + ((individual_id % 4000) * interval '1 millisecond'),
+    last_modified_by_id     = (select id from users where username = 'nupoork@sr')
+
+from program_enrolment
+join latest_data on latest_data.program_enrolment_id = program_enrolment.id
+where row_number = 1;
