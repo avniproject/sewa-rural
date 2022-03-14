@@ -178,11 +178,26 @@ export class AnnualVisitDecisionHandler {
         return complicationsBuilder.getComplications();
     }
 
+    static latestStandardDecisions(programEncounter) {
+       const standard = programEncounter.programEnrolment.findLatestObservationFromEncounters("Standard",programEncounter);
+
+        if(!_.isEmpty(standard)){
+            return {
+                name:"Latest Standard",
+                value: standard.getReadableValue()
+            }
+        }
+
+    }
+
 
     static exec(programEncounter, decisions, context, today) {
         decisions.encounterDecisions.push(AnnualVisitDecisionHandler.referToHospitalDecisions(programEncounter));
         decisions.encounterDecisions.push(AnnualVisitDecisionHandler.vulnerabilityDecisions(programEncounter));
         decisions.encounterDecisions.push(AnnualVisitDecisionHandler.anemiaStatusDecisions(programEncounter));
+        decisions.enrolmentDecisions.push(AnnualVisitDecisionHandler.latestStandardDecisions(programEncounter));
+
         return decisions;
+
     }
 }

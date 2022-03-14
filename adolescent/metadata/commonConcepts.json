@@ -650,6 +650,53 @@
     ]
   },
   {
+    "name": "Latest Standard",
+    "uuid": "ada18675-59dc-4a69-82f7-4e137c274086",
+    "dataType": "Coded",
+    "answers": [
+      {
+        "name": "5",
+        "uuid": "98408506-1159-4245-ba94-5834be1ccd2e"
+      },
+      {
+        "name": "6",
+        "uuid": "e9ce8718-ef32-4870-b3cb-b5e733fc115a"
+      },
+      {
+        "name": "7",
+        "uuid": "aafae271-765c-4347-be3b-3fc1e00e63a1"
+      },
+      {
+        "name": "8",
+        "uuid": "d7443a73-80b7-4320-9c45-6558595be70a"
+      },
+      {
+        "name": "9",
+        "uuid": "29d29318-6b0c-4a2b-85e3-5392bd5a668f"
+      },
+      {
+        "name": "10",
+        "uuid": "7f0e1fbd-a1b9-4121-b630-dfec36a2dfd0"
+      },
+      {
+        "name": "11",
+        "uuid": "72165544-dcef-4322-a07d-242a6e7771e0"
+      },
+      {
+        "name": "12",
+        "uuid": "9b141130-a1c7-4e3b-bc95-5b9b157f7160"
+      },
+      {
+        "uuid": "8d147ee4-da5d-4c96-91bb-74af076c3cfa",
+        "name": "College"
+      },
+      {
+        "uuid": "6ec2aa2b-44c8-4259-8f9d-a40e97812f48",
+        "name": "Any other vocational course"
+      }
+    ]
+  },
+  {
     "uuid": "f691191b-7ee6-4158-ac13-1e38005a14c4",
     "name": "A"
   },
